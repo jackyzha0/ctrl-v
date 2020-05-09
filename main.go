@@ -1,21 +1,10 @@
 package main
 
 import (
-	"log"
-	"os"
-
-	"github.com/joho/godotenv"
+	"github.com/jackyzha0/ctrl-v/api"
+	_ "github.com/jackyzha0/ctrl-v/db" // setup db
 )
 
 func main() {
-
-	// load .env file
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
-	}
-
-	mUser := os.Getenv("MONGO_USER")
-	mPass := os.Getenv("MONGO_PASS")
-
+	api.Serve(8080)
 }
