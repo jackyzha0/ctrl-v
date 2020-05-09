@@ -48,8 +48,8 @@ func getHashFunc(w http.ResponseWriter, r *http.Request) {
 	// otherwise, return paste content and current time
 	w.Header().Set("Content-Type", "application/json")
 	pasteMap := map[string]interface{} {
-		"Timestamp": time.Now(),
-		"Content": paste.Content,
+		"timestamp": time.Now(),
+		"content": paste.Content,
 	}
 	jsonData, _ := json.Marshal(pasteMap)
 	fmt.Fprintf(w, "%+v", string(jsonData))
