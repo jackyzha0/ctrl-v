@@ -10,7 +10,7 @@ import (
 )
 
 var Session *mgo.Session
-var TextDB *mgo.Collection
+var pastes *mgo.Collection
 
 func initSessions(user, pass, ip string) {
 	log.Infof("attempting connection to %s", ip)
@@ -35,5 +35,9 @@ func initSessions(user, pass, ip string) {
 	}
 
 	// Define connection to Databases
-	TextDB = Session.DB("main").C("pastes")
+	pastes = Session.DB("main").C("pastes")
+}
+
+func insert(new Paste) error {
+	return pastes.Insert(new)
 }
