@@ -16,6 +16,7 @@ func init() {
 
 	mUser := os.Getenv("MONGO_USER")
 	mPass := os.Getenv("MONGO_PASS")
+	mIP := os.Getenv("MONGO_SHARD_URL")
 
-	log.Infof("got %s and %s", mUser, mPass)
+	initSessions(mUser, mPass, mIP)
 }
