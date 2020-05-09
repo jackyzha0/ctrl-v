@@ -3,6 +3,7 @@ package db
 import (
 	"os"
 
+	"github.com/jackyzha0/ctrl-v/hashing"
 	"github.com/joho/godotenv"
 	log "github.com/sirupsen/logrus"
 )
@@ -21,8 +22,10 @@ func init() {
 	initSessions(mUser, mPass, mIP)
 }
 
-// creates a new
-func New(hash, content string) error {
+// creates a new paste with content and hash
+func New(ip, content string) error {
+	// generate hash from ip
+	hash := hashing.GenerateURI(ip)
 
 	// create new struct
 	new := Paste{
@@ -34,4 +37,9 @@ func New(hash, content string) error {
 	log.Infof("create new paste with hash %s", hash)
 	insertErr := insert(new)
 	return insertErr
+}
+
+// lookup
+func Lookup(hash string) (Paste, error) {
+	return fetch(hash)
 }

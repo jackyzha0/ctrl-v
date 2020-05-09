@@ -6,6 +6,7 @@ import (
 	"net"
 
 	"github.com/globalsign/mgo"
+	"github.com/globalsign/mgo/bson"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -39,5 +40,14 @@ func initSessions(user, pass, ip string) {
 }
 
 func insert(new Paste) error {
+	log.Infof("new paste struct: %+v", new)
 	return pastes.Insert(new)
+}
+
+func fetch(hash string) (Paste, error) {
+	p := Paste{}
+
+	q := bson.M{"hash": hash}
+	err := pastes.Find(q).One(&p)
+	return p, err
 }
