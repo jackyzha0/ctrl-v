@@ -11,18 +11,21 @@ type Cache struct {
 	lock sync.RWMutex
 }
 
-func New() *Cache {
-	return &Cache{
+var C *Cache
+
+func init() {
+	C = &Cache{
 		m: map[string]db.Paste{},
 	}
 }
 
 func (c *Cache) Get(hash string) (db.Paste, error) {
 	c.lock.RLock()
-	defer c.lock.RUnlock()
 
 	// check if hash in cache
-	if v, ok := c.m[hash]; ok {
+	v, ok := c.m[hash]
+	c.lock.RUnlock()
+	if ok {
 		return v, nil
 	}
 

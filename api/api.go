@@ -31,6 +31,7 @@ func Serve(port int) {
 	r := mux.NewRouter()
 	r.HandleFunc("/health", healthCheckFunc)
 	r.HandleFunc("/api", insertFunc).Methods("POST")
+	r.HandleFunc("/{hash}", getHashFunc).Methods("GET")
 
 	http.Handle("/", r)
 

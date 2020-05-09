@@ -1,8 +1,13 @@
 package api
 
+import "C"
 import (
+	"encoding/json"
 	"fmt"
+	"github.com/gorilla/mux"
+	"github.com/jackyzha0/ctrl-v/cache"
 	"net/http"
+	"time"
 
 	"github.com/jackyzha0/ctrl-v/db"
 
@@ -28,4 +33,25 @@ func insertFunc(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Fprintf(w, "got err: %s", err.Error())
 	}
+}
+
+func getHashFunc(w http.ResponseWriter, r *http.Request) {
+	hash := mux.Vars(r)["hash"]
+	paste, err := cache.C.Get(hash)
+
+	// if hash was not found
+	if err != nil {
+		w.WriteHeader(http.StatusNotFound)
+		fmt.Fprintf(w, "got err: %s", err.Error())
+		return
+	}
+
+	// otherwise, return paste content and current time
+	w.Header().Set("Content-Type", "application/json")
+	pasteMap := map[string]interface{} {
+		"Timestamp": time.Now(),
+		"Content": paste.Content,
+	}
+	jsonData, _ := json.Marshal(pasteMap)
+	fmt.Fprintf(w, "%+v", string(jsonData))
 }
