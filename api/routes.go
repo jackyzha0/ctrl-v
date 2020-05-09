@@ -19,7 +19,7 @@ func insertFunc(w http.ResponseWriter, r *http.Request) {
 	content := r.FormValue("content")
 
 	// get ip
-	ip, _ := getIP(r)
+	ip := getIP(r)
 
 	log.Infof("got content '%s' and ip '%s'", content, ip)
 
