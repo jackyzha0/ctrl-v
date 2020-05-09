@@ -11,8 +11,10 @@ type Cache struct {
 	lock sync.RWMutex
 }
 
-func New() *Cache {
-	return &Cache{
+var C *Cache
+
+func init() {
+	C = &Cache{
 		m: map[string]db.Paste{},
 	}
 }
