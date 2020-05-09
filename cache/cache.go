@@ -25,6 +25,7 @@ func (c *Cache) Get(hash string) (db.Paste, error) {
 	// check if hash in cache
 	v, ok := c.m[hash]
 	c.lock.RUnlock()
+
 	if ok {
 		return v, nil
 	}
@@ -37,6 +38,7 @@ func (c *Cache) Get(hash string) (db.Paste, error) {
 
 func (c *Cache) add(p db.Paste) {
 	c.lock.Lock()
+	defer c.lock.Unlock()
+
 	c.m[p.Hash] = p
-	c.lock.Unlock()
 }
