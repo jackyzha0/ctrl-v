@@ -7,7 +7,6 @@ COPY . /app/src
 WORKDIR /app/src
 
 RUN apk add git ca-certificates
-RUN go mod download
 
 # Build image
 RUN CGO_ENABLED=0 GOOS=linux go build -o /go/bin/app
@@ -16,10 +15,11 @@ RUN CGO_ENABLED=0 GOOS=linux go build -o /go/bin/app
 FROM scratch
 
 # Copy app
-COPY --from=builder /go/bin/app /go/bin/app
+COPY --from=builder /go/bin/app ./
+COPY .env ./
 
 # Expose ports, change port to whatever you need to expose
 EXPOSE 8080
 
 # Run app
-ENTRYPOINT ["/go/bin/app"]
+ENTRYPOINT ["./app"]
