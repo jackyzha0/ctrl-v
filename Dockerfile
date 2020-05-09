@@ -15,6 +15,7 @@ RUN CGO_ENABLED=0 GOOS=linux go build -o /go/bin/app
 FROM scratch
 
 # Copy app
+COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 COPY --from=builder /go/bin/app ./
 COPY .env ./
 
