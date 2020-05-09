@@ -1,38 +1,37 @@
 package api
 
 import (
-	"fmt"
 	"net"
 	"net/http"
 	"strings"
 )
 
-func getIP(r *http.Request) (string, error) {
-	//Get IP from the X-REAL-IP header
+func getIP(r *http.Request) (s string) {
+	// Get IP from the X-REAL-IP header
 	ip := r.Header.Get("X-REAL-IP")
 	netIP := net.ParseIP(ip)
 	if netIP != nil {
-		return ip, nil
+		return ip
 	}
 
-	//Get IP from X-FORWARDED-FOR header
+	// Get IP from X-FORWARDED-FOR header
 	ips := r.Header.Get("X-FORWARDED-FOR")
 	splitIps := strings.Split(ips, ",")
 	for _, ip := range splitIps {
 		netIP := net.ParseIP(ip)
 		if netIP != nil {
-			return ip, nil
+			return ip
 		}
 	}
 
-	//Get IP from RemoteAddr
+	// Get IP from RemoteAddr
 	ip, _, err := net.SplitHostPort(r.RemoteAddr)
 	if err != nil {
-		return "", err
+		return
 	}
 	netIP = net.ParseIP(ip)
 	if netIP != nil {
-		return ip, nil
+		return
 	}
-	return "", fmt.Errorf("No valid ip found")
+	return
 }

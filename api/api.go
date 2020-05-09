@@ -30,7 +30,7 @@ func Serve(port int) {
 	// Define Mux Router
 	r := mux.NewRouter()
 	r.HandleFunc("/health", healthCheckFunc)
-	r.HandleFunc("/", insertFunc).Methods("POST")
+	r.HandleFunc("/api", insertFunc).Methods("POST")
 
 	http.Handle("/", r)
 

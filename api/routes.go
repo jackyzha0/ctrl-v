@@ -21,7 +21,7 @@ func insertFunc(w http.ResponseWriter, r *http.Request) {
 	// get ip
 	ip, _ := getIP(r)
 
-	log.Infof("got content `%s` and ip %s", content, ip)
+	log.Infof("got content '%s' and ip '%s'", content, ip)
 
 	// insert content
 	err := db.New(ip, content)

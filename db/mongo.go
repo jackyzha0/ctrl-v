@@ -40,7 +40,6 @@ func initSessions(user, pass, ip string) {
 }
 
 func insert(new Paste) error {
-	log.Infof("new paste struct: %+v", new)
 	return pastes.Insert(new)
 }
 
