@@ -28,7 +28,7 @@ const TitleLimit = 100
 const ContentLimit = 100000
 
 // creates a new paste with title, content and hash
-func New(ip, content, expiry, title string) error {
+func New(ip, content, expiry, title, password string) (Paste, error) {
 	// generate hash from ip
 	hash := hashing.GenerateURI(ip)
 
@@ -42,14 +42,15 @@ func New(ip, content, expiry, title string) error {
 	}
 	// if any errors were found
 	if errs != "" {
-		return fmt.Errorf(errs)
+		return Paste{}, fmt.Errorf(errs)
 	}
 
 	// create new struct
 	new := Paste{
-		Hash:    hash,
-		Content: content,
-		Title:   title,
+		Hash:     hash,
+		Content:  content,
+		Title:    title,
+		Password: password,
 	}
 
 	// check if expiry
@@ -58,12 +59,12 @@ func New(ip, content, expiry, title string) error {
 
 		// if time format not current
 		if err != nil {
-			return err
+			return Paste{}, err
 		}
 
 		// time is in the past
 		if time.Now().After(t) {
-			return fmt.Errorf("time %s is in the past", t.String())
+			return Paste{}, fmt.Errorf("time %s is in the past", t.String())
 		}
 
 		new.Expiry = t
@@ -76,7 +77,7 @@ func New(ip, content, expiry, title string) error {
 	// insert struct
 	log.Infof("create new paste with hash %s", hash)
 	insertErr := insert(new)
-	return insertErr
+	return new, insertErr
 }
 
 // lookup
