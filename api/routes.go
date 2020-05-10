@@ -3,11 +3,11 @@ package api
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/gorilla/mux"
-	"github.com/jackyzha0/ctrl-v/cache"
 	"net/http"
 	"time"
 
+	"github.com/gorilla/mux"
+	"github.com/jackyzha0/ctrl-v/cache"
 	"github.com/jackyzha0/ctrl-v/db"
 
 	log "github.com/sirupsen/logrus"
@@ -20,6 +20,7 @@ func healthCheckFunc(w http.ResponseWriter, r *http.Request) {
 func insertFunc(w http.ResponseWriter, r *http.Request) {
 	// get content
 	_ = r.ParseMultipartForm(0)
+	expiry := r.FormValue("expiry")
 	content := r.FormValue("content")
 
 	// get ip
@@ -28,7 +29,7 @@ func insertFunc(w http.ResponseWriter, r *http.Request) {
 	log.Infof("got content '%s' and ip '%s'", content, ip)
 
 	// insert content
-	err := db.New(ip, content)
+	err := db.New(ip, content, expiry)
 	if err != nil {
 		fmt.Fprintf(w, "got err: %s", err.Error())
 	}
@@ -47,10 +48,11 @@ func getHashFunc(w http.ResponseWriter, r *http.Request) {
 
 	// otherwise, return paste content and current time
 	w.Header().Set("Content-Type", "application/json")
-	pasteMap := map[string]interface{} {
+	pasteMap := map[string]interface{}{
 		"timestamp": time.Now(),
-		"content": paste.Content,
+		"content":   paste.Content,
 	}
+
 	jsonData, _ := json.Marshal(pasteMap)
 	fmt.Fprintf(w, "%+v", string(jsonData))
 }

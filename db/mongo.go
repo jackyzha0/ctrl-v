@@ -35,6 +35,21 @@ func initSessions(user, pass, ip string) {
 		log.Fatalf("error establishing connection to mongo: %s", err.Error())
 	}
 
+	// ensure expiry check
+	sessionTTL := mgo.Index{
+		Key:         []string{"expiry"},
+		ExpireAfter: 0,
+	}
+
+	// ensure hashes are unique
+	uniqueHashes := mgo.Index{
+		Key:    []string{"hash"},
+		Unique: true,
+	}
+
+	_ = Session.DB("main").C("pastes").EnsureIndex(sessionTTL)
+	_ = Session.DB("main").C("pastes").EnsureIndex(uniqueHashes)
+
 	// Define connection to Databases
 	pastes = Session.DB("main").C("pastes")
 }
