@@ -22,7 +22,7 @@ textarea, input[type=text] {
   border-radius: 3px;
   border: 1px solid #565656;
   outline: none;
-  margin-bottom: 1.5em;
+  margin: 1.2em 0;
 }
 
 textarea {
@@ -38,6 +38,7 @@ input[type=submit] {
   font-weight: 700;
   color: #faf9f5;
   background-color: #111111;
+  padding: 0.75em 2em;
 }
 
 input[type=submit]:focus {
