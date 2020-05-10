@@ -1,7 +1,9 @@
 package db
 
 import (
+	"fmt"
 	"os"
+	"time"
 
 	"github.com/jackyzha0/ctrl-v/hashing"
 	"github.com/joho/godotenv"
@@ -23,7 +25,7 @@ func init() {
 }
 
 // creates a new paste with content and hash
-func New(ip, content string) error {
+func New(ip, content, expiry string) error {
 	// generate hash from ip
 	hash := hashing.GenerateURI(ip)
 
@@ -31,6 +33,27 @@ func New(ip, content string) error {
 	new := Paste{
 		Hash:    hash,
 		Content: content,
+	}
+
+	// check if expiry
+	if expiry != "" {
+		t, err := time.Parse(time.RFC3339, expiry)
+
+		// if time format not current
+		if err != nil {
+			return err
+		}
+
+		// time is in the past
+		if t.After(time.Now()) {
+			return fmt.Errorf("err: time %s is in the past", t.String())
+		}
+
+		new.Expiry = t
+
+	} else {
+		// 5 year expiry
+		new.Expiry = time.Now().Add(time.Hour * 43800)
 	}
 
 	// insert struct
