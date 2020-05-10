@@ -1,5 +1,6 @@
 import React from 'react';
 import { TitleInput, PasteInput } from './Inputs'
+import OptionsContainer from './Options'
 
 class PasteArea extends React.Component {
     constructor(props) {
@@ -7,6 +8,7 @@ class PasteArea extends React.Component {
         this.state = { 
             title: '',
             content: '',
+            pass: '',
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -42,13 +44,18 @@ class PasteArea extends React.Component {
                 <TitleInput 
                     onChange={this.handleChange}
                     value={this.state.title}
-                    maxLength="100" />
+                    maxLength="100"
+                    id="titleInput" />
                 <PasteInput
                     onChange={this.handleChange}
                     content={this.state.content}
-                    maxLength="100000" />
+                    maxLength="100000"
+                    id="pasteInput" />
                 <br />
                 <input className="lt-button lt-shadow lt-hover" type="submit" value="new paste" />
+                <OptionsContainer
+                    pass={this.state.pass}
+                    onChange={this.handleChange} />
             </form>
         );
     }
