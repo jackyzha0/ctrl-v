@@ -13,3 +13,5 @@ fe-run:
 		cd frontend && yarn start
 fe-build:
 		cd frontend && yarn build
+all:
+		make -j 2 run fe-run

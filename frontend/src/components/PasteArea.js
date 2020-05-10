@@ -1,6 +1,7 @@
 import React from 'react';
 import { TitleInput, PasteInput } from './Inputs'
 import OptionsContainer from './Options'
+import axios from 'axios';
 
 class PasteArea extends React.Component {
     constructor(props) {
@@ -33,11 +34,56 @@ class PasteArea extends React.Component {
         });
     }
 
+    parseExpiry(e) {
+        var cur = new Date();
+        var inSeconds = 0
+        switch (e) {
+            case '5 years':
+                inSeconds = 600 * 6 * 24 * 7 * 4 * 12 * 5
+                break;
+            case '1 year':
+                inSeconds = 600 * 6 * 24 * 7 * 4 * 12
+                break;
+            case '1 month':
+                inSeconds = 600 * 6 * 24 * 7 * 4
+                break;
+            case '1 day':
+                inSeconds = 600 * 6 * 24
+                break;
+            case '1 hour':
+                inSeconds = 600 * 6
+                break;
+            case '10 min':
+                inSeconds = 600
+                break;
+            case '1 week':
+            default:
+                inSeconds = 600 * 6 * 24 * 7
+                break;
+        }
+        return new Date(cur.getTime() + inSeconds * 1000).toISOString();
+    }
+
     handleSubmit(event) {
-        console.log(`title: ${this.state.title}`)
-        console.log(`content: ${this.state.content}`)
-        console.log(`pass: ${this.state.pass}`)
-        console.log(`expiry: ${this.state.expiry}`)
+        var bodyFormData = new FormData();
+        bodyFormData.set('title', this.state.title);
+        bodyFormData.set('content', this.state.content);
+        bodyFormData.set('password', this.state.pass);
+        bodyFormData.set('expiry', this.parseExpiry(this.state.expiry));
+
+        axios({
+            method: 'post',
+            url: 'http://localhost:8080/api',
+            data: bodyFormData,
+            headers: { 'Content-Type': 'multipart/form-data' },
+        }).then(function (response) {
+            //handle success
+            console.log(response);
+        }).catch(function (response) {
+            //handle error
+            console.log(response);
+        });
+
         event.preventDefault();
     }
 

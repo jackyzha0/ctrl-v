@@ -18,6 +18,10 @@ func healthCheckFunc(w http.ResponseWriter, r *http.Request) {
 }
 
 func insertFunc(w http.ResponseWriter, r *http.Request) {
+
+	// Allow CORS
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
 	// get content
 	_ = r.ParseMultipartForm(0)
 	expiry := r.FormValue("expiry")
@@ -38,6 +42,10 @@ func insertFunc(w http.ResponseWriter, r *http.Request) {
 }
 
 func getHashFunc(w http.ResponseWriter, r *http.Request) {
+
+	// Allow CORS
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
 	hash := mux.Vars(r)["hash"]
 	paste, err := cache.C.Get(hash)
 

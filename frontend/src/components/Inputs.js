@@ -52,6 +52,7 @@ class PasteInput extends React.Component {
                     placeholder="Paste your text here"
                     value={this.props.content}
                     id={this.props.id}
+                    required
                     onChange={this.props.onChange}
                     className="lt-shadow" />
                 <CharLimit
