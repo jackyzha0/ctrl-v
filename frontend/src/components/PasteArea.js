@@ -9,6 +9,7 @@ class PasteArea extends React.Component {
             title: '',
             content: '',
             pass: '',
+            expiry: ''
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -35,6 +36,8 @@ class PasteArea extends React.Component {
     handleSubmit(event) {
         console.log(`title: ${this.state.title}`)
         console.log(`content: ${this.state.content}`)
+        console.log(`pass: ${this.state.pass}`)
+        console.log(`expiry: ${this.state.expiry}`)
         event.preventDefault();
     }
 
@@ -51,10 +54,10 @@ class PasteArea extends React.Component {
                     content={this.state.content}
                     maxLength="100000"
                     id="pasteInput" />
-                <br />
                 <input className="lt-button lt-shadow lt-hover" type="submit" value="new paste" />
                 <OptionsContainer
                     pass={this.state.pass}
+                    expiry={this.state.expiry}
                     onChange={this.handleChange} />
             </form>
         );

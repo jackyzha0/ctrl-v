@@ -2,9 +2,15 @@ import React from 'react';
 import CharLimit from './CharLimit'
 import styled from 'styled-components'
 import FloatingLabel from './FloatingLabel'
+import Dropdown from 'react-dropdown';
 
 const CharLimitContainer = styled.div`
     position: relative; 
+`
+
+const FlexChild = styled.div`
+    display: block;
+    margin-left: 2em;
 `
 
 class TitleInput extends React.Component {
@@ -59,23 +65,63 @@ class PasteInput extends React.Component {
 class PassInput extends React.Component {
     render() {
         return (
-            <CharLimitContainer>
-                <FloatingLabel
-                    label="password"
-                    id={this.props.id}
-                    value={this.props.value} />
-                <input
-                    name="pass"
-                    className="lt-shadow"
-                    placeholder="password (optional)"
-                    type="password"
-                    autoComplete="off"
-                    onChange={this.props.onChange}
-                    value={this.props.value}
-                    id={this.props.id} />
-            </CharLimitContainer>
+            <FlexChild>
+                <CharLimitContainer>
+                    <FloatingLabel
+                        label="password"
+                        id={this.props.id}
+                        value={this.props.value} />
+                    <input
+                        name="pass"
+                        className="lt-shadow"
+                        placeholder="password (optional)"
+                        type="password"
+                        autoComplete="off"
+                        onChange={this.props.onChange}
+                        value={this.props.value}
+                        id={this.props.id} />
+                </CharLimitContainer>
+            </FlexChild>
         );
     }
 }
 
-export { TitleInput, PasteInput, PassInput }
+class ExpiryInput extends React.Component {
+    
+    _onSelect(option) {
+        this.callBackRef({target: {
+            name: 'expiry',
+            value: option.label
+        }});
+    }
+
+    render() {
+        const options = [
+            '5 years',
+            '1 year', 
+            '1 month',
+            '1 week',
+            '1 day',
+            '1 hour',
+            '10 min',
+        ];
+
+        return (
+            <FlexChild>
+                <Dropdown 
+                    options={options} 
+                    onChange={this._onSelect} 
+                    callBackRef={this.props.onChange}
+                    value={this.props.value} 
+                    placeholder="1 week"
+                    id={this.props.id} />
+                <FloatingLabel
+                    label="expiry"
+                    id={this.props.id}
+                    value={this.props.value} />
+            </FlexChild>
+        );
+    }
+}
+
+export { TitleInput, PasteInput, PassInput, ExpiryInput }

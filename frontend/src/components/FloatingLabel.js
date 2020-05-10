@@ -12,7 +12,7 @@ const StyledLabel = styled.label`
     ${props =>
         (props.value.length > 0) &&
         css`
-        top: 0em;
+        top: -0.1em;
         opacity: 1
     `};
 `

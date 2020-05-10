@@ -14,7 +14,7 @@ form {
   width: 100%;
 }
 
-textarea, input[type=text], input[type=password] {
+textarea, input[type=text], input[type=password], .Dropdown-root {
   width: 100%;
   font-family: 'Roboto Mono', monospace;
   font-size: 0.8em;
@@ -25,7 +25,45 @@ textarea, input[type=text], input[type=password] {
   margin: 1.7em 0;
 }
 
-textarea, input[type=text], input[type=password] {
+.Dropdown-root {
+  cursor: pointer;
+}
+
+.Dropdown-root:hover, .Dropdown-root.is-open {
+   opacity: 1;
+}
+
+.Dropdown-root + label {
+  top: 0.5em;
+  opacity: 0;
+}
+
+.Dropdown-root.is-open + label, .Dropdown-root:hover + label {
+  opacity: 1;
+  top: -0.1em;
+}
+
+.Dropdown-placeholder {
+  width: 5em;
+}
+
+.Dropdown-menu {
+  border-top: 1px solid #111111;
+  margin-top: 0.5em;
+  bottom: auto;
+}
+
+.Dropdown-option {
+  margin-top: 0.5em;
+  transition: all 0.5s cubic-bezier(.25,.8,.25,1);
+}
+
+.Dropdown-option:hover {
+  font-weight: 700;
+  opacity: 0.4;
+}
+
+textarea, input[type=text], input[type=password], .Dropdown-root {
   opacity: 0.5;
   transition: opacity 0.5s cubic-bezier(.25,.8,.25,1);
 }
@@ -34,17 +72,12 @@ textarea:focus, input[type=text]:focus, input[type=password]:focus {
   opacity: 1;
 }
 
-.passwordInput {
-  transform: translateY(-1.6em);
-}
-
 input[type=password] {
-  margin-top: 0 !important;
   font-weight: 700;
 }
 
 textarea {
-  height: 50vh;
+  height: 45vh;
   resize: vertical;
   min-height: 2em;
 }
@@ -59,5 +92,6 @@ input[type=submit] {
   color: #faf9f5;
   background-color: #111111;
   padding: 0.8em 2em;
+  margin: 2em 0;
   outline: 0;
 }
