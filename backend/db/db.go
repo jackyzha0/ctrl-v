@@ -24,10 +24,26 @@ func init() {
 	initSessions(mUser, mPass, mIP)
 }
 
+const TitleLimit = 100
+const ContentLimit = 100000
+
 // creates a new paste with title, content and hash
 func New(ip, content, expiry, title string) error {
 	// generate hash from ip
 	hash := hashing.GenerateURI(ip)
+
+	// check for size of title and content
+	errs := ""
+	if len(title) > TitleLimit {
+		errs += fmt.Sprintf("title is longer than character limit of %d\n", TitleLimit)
+	}
+	if len(content) > ContentLimit {
+		errs += fmt.Sprintf("content is longer than character limit of %d\n", ContentLimit)
+	}
+	// if any errors were found
+	if errs != "" {
+		return fmt.Errorf(errs)
+	}
 
 	// create new struct
 	new := Paste{
@@ -46,8 +62,8 @@ func New(ip, content, expiry, title string) error {
 		}
 
 		// time is in the past
-		if t.After(time.Now()) {
-			return fmt.Errorf("err: time %s is in the past", t.String())
+		if time.Now().After(t) {
+			return fmt.Errorf("time %s is in the past", t.String())
 		}
 
 		new.Expiry = t
