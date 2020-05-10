@@ -9,3 +9,7 @@ docker-run:
 docker-all: docker-build docker-run
 docker-push:
 		docker push jzhao2k19/ctrl-v:latest
+fe-run:
+		cd frontend && yarn start
+fe-build:
+		cd frontend && yarn build
