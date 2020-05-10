@@ -24,8 +24,8 @@ func init() {
 	initSessions(mUser, mPass, mIP)
 }
 
-// creates a new paste with content and hash
-func New(ip, content, expiry string) error {
+// creates a new paste with title, content and hash
+func New(ip, content, expiry, title string) error {
 	// generate hash from ip
 	hash := hashing.GenerateURI(ip)
 
@@ -33,6 +33,7 @@ func New(ip, content, expiry string) error {
 	new := Paste{
 		Hash:    hash,
 		Content: content,
+		Title:   title,
 	}
 
 	// check if expiry

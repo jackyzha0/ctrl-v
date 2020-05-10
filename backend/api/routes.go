@@ -22,6 +22,7 @@ func insertFunc(w http.ResponseWriter, r *http.Request) {
 	_ = r.ParseMultipartForm(0)
 	expiry := r.FormValue("expiry")
 	content := r.FormValue("content")
+	title := r.FormValue("title")
 
 	// get ip
 	ip := getIP(r)
@@ -29,7 +30,7 @@ func insertFunc(w http.ResponseWriter, r *http.Request) {
 	log.Infof("got content '%s' and ip '%s'", content, ip)
 
 	// insert content
-	err := db.New(ip, content, expiry)
+	err := db.New(ip, content, expiry, title)
 	if err != nil {
 		fmt.Fprintf(w, "got err: %s", err.Error())
 	}

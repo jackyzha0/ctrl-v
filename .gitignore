@@ -1,4 +1,4 @@
-.env
+backend/.env
 .idea
 go.sum
 .DS_Store
