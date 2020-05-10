@@ -12,4 +12,5 @@ type Paste struct {
 	Hash    string
 	Content string
 	Expiry  time.Time `bson:"expiry"`
+	Title   string
 }
