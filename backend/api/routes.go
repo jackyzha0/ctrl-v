@@ -31,7 +31,7 @@ func insertFunc(w http.ResponseWriter, r *http.Request) {
 	log.Infof("got content '%s' and ip '%s'", content, ip)
 
 	// insert content
-	paste, err := db.New(ip, content, expiry, title, password)
+	hash, err := db.New(ip, content, expiry, title, password)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		fmt.Fprintf(w, "got err: %s", err.Error())
@@ -40,8 +40,7 @@ func insertFunc(w http.ResponseWriter, r *http.Request) {
 	// if successful return paste hash
 	w.Header().Set("Content-Type", "application/json")
 	pasteMap := map[string]interface{}{
-		"hash":     paste.Hash,
-		"password": paste.Password,
+		"hash": hash,
 	}
 
 	jsonData, _ := json.Marshal(pasteMap)
@@ -59,10 +58,11 @@ func getHashFunc(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// otherwise, return paste content and current time
+	// otherwise, return paste content, title, and current time
 	w.Header().Set("Content-Type", "application/json")
 	pasteMap := map[string]interface{}{
 		"timestamp": time.Now(),
+		"title":     paste.Title,
 		"content":   paste.Content,
 	}
 
