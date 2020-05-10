@@ -32,6 +32,7 @@ func insertFunc(w http.ResponseWriter, r *http.Request) {
 	// insert content
 	err := db.New(ip, content, expiry, title)
 	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
 		fmt.Fprintf(w, "got err: %s", err.Error())
 	}
 }
