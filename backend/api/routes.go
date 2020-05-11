@@ -52,9 +52,16 @@ func getHashFunc(w http.ResponseWriter, r *http.Request) {
 	paste, err := cache.C.Get(hash)
 
 	// if hash was not found
-	if err != nil {
+	if err == cache.PasteNotFound {
 		w.WriteHeader(http.StatusNotFound)
-		fmt.Fprintf(w, "got err: %s", err.Error())
+		fmt.Fprintf(w, "got err: %s", err)
+		return
+	}
+
+	// if paste is password protected
+	if err == cache.UserUnauthorized {
+		w.WriteHeader(http.StatusUnauthorized)
+		fmt.Fprintf(w, "got err: %s", err)
 		return
 	}
 
@@ -64,6 +71,7 @@ func getHashFunc(w http.ResponseWriter, r *http.Request) {
 		"timestamp": time.Now(),
 		"title":     paste.Title,
 		"content":   paste.Content,
+		"expiry":    paste.Expiry,
 	}
 
 	jsonData, _ := json.Marshal(pasteMap)
