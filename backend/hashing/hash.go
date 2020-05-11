@@ -3,6 +3,7 @@ package hashing
 import (
 	"crypto/md5"
 	"encoding/hex"
+	"golang.org/x/crypto/bcrypt"
 	"math/big"
 	"time"
 )
@@ -23,4 +24,9 @@ func hashString(text string) string {
 	bi := big.NewInt(0)
 	bi.SetString(hexStr, 16)
 	return bi.Text(62)
+}
+
+func HashPassword(password string) (string, error) {
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	return string(hashedPassword), err
 }

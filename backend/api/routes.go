@@ -27,6 +27,7 @@ func insertFunc(w http.ResponseWriter, r *http.Request) {
 	expiry := r.FormValue("expiry")
 	content := r.FormValue("content")
 	title := r.FormValue("title")
+	password := r.FormValue("password")
 
 	// get ip
 	ip := getIP(r)
@@ -34,11 +35,20 @@ func insertFunc(w http.ResponseWriter, r *http.Request) {
 	log.Infof("got content '%s' and ip '%s'", content, ip)
 
 	// insert content
-	err := db.New(ip, content, expiry, title)
+	hash, err := db.New(ip, content, expiry, title, password)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		fmt.Fprintf(w, "got err: %s", err.Error())
 	}
+
+	// if successful return paste hash
+	w.Header().Set("Content-Type", "application/json")
+	pasteMap := map[string]interface{}{
+		"hash": hash,
+	}
+
+	jsonData, _ := json.Marshal(pasteMap)
+	fmt.Fprintf(w, "%+v", string(jsonData))
 }
 
 func getHashFunc(w http.ResponseWriter, r *http.Request) {
@@ -50,17 +60,26 @@ func getHashFunc(w http.ResponseWriter, r *http.Request) {
 	paste, err := cache.C.Get(hash)
 
 	// if hash was not found
-	if err != nil {
+	if err == cache.PasteNotFound {
 		w.WriteHeader(http.StatusNotFound)
-		fmt.Fprintf(w, "got err: %s", err.Error())
+		fmt.Fprintf(w, "got err: %s", err)
 		return
 	}
 
-	// otherwise, return paste content and current time
+	// if paste is password protected
+	if err == cache.UserUnauthorized {
+		w.WriteHeader(http.StatusUnauthorized)
+		fmt.Fprintf(w, "got err: %s", err)
+		return
+	}
+
+	// otherwise, return paste content, title, and current time
 	w.Header().Set("Content-Type", "application/json")
 	pasteMap := map[string]interface{}{
 		"timestamp": time.Now(),
+		"title":     paste.Title,
 		"content":   paste.Content,
+		"expiry":    paste.Expiry,
 	}
 
 	jsonData, _ := json.Marshal(pasteMap)

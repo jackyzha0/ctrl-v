@@ -27,29 +27,29 @@ func init() {
 const TitleLimit = 100
 const ContentLimit = 100000
 
-// creates a new paste with title, content and hash
-func New(ip, content, expiry, title string) error {
+// creates a new paste with title, content and hash, returns the hash of the created paste
+func New(ip, content, expiry, title, password string) (string, error) {
 	// generate hash from ip
 	hash := hashing.GenerateURI(ip)
 
 	// check for size of title and content
-	errs := ""
-	if len(title) > TitleLimit {
-		errs += fmt.Sprintf("title is longer than character limit of %d\n", TitleLimit)
+	errs := checkLengths(title, content)
+	if errs != nil {
+		return "", errs
 	}
-	if len(content) > ContentLimit {
-		errs += fmt.Sprintf("content is longer than character limit of %d\n", ContentLimit)
-	}
-	// if any errors were found
-	if errs != "" {
-		return fmt.Errorf(errs)
+
+	// hash given password
+	hashedPass, err := hashing.HashPassword(password)
+	if err != nil {
+		return "", fmt.Errorf("could not hash password: %s", err.Error())
 	}
 
 	// create new struct
 	new := Paste{
-		Hash:    hash,
-		Content: content,
-		Title:   title,
+		Hash:     hash,
+		Content:  content,
+		Title:    title,
+		Password: hashedPass,
 	}
 
 	// check if expiry
@@ -58,12 +58,12 @@ func New(ip, content, expiry, title string) error {
 
 		// if time format not current
 		if err != nil {
-			return err
+			return "", err
 		}
 
 		// time is in the past
 		if time.Now().After(t) {
-			return fmt.Errorf("time %s is in the past", t.String())
+			return "", fmt.Errorf("time %s is in the past", t.String())
 		}
 
 		new.Expiry = t
@@ -76,7 +76,23 @@ func New(ip, content, expiry, title string) error {
 	// insert struct
 	log.Infof("create new paste with hash %s", hash)
 	insertErr := insert(new)
-	return insertErr
+	return hash, insertErr
+}
+
+func checkLengths(title string, content string) error {
+	errs := ""
+	if len(title) > TitleLimit {
+		errs += fmt.Sprintf("title is longer than character limit of %d\n", TitleLimit)
+	}
+	if len(content) > ContentLimit {
+		errs += fmt.Sprintf("content is longer than character limit of %d\n", ContentLimit)
+	}
+	// if any errors were found
+	if errs != "" {
+		return fmt.Errorf(errs)
+	}
+
+	return nil
 }
 
 // lookup

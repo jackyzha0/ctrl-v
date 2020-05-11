@@ -1,6 +1,7 @@
 package cache
 
 import (
+	"errors"
 	"sync"
 
 	"github.com/jackyzha0/ctrl-v/db"
@@ -12,6 +13,9 @@ type Cache struct {
 }
 
 var C *Cache
+
+var PasteNotFound = errors.New("could not find a paste with that hash")
+var UserUnauthorized = errors.New("paste is password protected")
 
 func init() {
 	C = &Cache{
@@ -32,6 +36,15 @@ func (c *Cache) Get(hash string) (db.Paste, error) {
 
 	// if it doesnt, lookup from db
 	p, err := db.Lookup(hash)
+	if err != nil {
+		return p, PasteNotFound
+	}
+
+	// if there is a password
+	if p.Password != "" {
+		return db.Paste{}, UserUnauthorized
+	}
+
 	c.add(p)
 	return p, err
 }
