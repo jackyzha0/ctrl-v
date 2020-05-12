@@ -1,25 +1,31 @@
 import React from 'react';
-import PasteArea from './PasteArea'
+import NewPaste from './NewPaste'
+import ViewPaste from './ViewPaste'
 import Footer from './Footer'
 import styled from 'styled-components'
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
+  Link,
+  useParams
 } from "react-router-dom";
 
 const SpacedTitle = styled.div`
     margin-top: 10vh
 `
 
-const Inline = styled.div`
-    display: inline-block
-`
-
 const Desc = () => {
   return (
     <h3>a modern, <a href="https://github.com/jackyzha0/ctrl-v" target="_blank" rel="noopener noreferrer">open-source</a> pastebin with latex and markdown rendering support</h3>
+  );
+}
+
+const GetPasteWithParam = () => {
+  let { hash } = useParams();
+
+  return (
+    <ViewPaste hash = {hash} />
   );
 }
 
@@ -38,7 +44,14 @@ function App() {
           </nav>
         </SpacedTitle>
 
-        <PasteArea/>
+        <Switch>
+          <Route path="/:hash" 
+            children={<GetPasteWithParam />} 
+          />
+          <Route path="/">
+            <NewPaste />
+          </Route>
+        </Switch>
 
         <Footer />
       </div>

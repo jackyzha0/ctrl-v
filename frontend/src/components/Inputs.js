@@ -1,7 +1,7 @@
 import React from 'react';
-import CharLimit from './CharLimit'
+import CharLimit from './decorators/CharLimit'
 import styled from 'styled-components'
-import FloatingLabel from './FloatingLabel'
+import FloatingLabel from './decorators/FloatingLabel'
 import Dropdown from 'react-dropdown';
 
 const CharLimitContainer = styled.div`

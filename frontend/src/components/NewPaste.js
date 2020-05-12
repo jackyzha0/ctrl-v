@@ -2,19 +2,28 @@ import React from 'react';
 import { TitleInput, PasteInput } from './Inputs'
 import OptionsContainer from './Options'
 import axios from 'axios';
+import { Redirect } from 'react-router-dom'
 
-class PasteArea extends React.Component {
+class NewPaste extends React.Component {
     constructor(props) {
         super(props);
         this.state = { 
             title: '',
             content: '',
             pass: '',
-            expiry: ''
+            expiry: '',
+            hash: '',
         };
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    renderRedirect = () => {
+        if (this.state.hash !== '') {
+            const redirUrl = `/${this.state.hash}`
+            return <Redirect to={redirUrl} />
+        }
     }
 
     componentDidUpdate() {
@@ -76,11 +85,12 @@ class PasteArea extends React.Component {
             url: 'http://localhost:8080/api',
             data: bodyFormData,
             headers: { 'Content-Type': 'multipart/form-data' },
-        }).then(function (response) {
-            //handle success
-            console.log(response);
-        }).catch(function (response) {
-            //handle error
+        }).then((response) => {
+
+            // on success, redir
+            this.setState({ hash: response.data.hash })
+        }).catch((response) => {
+            // TODO: handle error
             console.log(response);
         });
 
@@ -90,6 +100,7 @@ class PasteArea extends React.Component {
     render() {
         return (
             <form onSubmit={this.handleSubmit}>
+                {this.renderRedirect()}
                 <TitleInput 
                     onChange={this.handleChange}
                     value={this.state.title}
@@ -110,4 +121,4 @@ class PasteArea extends React.Component {
     }
 }
 
-export default PasteArea
+export default NewPaste
