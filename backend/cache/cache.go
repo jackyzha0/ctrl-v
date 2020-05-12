@@ -42,6 +42,7 @@ func (c *Cache) Get(hash, userPassword string) (db.Paste, error) {
 	}
 
 	// if there is a password, check the provided one against it
+	println(p.Password)
 	if p.Password != "" {
 		// if passwords do not match, the user is unauthorized
 		if !hashing.PasswordsEqual(p.Password, userPassword) {
