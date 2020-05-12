@@ -51,26 +51,26 @@ func insertFunc(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "%+v", string(jsonData))
 }
 
-func getHashFunc(w http.ResponseWriter, r *http.Request) {
+func getPasteFunc(w http.ResponseWriter, r *http.Request) {
 	// no password given for get
-	handleGetHash(w, r, "")
+	handleGetPaste(w, r, "")
 }
 
-func getHashWithPasswordFunc(w http.ResponseWriter, r *http.Request) {
+func getPasteWithPasswordFunc(w http.ResponseWriter, r *http.Request) {
 	// get password from form
 	_ = r.ParseMultipartForm(0)
-	gotPassword := r.FormValue("password")
+	parsedPassword := r.FormValue("password")
 
-	handleGetHash(w, r, gotPassword)
+	handleGetPaste(w, r, parsedPassword)
 
 }
 
-func handleGetHash(w http.ResponseWriter, r *http.Request, gotPassword string) {
+func handleGetPaste(w http.ResponseWriter, r *http.Request, parsedPassword string) {
 	// Allow CORS
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 
 	hash := mux.Vars(r)["hash"]
-	paste, err := cache.C.Get(hash, gotPassword)
+	paste, err := cache.C.Get(hash, parsedPassword)
 
 	// if hash was not found
 	if err == cache.PasteNotFound {
