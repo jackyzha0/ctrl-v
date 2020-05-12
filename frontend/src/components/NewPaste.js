@@ -2,19 +2,37 @@ import React from 'react';
 import { TitleInput, PasteInput } from './Inputs'
 import OptionsContainer from './Options'
 import axios from 'axios';
+import { Redirect } from 'react-router-dom'
+import Error from './Err'
 
-class PasteArea extends React.Component {
+class NewPaste extends React.Component {
     constructor(props) {
         super(props);
         this.state = { 
             title: '',
             content: '',
             pass: '',
-            expiry: ''
+            expiry: '',
+            hash: '',
+            error: '',
         };
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    newErr(msg, duration = 5000) {
+        this.setState({ error: msg })
+        setTimeout(() => {
+            this.setState({ error: '' })
+        }, duration);
+    }
+
+    renderRedirect = () => {
+        if (this.state.hash !== '') {
+            const redirUrl = `/${this.state.hash}`
+            return <Redirect to={redirUrl} />
+        }
     }
 
     componentDidUpdate() {
@@ -76,12 +94,20 @@ class PasteArea extends React.Component {
             url: 'http://localhost:8080/api',
             data: bodyFormData,
             headers: { 'Content-Type': 'multipart/form-data' },
-        }).then(function (response) {
-            //handle success
-            console.log(response);
-        }).catch(function (response) {
-            //handle error
-            console.log(response);
+        }).then((response) => {
+            // on success, redir
+            this.setState({ hash: response.data.hash })
+        }).catch((error) => {
+            const resp = error.response
+
+            // some weird err
+            if (resp !== undefined) {
+                const errTxt = `${resp.statusText}: ${resp.data}`
+                this.newErr(errTxt)
+            } else {
+                // some weird err (e.g. network)
+                this.newErr(error)
+            }
         });
 
         event.preventDefault();
@@ -90,6 +116,7 @@ class PasteArea extends React.Component {
     render() {
         return (
             <form onSubmit={this.handleSubmit}>
+                {this.renderRedirect()}
                 <TitleInput 
                     onChange={this.handleChange}
                     value={this.state.title}
@@ -101,6 +128,7 @@ class PasteArea extends React.Component {
                     maxLength="100000"
                     id="pasteInput" />
                 <input className="lt-button lt-shadow lt-hover" type="submit" value="new paste" />
+                <Error msg={this.state.error} />
                 <OptionsContainer
                     pass={this.state.pass}
                     expiry={this.state.expiry}
@@ -110,4 +138,4 @@ class PasteArea extends React.Component {
     }
 }
 
-export default PasteArea
+export default NewPaste

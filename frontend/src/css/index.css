@@ -95,3 +95,38 @@ input[type=submit] {
   margin: 2em 0;
   outline: 0;
 }
+
+ul {
+  list-style-type: none;
+  display: inline-block;
+}
+
+li {
+  display: inline-block;
+  margin: 0 1em;
+}
+
+.mainLogo {
+  display: inline-block;
+}
+
+.mainLogo a {
+  text-decoration: none;
+  position: relative;
+  margin: 3px;
+}
+
+.mainLogo a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 4px;
+    background-color: #111111;
+    width: 0;
+    transition: width 0.25s ease;
+}
+
+.mainLogo:hover a::after {
+  width: 100%;
+}

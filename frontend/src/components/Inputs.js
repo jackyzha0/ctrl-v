@@ -1,7 +1,7 @@
 import React from 'react';
-import CharLimit from './CharLimit'
+import CharLimit from './decorators/CharLimit'
 import styled from 'styled-components'
-import FloatingLabel from './FloatingLabel'
+import FloatingLabel from './decorators/FloatingLabel'
 import Dropdown from 'react-dropdown';
 
 const CharLimitContainer = styled.div`
@@ -23,6 +23,7 @@ class TitleInput extends React.Component {
                     value={this.props.value} />
                 <input
                     name="title"
+                    readOnly={this.props.readOnly}
                     className="lt-shadow"
                     placeholder="Title"
                     id={this.props.id}
@@ -49,6 +50,7 @@ class PasteInput extends React.Component {
                     value={this.props.content} />
                 <textarea
                     name="content"
+                    readOnly={this.props.readOnly}
                     placeholder="Paste your text here"
                     value={this.props.content}
                     id={this.props.id}

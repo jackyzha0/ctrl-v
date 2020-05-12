@@ -82,16 +82,11 @@ func New(ip, content, expiry, title, password string) (string, error) {
 }
 
 func checkLengths(title string, content string) error {
-	errs := ""
 	if len(title) > TitleLimit {
-		errs += fmt.Sprintf("title is longer than character limit of %d\n", TitleLimit)
+		return fmt.Errorf("title is longer than character limit of %d\n", TitleLimit)
 	}
 	if len(content) > ContentLimit {
-		errs += fmt.Sprintf("content is longer than character limit of %d\n", ContentLimit)
-	}
-	// if any errors were found
-	if errs != "" {
-		return fmt.Errorf(errs)
+		return fmt.Errorf("content is longer than character limit of %d\n", ContentLimit)
 	}
 
 	return nil
