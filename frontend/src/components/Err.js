@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components'
 
 const ErrMsg = styled.p`
-    display: inline-block;
+    display: inline;
     font-weight: 700;
     margin-left: 2em;
     color: #ff3333

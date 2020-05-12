@@ -36,6 +36,20 @@ class ViewPaste extends React.Component {
         }
     }
 
+    drawRightMode() {
+        switch (this.state.mode) {
+            // TODO: add other renderers
+
+            // default render raw
+            case RENDER_MODES.RAW:
+            default:
+                return (<PasteInput
+                    content={this.state.content}
+                    id="pasteInput"
+                    readOnly />);
+        }
+    }
+
     render() {
         return (
             <div>
@@ -43,10 +57,9 @@ class ViewPaste extends React.Component {
                     value={this.state.title}
                     id="titleInput"
                     readOnly />
-                <PasteInput
-                    content={this.state.content}
-                    id="pasteInput"
-                    readOnly />
+
+                {this.drawRightMode()}
+
                 <PasteInfo
                     expiry={this.state.expiry}
                     mode={this.state.mode} />
@@ -67,7 +80,6 @@ class ViewPaste extends React.Component {
         axios.get(serverURL)
             .then((response) => {
                 const data = response.data
-                console.log(this.fmtDateStr(data.expiry))
                 this.setState({
                     title: data.title,
                     content: data.content,
