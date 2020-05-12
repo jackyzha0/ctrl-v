@@ -38,7 +38,8 @@ func insertFunc(w http.ResponseWriter, r *http.Request) {
 	hash, err := db.New(ip, content, expiry, title, password)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
-		fmt.Fprintf(w, "got err: %s", err.Error())
+		fmt.Fprintf(w, "%s", err.Error())
+		return
 	}
 
 	// if successful return paste hash
@@ -75,14 +76,14 @@ func handleGetPaste(w http.ResponseWriter, r *http.Request, parsedPassword strin
 	// if hash was not found
 	if err == cache.PasteNotFound {
 		w.WriteHeader(http.StatusNotFound)
-		fmt.Fprintf(w, "got err: %s", err)
+		fmt.Fprintf(w, "%s", err)
 		return
 	}
 
 	// if paste is password protected
 	if err == cache.UserUnauthorized {
 		w.WriteHeader(http.StatusUnauthorized)
-		fmt.Fprintf(w, "got err: %s", err)
+		fmt.Fprintf(w, "%s", err)
 		return
 	}
 

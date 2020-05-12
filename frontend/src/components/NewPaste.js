@@ -111,8 +111,17 @@ class NewPaste extends React.Component {
         }).then((response) => {
             // on success, redir
             this.setState({ hash: response.data.hash })
-        }).catch((response) => {
-            this.newErr(response)
+        }).catch((error) => {
+            const resp = error.response
+
+            // some weird err
+            if (resp !== undefined) {
+                const errTxt = `${resp.statusText}: ${resp.data}`
+                this.newErr(errTxt)
+            } else {
+                // some weird err (e.g. network)
+                this.newErr(error)
+            }
         });
 
         event.preventDefault();
