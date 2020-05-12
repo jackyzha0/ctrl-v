@@ -31,15 +31,11 @@ func HashPassword(password string) (string, error) {
 	return string(hashedPassword), err
 }
 
-func ComparePasswords(dbPassword, parsedPassword string) bool {
+func PasswordsEqual(dbPassword, parsedPassword string) bool {
 	dbPassBytes := []byte(dbPassword)
 	parsedPassBytes := []byte(parsedPassword)
 	compErr := bcrypt.CompareHashAndPassword(dbPassBytes, parsedPassBytes)
 
 	// if comparison error, the given password is not valid
-	if compErr == nil {
-		return true
-	} else {
-		return false
-	}
+	return compErr == nil
 }
