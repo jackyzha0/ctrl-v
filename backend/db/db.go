@@ -38,18 +38,20 @@ func New(ip, content, expiry, title, password string) (string, error) {
 		return "", errs
 	}
 
-	// hash given password
-	hashedPass, err := hashing.HashPassword(password)
-	if err != nil {
-		return "", fmt.Errorf("could not hash password: %s", err.Error())
-	}
-
 	// create new struct
 	new := Paste{
-		Hash:     hash,
-		Content:  content,
-		Title:    title,
-		Password: hashedPass,
+		Hash:    hash,
+		Content: content,
+		Title:   title,
+	}
+
+	if password != "" {
+		// hash given password
+		hashedPass, err := hashing.HashPassword(password)
+		if err != nil {
+			return "", fmt.Errorf("could not hash password: %s", err.Error())
+		}
+		new.Password = hashedPass
 	}
 
 	// check if expiry
