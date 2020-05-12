@@ -21,11 +21,11 @@ class NewPaste extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    newErr(msg) {
+    newErr(msg, duration = 5000) {
         this.setState({ error: msg })
         setTimeout(() => {
             this.setState({ error: '' })
-        }, 3000);
+        }, duration);
     }
 
     renderRedirect = () => {

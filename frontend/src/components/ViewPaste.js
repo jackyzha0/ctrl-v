@@ -2,27 +2,38 @@ import React from 'react';
 import axios from 'axios';
 import Error from './Err';
 import { TitleInput, PasteInput } from './Inputs';
+import PasteInfo from  './PasteInfo';
+
+const RENDER_MODES = Object.freeze({
+    RAW: 'raw text',
+    MD: 'markdown',
+    LATEX: 'latex',
+    CODE: 'code',
+})
 
 class ViewPaste extends React.Component {
 
     constructor(props) {
         super(props);
-
         this.state = {
-            title: '',
+            title: 'untitled paste',
             content: '',
             hasPass: false,
-            expiry: '',
-            timestamp: '',
+            expiry: 'no expiry',
             error: '',
+            mode: RENDER_MODES.RAW, 
         };
     }
-    
-    newErr(msg) {
+
+    newErr(msg, duration = 5000) {
         this.setState({ error: msg })
-        setTimeout(() => {
-            this.setState({ error: '' })
-        }, 3000);
+
+        // if duration -1, dont clear
+        if (duration !== -1) {
+            setTimeout(() => {
+                this.setState({ error: '' })
+            }, duration);
+        }
     }
 
     render() {
@@ -36,9 +47,18 @@ class ViewPaste extends React.Component {
                     content={this.state.content}
                     id="pasteInput"
                     readOnly />
+                <PasteInfo
+                    expiry={this.state.expiry}
+                    mode={this.state.mode} />
                 <Error msg={this.state.error} />
             </div>
         );
+    }
+
+    fmtDateStr(dateString) {
+        const d = new Date(dateString)
+        const options = { hour: '2-digit', minute: '2-digit', year: 'numeric', month: 'long', day: 'numeric' }
+        return d.toLocaleDateString("en-US", options).toLocaleLowerCase()
     }
 
     componentDidMount() {
@@ -47,12 +67,11 @@ class ViewPaste extends React.Component {
         axios.get(serverURL)
             .then((response) => {
                 const data = response.data
-                console.log(data)
+                console.log(this.fmtDateStr(data.expiry))
                 this.setState({
                     title: data.title,
                     content: data.content,
-                    expiry: data.expiry,
-                    timestamp: data.timestamp
+                    expiry: this.fmtDateStr(data.expiry),
                 })
             }).catch((error) => {
                 const resp = error.response
@@ -60,10 +79,10 @@ class ViewPaste extends React.Component {
                 // some weird err
                 if (resp !== undefined) {
                     const errTxt = `${resp.statusText}: ${resp.data}`
-                    this.newErr(errTxt)
+                    this.newErr(errTxt, -1)
                 } else {
                     // some weird err (e.g. network)
-                    this.newErr(error)
+                    this.newErr(error, -1)
                 }
             })
     }
