@@ -2,6 +2,7 @@ package cache
 
 import (
 	"errors"
+	"github.com/jackyzha0/ctrl-v/hashing"
 	"sync"
 
 	"github.com/jackyzha0/ctrl-v/db"
@@ -23,7 +24,7 @@ func init() {
 	}
 }
 
-func (c *Cache) Get(hash string) (db.Paste, error) {
+func (c *Cache) Get(hash, userPassword string) (db.Paste, error) {
 	c.lock.RLock()
 
 	// check if hash in cache
@@ -40,9 +41,12 @@ func (c *Cache) Get(hash string) (db.Paste, error) {
 		return p, PasteNotFound
 	}
 
-	// if there is a password
+	// if there is a password, check the provided one against it
 	if p.Password != "" {
-		return db.Paste{}, UserUnauthorized
+		// if passwords do not match, the user is unauthorized
+		if !hashing.ComparePasswords(p.Password, userPassword) {
+			return db.Paste{}, UserUnauthorized
+		}
 	}
 
 	c.add(p)

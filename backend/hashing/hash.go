@@ -30,3 +30,16 @@ func HashPassword(password string) (string, error) {
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	return string(hashedPassword), err
 }
+
+func ComparePasswords(dbPassword, gotPassword string) bool {
+	dbPassBytes := []byte(dbPassword)
+	gotPassBytes := []byte(gotPassword)
+	compErr := bcrypt.CompareHashAndPassword(dbPassBytes, gotPassBytes)
+
+	// if comparison error, the given password is not valid
+	if compErr != nil {
+		return false
+	} else {
+		return true
+	}
+}

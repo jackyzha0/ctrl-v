@@ -52,12 +52,25 @@ func insertFunc(w http.ResponseWriter, r *http.Request) {
 }
 
 func getHashFunc(w http.ResponseWriter, r *http.Request) {
+	// no password given for get
+	handleGetHash(w, r, "")
+}
 
+func getHashWithPasswordFunc(w http.ResponseWriter, r *http.Request) {
+	// get password from form
+	_ = r.ParseMultipartForm(0)
+	gotPassword := r.FormValue("password")
+
+	handleGetHash(w, r, gotPassword)
+
+}
+
+func handleGetHash(w http.ResponseWriter, r *http.Request, gotPassword string) {
 	// Allow CORS
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 
 	hash := mux.Vars(r)["hash"]
-	paste, err := cache.C.Get(hash)
+	paste, err := cache.C.Get(hash, gotPassword)
 
 	// if hash was not found
 	if err == cache.PasteNotFound {
