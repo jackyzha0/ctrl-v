@@ -3,21 +3,7 @@ import { TitleInput, PasteInput } from './Inputs'
 import OptionsContainer from './Options'
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
-import styled from 'styled-components'
-
-const ErrMsg = styled.p`
-    display: inline-block;
-    font-weight: 700;
-    margin-left: 2em;
-    color: #ff3333
-`
-
-const Error = (props) => {
-    const msg = props.msg.toString().toLowerCase()
-    return (
-        <ErrMsg> { msg } </ErrMsg>
-    );
-}
+import Error from './Err'
 
 class NewPaste extends React.Component {
     constructor(props) {
