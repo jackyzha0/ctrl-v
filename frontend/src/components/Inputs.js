@@ -77,7 +77,7 @@ class PassInput extends React.Component {
                     <input
                         name="pass"
                         className="lt-shadow"
-                        placeholder="password (optional)"
+                        placeholder="password"
                         type="password"
                         autoComplete="off"
                         onChange={this.props.onChange}

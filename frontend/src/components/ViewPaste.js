@@ -3,6 +3,7 @@ import axios from 'axios';
 import Error from './Err';
 import { TitleInput, PasteInput } from './Inputs';
 import PasteInfo from  './PasteInfo';
+import PasswordModal from './PasswordModal'
 
 const RENDER_MODES = Object.freeze({
     RAW: 'raw text',
@@ -19,10 +20,18 @@ class ViewPaste extends React.Component {
             title: 'untitled paste',
             content: '',
             hasPass: false,
+            enteredPass: '',
+            validPass: false,
             expiry: 'no expiry',
             error: '',
             mode: RENDER_MODES.RAW, 
         };
+
+        this.handleChange = this.handleChange.bind(this);
+    }
+
+    handleChange(event) {
+        this.setState({ enteredPass: event.target.value });
     }
 
     newErr(msg, duration = 5000) {
@@ -50,9 +59,21 @@ class ViewPaste extends React.Component {
         }
     }
 
+    validatePass(pass) {
+        // stub
+        console.log(pass)
+        // need to toggle validPass
+    }
+
     render() {
         return (
             <div>
+                <PasswordModal
+                    hasPass={this.state.hasPass}
+                    validPass={this.state.validPass}
+                    value={this.state.enteredPass}
+                    onChange={this.handleChange}
+                    validateCallback={this.validatePass} />
                 <TitleInput
                     value={this.state.title}
                     id="titleInput"
@@ -74,28 +95,41 @@ class ViewPaste extends React.Component {
         return d.toLocaleDateString("en-US", options).toLocaleLowerCase()
     }
 
+    setStateFromData(data) {
+        this.setState({
+            title: data.title,
+            content: data.content,
+            expiry: this.fmtDateStr(data.expiry),
+        })
+    }
+
     componentDidMount() {
         const serverURL = `http://localhost:8080/api/${this.props.hash}`
 
         axios.get(serverURL)
             .then((response) => {
                 const data = response.data
-                this.setState({
-                    title: data.title,
-                    content: data.content,
-                    expiry: this.fmtDateStr(data.expiry),
-                })
+                this.setStateFromData(data)
             }).catch((error) => {
                 const resp = error.response
+
+                console.log(resp.status)
+
+                // catch 401 unauth (password protected)
+                if (resp.status === 401) {
+                    this.setState({hasPass: true})
+                    return
+                }
 
                 // some weird err
                 if (resp !== undefined) {
                     const errTxt = `${resp.statusText}: ${resp.data}`
                     this.newErr(errTxt, -1)
-                } else {
-                    // some weird err (e.g. network)
-                    this.newErr(error, -1)
+                    return
                 }
+
+                // some weird err (e.g. network)
+                this.newErr(error, -1)
             })
     }
 }
