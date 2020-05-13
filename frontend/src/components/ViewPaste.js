@@ -3,7 +3,7 @@ import Error from './Err';
 import { TitleInput, PasteInput } from './Inputs';
 import PasteInfo from  './PasteInfo';
 import PasswordModal from './PasswordModal'
-import { FetchPaste, FetchPasswordPaste } from './httpHelper'
+import { FetchPaste, FetchPasswordPaste } from '../helpers/httpHelper'
 
 const RENDER_MODES = Object.freeze({
     RAW: 'raw text',

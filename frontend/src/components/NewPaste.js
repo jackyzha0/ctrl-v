@@ -3,7 +3,7 @@ import { TitleInput, PasteInput } from './Inputs'
 import OptionsContainer from './Options'
 import { Redirect } from 'react-router-dom'
 import Error from './Err'
-import { PostNewPaste } from './httpHelper'
+import { PostNewPaste } from '../helpers/httpHelper'
 
 class NewPaste extends React.Component {
     constructor(props) {
