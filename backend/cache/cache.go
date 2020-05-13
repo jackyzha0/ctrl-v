@@ -28,45 +28,30 @@ func (c *Cache) Get(hash, userPassword string) (db.Paste, error) {
 	c.lock.RLock()
 
 	// check if hash in cache
-	v, ok := c.m[hash]
+	p, ok := c.m[hash]
 	c.lock.RUnlock()
 
-	if ok {
-		// validate password
-		passErr := checkPassword(v.Password, userPassword)
-		if passErr != nil {
-			return db.Paste{}, passErr
-		} else {
-			return v, nil
-		}
-	}
-
 	// if it doesnt, lookup from db
-	p, err := db.Lookup(hash)
-	if err != nil {
-		return p, PasteNotFound
+	if !ok {
+		var err error
+
+		p, err = db.Lookup(hash)
+		if err != nil {
+			return db.Paste{}, PasteNotFound
+		}
+
+		c.add(p)
 	}
 
-	// validate password
-	passErr := checkPassword(p.Password, userPassword)
-	if passErr != nil {
-		return db.Paste{}, passErr
-	}
-
-	c.add(p)
-	return p, err
-}
-
-func checkPassword(dbPassword, parsedPassword string) error {
 	// if there is a password, check the provided one against it
-	if dbPassword != "" {
+	if p.Password != "" {
 		// if passwords do not match, the user is unauthorized
-		if !hashing.PasswordsEqual(dbPassword, parsedPassword) {
-			return UserUnauthorized
+		if !hashing.PasswordsEqual(p.Password, userPassword) {
+			return db.Paste{}, UserUnauthorized
 		}
 	}
 
-	return nil
+	return p, nil
 }
 
 func (c *Cache) add(p db.Paste) {
