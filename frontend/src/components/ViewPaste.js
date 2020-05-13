@@ -24,10 +24,12 @@ class ViewPaste extends React.Component {
             validPass: false,
             expiry: 'no expiry',
             error: '',
+            passError: '',
             mode: RENDER_MODES.RAW, 
         };
 
         this.handleChange = this.handleChange.bind(this);
+        this.validatePass = this.validatePass.bind(this);
     }
 
     handleChange(event) {
@@ -45,6 +47,18 @@ class ViewPaste extends React.Component {
         }
     }
 
+    newPassErr() {
+        // shake thing
+        // set err field and clear input
+        this.setState({ 
+            passError: "incorrect pass",
+            enteredPass: "",
+        })
+        setTimeout(() => {
+            this.setState({ passError: '' })
+        }, 3000);
+    }
+
     drawRightMode() {
         switch (this.state.mode) {
             // TODO: add other renderers
@@ -60,9 +74,35 @@ class ViewPaste extends React.Component {
     }
 
     validatePass(pass) {
-        // stub
-        console.log(pass)
-        // need to toggle validPass
+        var bodyFormData = new FormData();
+        bodyFormData.set('password', pass);
+
+        axios({
+            method: 'post',
+            url: `http://localhost:8080/api/${this.props.hash}`,
+            data: bodyFormData,
+            headers: { 'Content-Type': 'multipart/form-data' },
+        }).then((response) => {
+            this.setState({ validPass: true })
+            this.setStateFromData(response.data)
+        }).catch((error) => {
+            const resp = error.response
+
+            // 401 unauth (bad pass)
+            if (resp.status === 401) {
+                this.newPassErr()
+                return
+            }
+
+            // otherwise, just log it lmao
+            if (resp !== undefined) {
+                const errTxt = `${resp.statusText}: ${resp.data}`
+                this.newErr(errTxt)
+            } else {
+                // some weird err (e.g. network)
+                this.newErr(error)
+            }
+        });
     }
 
     render() {
@@ -73,6 +113,7 @@ class ViewPaste extends React.Component {
                     validPass={this.state.validPass}
                     value={this.state.enteredPass}
                     onChange={this.handleChange}
+                    error={this.state.passError}
                     validateCallback={this.validatePass} />
                 <TitleInput
                     value={this.state.title}
@@ -96,6 +137,7 @@ class ViewPaste extends React.Component {
     }
 
     setStateFromData(data) {
+        console.log(data)
         this.setState({
             title: data.title,
             content: data.content,
@@ -112,8 +154,6 @@ class ViewPaste extends React.Component {
                 this.setStateFromData(data)
             }).catch((error) => {
                 const resp = error.response
-
-                console.log(resp.status)
 
                 // catch 401 unauth (password protected)
                 if (resp.status === 401) {

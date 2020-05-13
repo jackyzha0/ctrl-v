@@ -2,6 +2,7 @@ import React from 'react';
 import Modal from 'react-modal';
 import styled from 'styled-components'
 import { PassInput } from './Inputs'
+import Error from './Err';
 
 const modalStyles = {
     content: {
@@ -63,6 +64,7 @@ class PasswordModal extends React.Component {
                     </RightPad>
                     <LeftPad>
                         <input className="lt-button lt-shadow lt-hover" type="submit" value="continue" />
+                        <Error msg={this.props.error} />
                     </LeftPad>
                 </form>
             </Modal>
