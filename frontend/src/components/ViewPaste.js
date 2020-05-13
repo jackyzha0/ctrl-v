@@ -1,9 +1,9 @@
 import React from 'react';
-import axios from 'axios';
 import Error from './Err';
 import { TitleInput, PasteInput } from './Inputs';
 import PasteInfo from  './PasteInfo';
 import PasswordModal from './PasswordModal'
+import { FetchPaste, FetchPasswordPaste } from './httpHelper'
 
 const RENDER_MODES = Object.freeze({
     RAW: 'raw text',
@@ -74,35 +74,28 @@ class ViewPaste extends React.Component {
     }
 
     validatePass(pass) {
-        var bodyFormData = new FormData();
-        bodyFormData.set('password', pass);
+        FetchPasswordPaste(this.props.hash, pass)
+            .then((response) => {
+                this.setState({ validPass: true })
+                this.setStateFromData(response.data)
+            }).catch((error) => {
+                const resp = error.response
 
-        axios({
-            method: 'post',
-            url: `http://localhost:8080/api/${this.props.hash}`,
-            data: bodyFormData,
-            headers: { 'Content-Type': 'multipart/form-data' },
-        }).then((response) => {
-            this.setState({ validPass: true })
-            this.setStateFromData(response.data)
-        }).catch((error) => {
-            const resp = error.response
+                // 401 unauth (bad pass)
+                if (resp.status === 401) {
+                    this.newPassErr()
+                    return
+                }
 
-            // 401 unauth (bad pass)
-            if (resp.status === 401) {
-                this.newPassErr()
-                return
-            }
-
-            // otherwise, just log it lmao
-            if (resp !== undefined) {
-                const errTxt = `${resp.statusText}: ${resp.data}`
-                this.newErr(errTxt)
-            } else {
-                // some weird err (e.g. network)
-                this.newErr(error)
-            }
-        });
+                // otherwise, just log it lmao
+                if (resp !== undefined) {
+                    const errTxt = `${resp.statusText}: ${resp.data}`
+                    this.newErr(errTxt)
+                } else {
+                    // some weird err (e.g. network)
+                    this.newErr(error)
+                }
+            });
     }
 
     render() {
@@ -146,9 +139,7 @@ class ViewPaste extends React.Component {
     }
 
     componentDidMount() {
-        const serverURL = `http://localhost:8080/api/${this.props.hash}`
-
-        axios.get(serverURL)
+        FetchPaste(this.props.hash)
             .then((response) => {
                 const data = response.data
                 this.setStateFromData(data)
