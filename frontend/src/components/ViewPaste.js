@@ -30,33 +30,12 @@ class ViewPaste extends React.Component {
 
         this.handleChange = this.handleChange.bind(this);
         this.validatePass = this.validatePass.bind(this);
+        this.ErrorLabel = React.createRef();
+        this.PasswordModal = React.createRef();
     }
 
     handleChange(event) {
         this.setState({ enteredPass: event.target.value });
-    }
-
-    newErr(msg, duration = 5000) {
-        this.setState({ error: msg })
-
-        // if duration -1, dont clear
-        if (duration !== -1) {
-            setTimeout(() => {
-                this.setState({ error: '' })
-            }, duration);
-        }
-    }
-
-    newPassErr() {
-        // shake thing
-        // set err field and clear input
-        this.setState({ 
-            passError: "incorrect pass",
-            enteredPass: "",
-        })
-        setTimeout(() => {
-            this.setState({ passError: '' })
-        }, 3000);
     }
 
     drawRightMode() {
@@ -83,17 +62,19 @@ class ViewPaste extends React.Component {
 
                 // 401 unauth (bad pass)
                 if (resp.status === 401) {
-                    this.newPassErr()
+                    this.PasswordModal.current
+                        .ErrorLabel.current
+                        .showMessage("incorrect pass")
                     return
                 }
 
                 // otherwise, just log it lmao
                 if (resp !== undefined) {
                     const errTxt = `${resp.statusText}: ${resp.data}`
-                    this.newErr(errTxt)
+                    this.ErrorLabel.current.showMessage(errTxt)
                 } else {
                     // some weird err (e.g. network)
-                    this.newErr(error)
+                    this.ErrorLabel.current.showMessage(error)
                 }
             });
     }
@@ -102,11 +83,11 @@ class ViewPaste extends React.Component {
         return (
             <div>
                 <PasswordModal
+                    ref={this.PasswordModal}
                     hasPass={this.state.hasPass}
                     validPass={this.state.validPass}
                     value={this.state.enteredPass}
                     onChange={this.handleChange}
-                    error={this.state.passError}
                     validateCallback={this.validatePass} />
                 <TitleInput
                     value={this.state.title}
@@ -118,7 +99,7 @@ class ViewPaste extends React.Component {
                 <PasteInfo
                     expiry={this.state.expiry}
                     mode={this.state.mode} />
-                <Error msg={this.state.error} />
+                <Error ref={this.ErrorLabel} />
             </div>
         );
     }
@@ -155,12 +136,12 @@ class ViewPaste extends React.Component {
                 // some weird err
                 if (resp !== undefined) {
                     const errTxt = `${resp.statusText}: ${resp.data}`
-                    this.newErr(errTxt, -1)
+                    this.ErrorLabel.current.showMessage(errTxt, -1)
                     return
                 }
 
                 // some weird err (e.g. network)
-                this.newErr(error, -1)
+                this.ErrorLabel.current.showMessage(error, -1)
             })
     }
 }

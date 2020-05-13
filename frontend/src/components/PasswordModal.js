@@ -35,8 +35,8 @@ class PasswordModal extends React.Component {
 
     constructor(props) {
         super(props);
-
         this.submitPassword = this.submitPassword.bind(this);
+        this.ErrorLabel = React.createRef();
     }
 
     submitPassword(event) {
@@ -64,7 +64,7 @@ class PasswordModal extends React.Component {
                     </RightPad>
                     <LeftPad>
                         <input className="lt-button lt-shadow lt-hover" type="submit" value="continue" />
-                        <Error msg={this.props.error} />
+                        <Error ref={this.ErrorLabel} />
                     </LeftPad>
                 </form>
             </Modal>

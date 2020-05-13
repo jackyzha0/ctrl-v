@@ -19,13 +19,7 @@ class NewPaste extends React.Component {
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-    }
-
-    newErr(msg, duration = 5000) {
-        this.setState({ error: msg })
-        setTimeout(() => {
-            this.setState({ error: '' })
-        }, duration);
+        this.ErrorLabel = React.createRef();
     }
 
     renderRedirect = () => {
@@ -64,10 +58,10 @@ class NewPaste extends React.Component {
                 // some weird err
                 if (resp !== undefined) {
                     const errTxt = `${resp.statusText}: ${resp.data}`
-                    this.newErr(errTxt)
+                    this.ErrorLabel.current.showMessage(errTxt)
                 } else {
                     // some weird err (e.g. network)
-                    this.newErr(error)
+                    this.ErrorLabel.current.showMessage(error)
                 }
             });
     }
@@ -87,7 +81,7 @@ class NewPaste extends React.Component {
                     maxLength="100000"
                     id="pasteInput" />
                 <input className="lt-button lt-shadow lt-hover" type="submit" value="new paste" />
-                <Error msg={this.state.error} />
+                <Error ref={this.ErrorLabel} />
                 <OptionsContainer
                     pass={this.state.pass}
                     expiry={this.state.expiry}

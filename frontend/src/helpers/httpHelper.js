@@ -2,7 +2,6 @@ import axios from 'axios';
 
 const base = `http://localhost:8080/api`
 
-
 export function FetchPaste(hash) {
     const serverURL = `${base}/${hash}`
     console.log(serverURL)
