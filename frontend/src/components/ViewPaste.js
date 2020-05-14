@@ -1,8 +1,9 @@
 import React from 'react';
-import axios from 'axios';
 import Error from './Err';
 import { TitleInput, PasteInput } from './Inputs';
 import PasteInfo from  './PasteInfo';
+import PasswordModal from './PasswordModal'
+import { FetchPaste, FetchPasswordPaste } from '../helpers/httpHelper'
 
 const RENDER_MODES = Object.freeze({
     RAW: 'raw text',
@@ -19,21 +20,22 @@ class ViewPaste extends React.Component {
             title: 'untitled paste',
             content: '',
             hasPass: false,
+            enteredPass: '',
+            validPass: false,
             expiry: 'no expiry',
             error: '',
+            passError: '',
             mode: RENDER_MODES.RAW, 
         };
+
+        this.handleChange = this.handleChange.bind(this);
+        this.validatePass = this.validatePass.bind(this);
+        this.ErrorLabel = React.createRef();
+        this.PasswordModal = React.createRef();
     }
 
-    newErr(msg, duration = 5000) {
-        this.setState({ error: msg })
-
-        // if duration -1, dont clear
-        if (duration !== -1) {
-            setTimeout(() => {
-                this.setState({ error: '' })
-            }, duration);
-        }
+    handleChange(event) {
+        this.setState({ enteredPass: event.target.value });
     }
 
     drawRightMode() {
@@ -50,9 +52,43 @@ class ViewPaste extends React.Component {
         }
     }
 
+    validatePass(pass) {
+        FetchPasswordPaste(this.props.hash, pass)
+            .then((response) => {
+                this.setState({ validPass: true })
+                this.setStateFromData(response.data)
+            }).catch((error) => {
+                const resp = error.response
+
+                // 401 unauth (bad pass)
+                if (resp.status === 401) {
+                    this.PasswordModal.current
+                        .ErrorLabel.current
+                        .showMessage("incorrect pass")
+                    return
+                }
+
+                // otherwise, just log it lmao
+                if (resp !== undefined) {
+                    const errTxt = `${resp.statusText}: ${resp.data}`
+                    this.ErrorLabel.current.showMessage(errTxt)
+                } else {
+                    // some weird err (e.g. network)
+                    this.ErrorLabel.current.showMessage(error)
+                }
+            });
+    }
+
     render() {
         return (
             <div>
+                <PasswordModal
+                    ref={this.PasswordModal}
+                    hasPass={this.state.hasPass}
+                    validPass={this.state.validPass}
+                    value={this.state.enteredPass}
+                    onChange={this.handleChange}
+                    validateCallback={this.validatePass} />
                 <TitleInput
                     value={this.state.title}
                     id="titleInput"
@@ -63,7 +99,7 @@ class ViewPaste extends React.Component {
                 <PasteInfo
                     expiry={this.state.expiry}
                     mode={this.state.mode} />
-                <Error msg={this.state.error} />
+                <Error ref={this.ErrorLabel} />
             </div>
         );
     }
@@ -74,28 +110,38 @@ class ViewPaste extends React.Component {
         return d.toLocaleDateString("en-US", options).toLocaleLowerCase()
     }
 
-    componentDidMount() {
-        const serverURL = `http://localhost:8080/api/${this.props.hash}`
+    setStateFromData(data) {
+        console.log(data)
+        this.setState({
+            title: data.title,
+            content: data.content,
+            expiry: this.fmtDateStr(data.expiry),
+        })
+    }
 
-        axios.get(serverURL)
+    componentDidMount() {
+        FetchPaste(this.props.hash)
             .then((response) => {
                 const data = response.data
-                this.setState({
-                    title: data.title,
-                    content: data.content,
-                    expiry: this.fmtDateStr(data.expiry),
-                })
+                this.setStateFromData(data)
             }).catch((error) => {
                 const resp = error.response
+
+                // catch 401 unauth (password protected)
+                if (resp.status === 401) {
+                    this.setState({hasPass: true})
+                    return
+                }
 
                 // some weird err
                 if (resp !== undefined) {
                     const errTxt = `${resp.statusText}: ${resp.data}`
-                    this.newErr(errTxt, -1)
-                } else {
-                    // some weird err (e.g. network)
-                    this.newErr(error, -1)
+                    this.ErrorLabel.current.showMessage(errTxt, -1)
+                    return
                 }
+
+                // some weird err (e.g. network)
+                this.ErrorLabel.current.showMessage(error, -1)
             })
     }
 }

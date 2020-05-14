@@ -39,19 +39,20 @@ function App() {
               <span role="img" aria-label="clipboard">📋&nbsp;</span>
               <Link to="/">ctrl-v</Link>
             </h1>
-
             <Desc />
           </nav>
         </SpacedTitle>
 
-        <Switch>
-          <Route path="/:hash" 
-            children={<GetPasteWithParam />} 
-          />
-          <Route path="/">
-            <NewPaste />
-          </Route>
-        </Switch>
+        <main id="appElement">
+          <Switch>
+            <Route path="/:hash" 
+              children={<GetPasteWithParam />} 
+            />
+            <Route path="/">
+              <NewPaste />
+            </Route>
+          </Switch>
+        </main>
 
         <Footer />
       </div>
