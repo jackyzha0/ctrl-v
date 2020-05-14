@@ -86,7 +86,7 @@ a {
   color: #111111;
 }
 
-input[type=submit] {
+input[type=submit], button[type=submit] {
   font-family: 'Lora', serif;
   font-weight: 700;
   color: #faf9f5;
@@ -94,6 +94,18 @@ input[type=submit] {
   padding: 0.8em 2em;
   margin: 2em 0;
   outline: 0;
+}
+
+button[type=button] {
+  font-family: 'Lora', serif;
+  width: 7em;
+  padding: calc(0.8em - 1px) 1.5em;
+  border-radius: 3px;
+  color: #111111;
+  background-color: #faf9f5;
+  border: 1px solid #565656;
+  outline: none;
+  margin: 2em 2em;
 }
 
 ul {

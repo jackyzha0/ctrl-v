@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import FloatingLabel from './decorators/FloatingLabel'
 import Dropdown from 'react-dropdown';
 
-const CharLimitContainer = styled.div`
+const RelPositioning = styled.div`
     position: relative; 
 `
 
@@ -16,7 +16,7 @@ const FlexChild = styled.div`
 class TitleInput extends React.Component {
     render() {
         return (
-            <CharLimitContainer>
+            <RelPositioning>
                 <FloatingLabel
                     label="title"
                     id={this.props.id}
@@ -35,7 +35,7 @@ class TitleInput extends React.Component {
                 <CharLimit
                     content={this.props.value}
                     maxLength={this.props.maxLength} />
-            </CharLimitContainer>
+            </RelPositioning>
         );
     }
 }
@@ -43,7 +43,7 @@ class TitleInput extends React.Component {
 class PasteInput extends React.Component {
     render() {
         return (
-            <CharLimitContainer>
+            <RelPositioning>
                 <FloatingLabel
                     label="content"
                     id={this.props.id}
@@ -60,7 +60,7 @@ class PasteInput extends React.Component {
                 <CharLimit
                     content={this.props.content}
                     maxLength={this.props.maxLength} />
-            </CharLimitContainer>
+            </RelPositioning>
         );
     }
 }
@@ -69,7 +69,7 @@ class PassInput extends React.Component {
     render() {
         return (
             <FlexChild>
-                <CharLimitContainer>
+                <RelPositioning>
                     <FloatingLabel
                         label="password"
                         id={this.props.id}
@@ -83,7 +83,7 @@ class PassInput extends React.Component {
                         onChange={this.props.onChange}
                         value={this.props.value}
                         id={this.props.id} />
-                </CharLimitContainer>
+                </RelPositioning>
             </FlexChild>
         );
     }
@@ -127,4 +127,27 @@ class ExpiryInput extends React.Component {
     }
 }
 
-export { TitleInput, PasteInput, PassInput, ExpiryInput }
+class PasteURLInput extends React.Component {
+    render() {
+        return (
+            <FlexChild>
+                <RelPositioning>
+                    <FloatingLabel
+                        label="url"
+                        id={this.props.id}
+                        value={this.props.id} />
+                    <input
+                        name="paste_url"
+                        className="lt-shadow"
+                        type="text"
+                        readOnly
+                        autoFocus
+                        id={this.props.id}
+                        value={this.props.fullURL} />
+                </RelPositioning>
+            </FlexChild>
+        );
+    }
+}
+
+export { TitleInput, PasteInput, PassInput, ExpiryInput, PasteURLInput }

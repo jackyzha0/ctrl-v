@@ -2,7 +2,7 @@ import React from 'react';
 import Error from './Err';
 import { TitleInput, PasteInput } from './Inputs';
 import PasteInfo from  './PasteInfo';
-import PasswordModal from './PasswordModal'
+import PasswordModal from './modals/PasswordModal'
 import { FetchPaste, FetchPasswordPaste } from '../helpers/httpHelper'
 
 const RENDER_MODES = Object.freeze({

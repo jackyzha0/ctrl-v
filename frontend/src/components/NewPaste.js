@@ -1,9 +1,9 @@
 import React from 'react';
 import { TitleInput, PasteInput } from './Inputs'
 import OptionsContainer from './Options'
-import { Redirect } from 'react-router-dom'
 import Error from './Err'
 import { PostNewPaste } from '../helpers/httpHelper'
+import PasteModal from './modals/PasteModal'
 
 class NewPaste extends React.Component {
     constructor(props) {
@@ -20,13 +20,6 @@ class NewPaste extends React.Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.ErrorLabel = React.createRef();
-    }
-
-    renderRedirect = () => {
-        if (this.state.hash !== '') {
-            const redirUrl = `/${this.state.hash}`
-            return <Redirect to={redirUrl} />
-        }
     }
 
     componentDidUpdate() {
@@ -69,7 +62,7 @@ class NewPaste extends React.Component {
     render() {
         return (
             <form onSubmit={this.handleSubmit}>
-                {this.renderRedirect()}
+                <PasteModal hash={this.state.hash} />
                 <TitleInput 
                     onChange={this.handleChange}
                     value={this.state.title}

@@ -1,8 +1,8 @@
 import React from 'react';
 import Modal from 'react-modal';
-import styled from 'styled-components'
-import { PassInput } from './Inputs'
-import Error from './Err';
+import { PassInput } from '../Inputs'
+import { RightPad, LeftPad, ModalHeader } from './shared'
+import Error from '../Err';
 
 const modalStyles = {
     content: {
@@ -14,18 +14,6 @@ const modalStyles = {
         border: '1px solid #11111188'
     }
 };
-
-const PassProtected = styled.h3`
-    font-weight: 700
-`
-
-const RightPad = styled.div`
-    margin-right: 3em;
-`
-
-const LeftPad = styled.div`
-    margin-left: 2em;
-`
 
 class PasswordModal extends React.Component {
 
@@ -51,11 +39,10 @@ class PasswordModal extends React.Component {
                 isOpen={this.props.hasPass && !this.props.validPass}
                 style={modalStyles}
                 contentLabel="enter paste password"
-                classNames
             >
                 <form onSubmit={this.submitPassword}>
                     <LeftPad>
-                        <PassProtected><span role="img" aria-label="warning">🚧&nbsp;</span>err: password protected</PassProtected>
+                        <ModalHeader><span role="img" aria-label="warning">🚧&nbsp;</span>err: password protected</ModalHeader>
                     </LeftPad>
                     <RightPad>
                         <PassInput
