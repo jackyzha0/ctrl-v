@@ -14,4 +14,5 @@ type Paste struct {
 	Expiry   time.Time `bson:"expiry"`
 	Title    string
 	Password string
+	Salt     []byte
 }

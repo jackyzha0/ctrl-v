@@ -1,4 +1,4 @@
-package hashing
+package security
 
 import (
 	"crypto/md5"

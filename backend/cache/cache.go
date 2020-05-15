@@ -2,7 +2,7 @@ package cache
 
 import (
 	"errors"
-	"github.com/jackyzha0/ctrl-v/hashing"
+	"github.com/jackyzha0/ctrl-v/security"
 	"sync"
 
 	"github.com/jackyzha0/ctrl-v/db"
@@ -17,6 +17,7 @@ var C *Cache
 
 var PasteNotFound = errors.New("could not find a paste with that hash")
 var UserUnauthorized = errors.New("paste is password protected")
+var EncryptionError = errors.New("could not encrypt the given content")
 
 func init() {
 	C = &Cache{
@@ -46,9 +47,22 @@ func (c *Cache) Get(hash, userPassword string) (db.Paste, error) {
 	// if there is a password, check the provided one against it
 	if p.Password != "" {
 		// if passwords do not match, the user is unauthorized
-		if !hashing.PasswordsEqual(p.Password, userPassword) {
+		if !security.PasswordsEqual(p.Password, userPassword) {
 			return db.Paste{}, UserUnauthorized
 		}
+
+		// if password matches, decrypt content
+		key, _, err := security.DeriveKey([]byte(userPassword), p.Salt)
+		if err != nil {
+			return db.Paste{}, EncryptionError
+		}
+
+		decryptedBytes, err := security.Decrypt(key, []byte(p.Content))
+		if err != nil {
+			return db.Paste{}, EncryptionError
+		}
+
+		p.Content = string(decryptedBytes)
 	}
 
 	return p, nil
