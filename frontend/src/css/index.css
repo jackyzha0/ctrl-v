@@ -25,6 +25,31 @@ textarea, input[type=text], input[type=password], .Dropdown-root {
   margin: 1.7em 0;
 }
 
+.codeBlock {
+  width: 100%;
+  font-size: 0.8em;
+  padding: calc(0.8em - 1px) !important;
+  border-radius: 3px;
+  border: 1px solid #565656;
+  background: #faf9f5;
+  outline: none;
+  margin: 1.7em 0;
+}
+
+.codeBlock code:first-child {
+  margin-right: 10px;
+  border-radius: 0;
+  border-right: 1px solid #11111155;
+}
+
+code, pre {
+  background: #00000000;
+  font-family: 'Roboto Mono', monospace;
+  padding: initial;
+  border-radius: 3px;
+  outline: none;
+}
+
 .Dropdown-root {
   cursor: pointer;
 }
@@ -44,7 +69,7 @@ textarea, input[type=text], input[type=password], .Dropdown-root {
 }
 
 .Dropdown-placeholder {
-  width: 5em;
+  width: 7em;
 }
 
 .Dropdown-menu {
@@ -98,7 +123,8 @@ input[type=submit], button[type=submit] {
 
 button[type=button] {
   font-family: 'Lora', serif;
-  width: 7em;
+  font-weight: 700;
+  width: 8em;
   padding: calc(0.8em - 1px) 1.5em;
   border-radius: 3px;
   color: #111111;
