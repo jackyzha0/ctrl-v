@@ -1,16 +1,11 @@
 import React from 'react';
 import Error from './Err';
-import { TitleInput, PasteInput } from './Inputs';
+import { TitleInput } from './Inputs';
+import CodeRenderer from './renderers/Code'
 import PasteInfo from  './PasteInfo';
 import PasswordModal from './modals/PasswordModal'
 import { FetchPaste, FetchPasswordPaste } from '../helpers/httpHelper'
-
-const RENDER_MODES = Object.freeze({
-    RAW: 'raw text',
-    MD: 'markdown',
-    LATEX: 'latex',
-    CODE: 'code',
-})
+import { LANGS } from './renderers/Code'
 
 class ViewPaste extends React.Component {
 
@@ -25,31 +20,29 @@ class ViewPaste extends React.Component {
             expiry: 'no expiry',
             error: '',
             passError: '',
-            mode: RENDER_MODES.RAW, 
+            theme: 'atom',
+            language: LANGS.raw,
         };
 
         this.handleChange = this.handleChange.bind(this);
+        this.typedPass = this.typedPass.bind(this);
         this.validatePass = this.validatePass.bind(this);
         this.ErrorLabel = React.createRef();
         this.PasswordModal = React.createRef();
     }
 
     handleChange(event) {
-        this.setState({ enteredPass: event.target.value });
+        const target = event.target;
+        const name = target.name;
+        console.log(target, name)
+
+        this.setState({
+            [name]: target.value
+        });
     }
 
-    drawRightMode() {
-        switch (this.state.mode) {
-            // TODO: add other renderers
-
-            // default render raw
-            case RENDER_MODES.RAW:
-            default:
-                return (<PasteInput
-                    content={this.state.content}
-                    id="pasteInput"
-                    readOnly />);
-        }
+    typedPass(event) {
+        this.setState({ enteredPass: event.target.value });
     }
 
     validatePass(pass) {
@@ -87,18 +80,22 @@ class ViewPaste extends React.Component {
                     hasPass={this.state.hasPass}
                     validPass={this.state.validPass}
                     value={this.state.enteredPass}
-                    onChange={this.handleChange}
+                    onChange={this.typedPass}
                     validateCallback={this.validatePass} />
                 <TitleInput
                     value={this.state.title}
                     id="titleInput"
                     readOnly />
-
-                {this.drawRightMode()}
-
+                <CodeRenderer
+                    content={this.state.content}
+                    lang={this.state.language}
+                    theme={this.state.theme}
+                    id="pasteInput" />
                 <PasteInfo
-                    expiry={this.state.expiry}
-                    mode={this.state.mode} />
+                    lang={this.state.language}
+                    theme={this.state.theme}
+                    onChange={this.handleChange}
+                    expiry={this.state.expiry} />
                 <Error ref={this.ErrorLabel} />
             </div>
         );
@@ -111,7 +108,6 @@ class ViewPaste extends React.Component {
     }
 
     setStateFromData(data) {
-        console.log(data)
         this.setState({
             title: data.title,
             content: data.content,

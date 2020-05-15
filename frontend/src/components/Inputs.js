@@ -3,6 +3,7 @@ import CharLimit from './decorators/CharLimit'
 import styled from 'styled-components'
 import FloatingLabel from './decorators/FloatingLabel'
 import Dropdown from 'react-dropdown';
+import { LANGS, THEMES } from './renderers/Code';
 
 const RelPositioning = styled.div`
     position: relative; 
@@ -89,42 +90,97 @@ class PassInput extends React.Component {
     }
 }
 
-class ExpiryInput extends React.Component {
-    
+class GenericDropdown extends React.Component {
+
+    constructor(props) {
+        super(props)
+
+        this._onSelect = this._onSelect.bind(this)
+    }
+
     _onSelect(option) {
-        this.callBackRef({target: {
-            name: 'expiry',
-            value: option.label
-        }});
+        this.props.onChange({
+            target: {
+                name: this.props.label,
+                value: option.label
+            }
+        });
     }
 
     render() {
-        const options = [
-            '5 years',
-            '1 year', 
-            '1 month',
-            '1 week',
-            '1 day',
-            '1 hour',
-            '10 min',
-        ];
-
         return (
             <FlexChild>
-                <Dropdown 
-                    options={options} 
-                    onChange={this._onSelect} 
+                <Dropdown
+                    options={this.props.options}
+                    onChange={this._onSelect}
                     callBackRef={this.props.onChange}
-                    value={this.props.value} 
-                    placeholder="1 week"
+                    value={this.props.value}
+                    placeholder={this.props.placeholder}
                     id={this.props.id} />
                 <FloatingLabel
-                    label="expiry"
+                    label={this.props.label}
                     id={this.props.id}
                     value={this.props.value} />
             </FlexChild>
         );
     }
+}
+
+const ExpiryInput = (props) => {
+    const options = [
+        '5 years',
+        '1 year',
+        '1 month',
+        '1 week',
+        '1 day',
+        '1 hour',
+        '10 min',
+    ];
+
+    return (
+        <GenericDropdown 
+            {...props}
+            options={options}
+            placeholder='1 week'
+            label='expiry'
+        />
+    );
+}
+
+const LangInput = (props) => {
+    const options = Object.entries(LANGS).map((key, _) => {
+        return {
+            'value': key[1],
+            'label': key[0]
+        }
+    })
+
+    return (
+        <GenericDropdown
+            {...props}
+            options={options}
+            placeholder={LANGS.raw}
+            label='language'
+        />
+    );
+}
+
+const ThemeInput = (props) => {
+    const options = Object.entries(THEMES).map((key, _) => {
+        return {
+            'value': key[1],
+            'label': key[0]
+        }
+    })
+
+    return (
+        <GenericDropdown
+            {...props}
+            options={options}
+            placeholder={'atom'}
+            label='theme'
+        />
+    );
 }
 
 class PasteURLInput extends React.Component {
@@ -150,4 +206,4 @@ class PasteURLInput extends React.Component {
     }
 }
 
-export { TitleInput, PasteInput, PassInput, ExpiryInput, PasteURLInput }
+export { TitleInput, PasteInput, PassInput, ExpiryInput, PasteURLInput, LangInput, ThemeInput }
