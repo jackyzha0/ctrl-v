@@ -3,6 +3,10 @@
 
 Frontend is in React and backend is in Go.
 
+![New Paste](https://user-images.githubusercontent.com/23178940/82101247-e4848a00-96c0-11ea-99c3-a2cd301c52bb.png)
+![View Paste](https://user-images.githubusercontent.com/23178940/82101258-e9493e00-96c0-11ea-98ec-595f5f6f8b1d.png)
+![View Paste (different theme)](https://user-images.githubusercontent.com/23178940/82101261-ea7a6b00-96c0-11ea-9cf1-9b81883ab9f5.png)
+
 ## developing
 #### Common
 `make all` &mdash; starts React development server on `:3000` and backend on `:8080`
