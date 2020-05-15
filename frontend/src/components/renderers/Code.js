@@ -14,7 +14,7 @@ export const THEMES = Object.freeze({
 export const LANGS = Object.freeze({
     'go': 'go',
     'python': 'python',
-    'javscript': 'javascript',
+    'javascript': 'javascript',
     'html': 'html',
     'css': 'css',
     'c': 'c',
