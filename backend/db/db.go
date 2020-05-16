@@ -5,7 +5,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/jackyzha0/ctrl-v/hashing"
+	"github.com/jackyzha0/ctrl-v/security"
 	"github.com/joho/godotenv"
 	log "github.com/sirupsen/logrus"
 )
@@ -30,7 +30,7 @@ const ContentLimit = 100000
 // creates a new paste with title, content and hash, returns the hash of the created paste
 func New(ip, content, expiry, title, password string) (string, error) {
 	// generate hash from ip
-	hash := hashing.GenerateURI(ip)
+	hash := security.GenerateURI(ip)
 
 	// check for size of title and content
 	errs := checkLengths(title, content)
@@ -45,9 +45,24 @@ func New(ip, content, expiry, title, password string) (string, error) {
 		Title:   title,
 	}
 
+	// if there is a password, encrypt content and hash the password
 	if password != "" {
+		// use pass to encrypt content
+		key, salt, err := security.DeriveKey(password, nil)
+		if err != nil {
+			return "", fmt.Errorf("could not generate key: %s", err.Error())
+		}
+		new.Salt = salt
+
+		encryptedContent, err := security.Encrypt(key, new.Content)
+		if err != nil {
+			return "", fmt.Errorf("could not encrypt content: %s", err.Error())
+		}
+
+		new.Content = encryptedContent
+
 		// hash given password
-		hashedPass, err := hashing.HashPassword(password)
+		hashedPass, err := security.HashPassword(password)
 		if err != nil {
 			return "", fmt.Errorf("could not hash password: %s", err.Error())
 		}

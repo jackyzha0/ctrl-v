@@ -3,6 +3,7 @@ package api
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/jackyzha0/ctrl-v/security"
 	"net/http"
 	"time"
 
@@ -83,6 +84,13 @@ func handleGetPaste(w http.ResponseWriter, r *http.Request, parsedPassword strin
 	// if paste is password protected
 	if err == cache.UserUnauthorized {
 		w.WriteHeader(http.StatusUnauthorized)
+		fmt.Fprintf(w, "%s", err)
+		return
+	}
+
+	// if internal error with encryption
+	if err == security.EncryptionError {
+		w.WriteHeader(http.StatusInternalServerError)
 		fmt.Fprintf(w, "%s", err)
 		return
 	}

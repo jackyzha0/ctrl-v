@@ -2,7 +2,7 @@ package cache
 
 import (
 	"errors"
-	"github.com/jackyzha0/ctrl-v/hashing"
+	"github.com/jackyzha0/ctrl-v/security"
 	"sync"
 
 	"github.com/jackyzha0/ctrl-v/db"
@@ -46,9 +46,22 @@ func (c *Cache) Get(hash, userPassword string) (db.Paste, error) {
 	// if there is a password, check the provided one against it
 	if p.Password != "" {
 		// if passwords do not match, the user is unauthorized
-		if !hashing.PasswordsEqual(p.Password, userPassword) {
+		if !security.PasswordsEqual(p.Password, userPassword) {
 			return db.Paste{}, UserUnauthorized
 		}
+
+		// if password matches, decrypt content
+		key, _, err := security.DeriveKey(userPassword, p.Salt)
+		if err != nil {
+			return db.Paste{}, security.EncryptionError
+		}
+
+		decryptedContent, err := security.Decrypt(key, p.Content)
+		if err != nil {
+			return db.Paste{}, security.EncryptionError
+		}
+
+		p.Content = decryptedContent
 	}
 
 	return p, nil
