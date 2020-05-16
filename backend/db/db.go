@@ -48,18 +48,18 @@ func New(ip, content, expiry, title, password string) (string, error) {
 	// if there is a password, encrypt content and hash the password
 	if password != "" {
 		// use pass to encrypt content
-		key, salt, err := security.DeriveKey([]byte(password), nil)
+		key, salt, err := security.DeriveKey(password, nil)
 		if err != nil {
 			return "", fmt.Errorf("could not generate key: %s", err.Error())
 		}
 		new.Salt = salt
 
-		encryptedBytes, err := security.Encrypt(key, []byte(new.Content))
+		encryptedContent, err := security.Encrypt(key, new.Content)
 		if err != nil {
 			return "", fmt.Errorf("could not encrypt content: %s", err.Error())
 		}
 
-		new.Content = string(encryptedBytes)
+		new.Content = encryptedContent
 
 		// hash given password
 		hashedPass, err := security.HashPassword(password)

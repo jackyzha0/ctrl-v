@@ -17,7 +17,6 @@ var C *Cache
 
 var PasteNotFound = errors.New("could not find a paste with that hash")
 var UserUnauthorized = errors.New("paste is password protected")
-var EncryptionError = errors.New("could not encrypt the given content")
 
 func init() {
 	C = &Cache{
@@ -52,17 +51,17 @@ func (c *Cache) Get(hash, userPassword string) (db.Paste, error) {
 		}
 
 		// if password matches, decrypt content
-		key, _, err := security.DeriveKey([]byte(userPassword), p.Salt)
+		key, _, err := security.DeriveKey(userPassword, p.Salt)
 		if err != nil {
-			return db.Paste{}, EncryptionError
+			return db.Paste{}, security.EncryptionError
 		}
 
-		decryptedBytes, err := security.Decrypt(key, []byte(p.Content))
+		decryptedContent, err := security.Decrypt(key, p.Content)
 		if err != nil {
-			return db.Paste{}, EncryptionError
+			return db.Paste{}, security.EncryptionError
 		}
 
-		p.Content = string(decryptedBytes)
+		p.Content = decryptedContent
 	}
 
 	return p, nil
