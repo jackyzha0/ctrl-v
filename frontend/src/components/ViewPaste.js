@@ -92,6 +92,7 @@ class ViewPaste extends React.Component {
                     theme={this.state.theme}
                     id="pasteInput" />
                 <PasteInfo
+                    hash={this.props.hash}
                     lang={this.state.language}
                     theme={this.state.theme}
                     onChange={this.handleChange}

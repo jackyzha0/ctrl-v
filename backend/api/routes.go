@@ -3,15 +3,14 @@ package api
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/jackyzha0/ctrl-v/security"
 	"net/http"
 	"time"
+
+	"github.com/jackyzha0/ctrl-v/security"
 
 	"github.com/gorilla/mux"
 	"github.com/jackyzha0/ctrl-v/cache"
 	"github.com/jackyzha0/ctrl-v/db"
-
-	log "github.com/sirupsen/logrus"
 )
 
 func healthCheckFunc(w http.ResponseWriter, r *http.Request) {
@@ -32,8 +31,6 @@ func insertFunc(w http.ResponseWriter, r *http.Request) {
 
 	// get ip
 	ip := getIP(r)
-
-	log.Infof("got content '%s' and ip '%s'", content, ip)
 
 	// insert content
 	hash, err := db.New(ip, content, expiry, title, password)
