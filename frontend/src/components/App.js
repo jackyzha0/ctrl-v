@@ -10,6 +10,7 @@ import {
   Link,
   useParams
 } from "react-router-dom";
+import Raw from './renderers/Raw'
 
 const SpacedTitle = styled.div`
     margin-top: 10vh
@@ -29,35 +30,49 @@ const GetPasteWithParam = () => {
   );
 }
 
+const GetRawWithParam = () => {
+  let { hash } = useParams();
+
+  return (
+    <Raw hash={hash} />
+  );
+}
+
 function App() {
   return (
     <Router>
-      <div className="lt-content-column">
-        <SpacedTitle>
-          <nav>
-            <h1 className="mainLogo">
-              <span role="img" aria-label="clipboard">📋&nbsp;</span>
-              <Link to="/">ctrl-v</Link>
-            </h1>
-            <Desc />
-          </nav>
-        </SpacedTitle>
+      <Switch>
+        <Route path="/raw/:hash"
+          children={<GetRawWithParam />}
+        />
+        <div className="lt-content-column">
+          <SpacedTitle>
+            <nav>
+              <h1 className="mainLogo">
+                <span role="img" aria-label="clipboard">📋&nbsp;</span>
+                <Link to="/">ctrl-v</Link>
+              </h1>
+              <Desc />
+            </nav>
+          </SpacedTitle>
 
-        <main id="appElement">
-          <Switch>
-            <Route path="/:hash" 
-              children={<GetPasteWithParam />} 
-            />
-            <Route path="/">
-              <NewPaste />
-            </Route>
-          </Switch>
-        </main>
+          <main id="appElement">
+            <Switch>
+              <Route path="/:hash"
+                children={<GetPasteWithParam />}
+              />
+              <Route path="/">
+                <NewPaste />
+              </Route>
+            </Switch>
+          </main>
 
-        <Footer />
-      </div>
+          <Footer />
+        </div>
+      </Switch>
     </Router>
   );
 }
+
 
 export default App;

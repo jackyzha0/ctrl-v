@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components'
+import { useHistory } from 'react-router-dom';
 import { LangInput, ThemeInput } from './Inputs'
 
 const Bold = styled.span`
@@ -7,8 +8,15 @@ const Bold = styled.span`
 `
 
 const StyledDiv = styled.div`
-    margin: 2em 0;
     display: inline-block;
+`
+
+const Button = styled.button`
+    margin-left: 0 !important;
+`
+
+const ButtonRow = styled.div`
+    display: inline;
 `
 
 const Flex = styled.div`
@@ -19,6 +27,12 @@ const Flex = styled.div`
 `
 
 const PasteInfo = (props) => {
+    const history = useHistory();
+    const redir = () => {
+        const redirUrl = `/raw/${props.hash}`
+        history.push(redirUrl);
+    }
+
     return (
         <div>
             <Flex>
@@ -32,6 +46,15 @@ const PasteInfo = (props) => {
                     id="themeInput" />
             </Flex>
             <StyledDiv>
+                <ButtonRow>
+                    <Button 
+                        className="lt-shadow lt-hover" 
+                        type="button"
+                        onClick={redir}
+                        >
+                        view raw
+                    </Button>
+                </ButtonRow>
                 <Bold>expires:&nbsp;</Bold>{props.expiry}
             </StyledDiv>
         </div>
