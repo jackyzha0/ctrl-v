@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components'
 import { useHistory } from 'react-router-dom';
-import { LangInput, ThemeInput } from './Inputs'
+import { ThemeInput } from './Inputs'
 
 const Bold = styled.span`
     font-weight: 700
@@ -17,6 +17,10 @@ const Button = styled.button`
 
 const ButtonRow = styled.div`
     display: inline;
+`
+
+const SpacedText = styled.span`
+    margin-right: 1em;
 `
 
 const Flex = styled.div`
@@ -36,10 +40,6 @@ const PasteInfo = (props) => {
     return (
         <div>
             <Flex>
-                <LangInput
-                    value={props.lang}
-                    onChange={props.onChange}
-                    id="langInput" />
                 <ThemeInput
                     value={props.theme}
                     onChange={props.onChange}
@@ -54,9 +54,16 @@ const PasteInfo = (props) => {
                         >
                         view raw
                     </Button>
+                    <SpacedText>
+                        <Bold>language:&nbsp;</Bold>{props.lang}
+                    </SpacedText>
+                    <SpacedText>
+                        <Bold>expires:&nbsp;</Bold>{props.expiry}
+                    </SpacedText>
+                    <SpacedText>
+                        {props.err}
+                    </SpacedText>
                 </ButtonRow>
-                <Bold>expires:&nbsp;</Bold>{props.expiry}
-                {props.err}
             </StyledDiv>
         </div>
     );
