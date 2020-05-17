@@ -29,6 +29,7 @@ class ViewPaste extends React.Component {
         this.validatePass = this.validatePass.bind(this);
         this.ErrorLabel = React.createRef();
         this.PasswordModal = React.createRef();
+        this.componentRef = React.createRef();
     }
 
     handleChange(event) {
@@ -89,12 +90,14 @@ class ViewPaste extends React.Component {
                     content={this.state.content}
                     lang={this.state.language}
                     theme={this.state.theme}
+                    ref={this.componentRef}
                     id="pasteInput" />
                 <PasteInfo
                     hash={this.props.hash}
                     lang={this.state.language}
                     theme={this.state.theme}
                     onChange={this.handleChange}
+                    compref={this.componentRef}
                     err={<Error ref={this.ErrorLabel} />}
                     expiry={this.state.expiry} />
             </div>
