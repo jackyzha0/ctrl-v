@@ -34,7 +34,6 @@ class ViewPaste extends React.Component {
     handleChange(event) {
         const target = event.target;
         const name = target.name;
-        console.log(target, name)
 
         this.setState({
             [name]: target.value
@@ -96,8 +95,8 @@ class ViewPaste extends React.Component {
                     lang={this.state.language}
                     theme={this.state.theme}
                     onChange={this.handleChange}
+                    err={<Error ref={this.ErrorLabel} />}
                     expiry={this.state.expiry} />
-                <Error ref={this.ErrorLabel} />
             </div>
         );
     }
@@ -109,9 +108,11 @@ class ViewPaste extends React.Component {
     }
 
     setStateFromData(data) {
+        console.log(data)
         this.setState({
             title: data.title,
             content: data.content,
+            language: data.language,
             expiry: this.fmtDateStr(data.expiry),
         })
     }
@@ -123,6 +124,12 @@ class ViewPaste extends React.Component {
                 this.setStateFromData(data)
             }).catch((error) => {
                 const resp = error.response
+
+                // network err
+                if (!resp) {
+                    this.ErrorLabel.current.showMessage(error)
+                    return
+                }
 
                 // catch 401 unauth (password protected)
                 if (resp.status === 401) {

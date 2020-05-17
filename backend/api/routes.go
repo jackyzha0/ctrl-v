@@ -28,12 +28,13 @@ func insertFunc(w http.ResponseWriter, r *http.Request) {
 	content := r.FormValue("content")
 	title := r.FormValue("title")
 	password := r.FormValue("password")
+	lang := r.FormValue("language")
 
 	// get ip
 	ip := getIP(r)
 
 	// insert content
-	hash, err := db.New(ip, content, expiry, title, password)
+	hash, err := db.New(ip, content, expiry, title, password, lang)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		fmt.Fprintf(w, "%s", err.Error())
@@ -99,6 +100,7 @@ func handleGetPaste(w http.ResponseWriter, r *http.Request, parsedPassword strin
 		"title":     paste.Title,
 		"content":   paste.Content,
 		"expiry":    paste.Expiry,
+		"language":  paste.Language,
 	}
 
 	jsonData, _ := json.Marshal(pasteMap)

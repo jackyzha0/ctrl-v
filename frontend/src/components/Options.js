@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components'
-import { PassInput, ExpiryInput } from './Inputs'
+import { PassInput, ExpiryInput, LangInput } from './Inputs'
 
 const Flex = styled.div`
     float: right;
@@ -17,6 +17,10 @@ class OptionsContainer extends React.Component {
                     value={this.props.pass}
                     onChange={this.props.onChange}
                     id="passwordInput" />
+                <LangInput
+                    value={this.props.lang}
+                    onChange={this.props.onChange}
+                    id="langInput" />
                 <ExpiryInput
                     value={this.props.expiry}
                     onChange={this.props.onChange}

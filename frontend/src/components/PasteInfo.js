@@ -56,6 +56,7 @@ const PasteInfo = (props) => {
                     </Button>
                 </ButtonRow>
                 <Bold>expires:&nbsp;</Bold>{props.expiry}
+                {props.err}
             </StyledDiv>
         </div>
     );

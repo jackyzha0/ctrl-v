@@ -10,9 +10,10 @@ import (
 type Paste struct {
 	ID       bson.ObjectId `bson:"_id,omitempty"`
 	Hash     string
-	Content  string
-	Expiry   time.Time `bson:"expiry"`
 	Title    string
+	Content  string
+	Language string
 	Password string
+	Expiry   time.Time `bson:"expiry"`
 	Salt     []byte
 }
