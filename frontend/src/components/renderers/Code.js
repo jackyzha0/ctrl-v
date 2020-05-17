@@ -1,5 +1,4 @@
 import React from 'react';
-import styled from 'styled-components'
 import { Light as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { atomOneLight, ascetic, atomOneDark, dracula, ocean } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 
@@ -35,21 +34,24 @@ export const LANGS = Object.freeze({
     'yaml': 'yaml'
 })
 
-const RelPositioning = styled.div`
-    position: relative; 
-`
-
 const CodeRenderer = React.forwardRef((props, ref) => {
+
+    const Pre = (props) => {
+        return (
+            <pre {...props} ref={ref} />
+        );
+    }
+
     return (
-        <RelPositioning ref={ref}>
-            <SyntaxHighlighter
-                className="codeBlock lt-shadow"
-                language={props.lang}
-                style={THEMES[props.theme]}
-                showLineNumbers >
-                {props.content}
-            </SyntaxHighlighter>
-        </RelPositioning>
+        <SyntaxHighlighter
+            className="codeBlock lt-shadow"
+            ref={ref}
+            language={props.lang}
+            style={THEMES[props.theme]}
+            showLineNumbers
+            PreTag={Pre}>
+            {props.content}
+        </SyntaxHighlighter>
     );
 });
 
