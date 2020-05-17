@@ -39,9 +39,9 @@ const RelPositioning = styled.div`
     position: relative; 
 `
 
-const CodeRenderer = (props) => {
+const CodeRenderer = React.forwardRef((props, ref) => {
     return (
-        <RelPositioning>
+        <RelPositioning ref={ref}>
             <SyntaxHighlighter
                 className="codeBlock lt-shadow"
                 language={props.lang}
@@ -51,6 +51,6 @@ const CodeRenderer = (props) => {
             </SyntaxHighlighter>
         </RelPositioning>
     );
-};
+});
 
 export default CodeRenderer
