@@ -4,6 +4,7 @@ import OptionsContainer from './Options'
 import Error from './Err'
 import { PostNewPaste } from '../helpers/httpHelper'
 import PasteModal from './modals/PasteModal'
+import { LANGS } from './renderers/Code'
 
 class NewPaste extends React.Component {
     constructor(props) {
@@ -12,6 +13,7 @@ class NewPaste extends React.Component {
             title: '',
             content: '',
             pass: '',
+            language: LANGS.raw,
             expiry: '',
             hash: '',
             error: '',
@@ -73,12 +75,13 @@ class NewPaste extends React.Component {
                     content={this.state.content}
                     maxLength="100000"
                     id="pasteInput" />
-                <input className="lt-button lt-shadow lt-hover" type="submit" value="new paste" />
-                <Error ref={this.ErrorLabel} />
                 <OptionsContainer
                     pass={this.state.pass}
                     expiry={this.state.expiry}
+                    lang={this.state.language}
                     onChange={this.handleChange} />
+                <input className="lt-button lt-shadow lt-hover" type="submit" value="new paste" />
+                <Error ref={this.ErrorLabel} />
             </form>
         );
     }

@@ -24,6 +24,7 @@ export function PostNewPaste(state) {
     var bodyFormData = new FormData();
     bodyFormData.set('title', state.title);
     bodyFormData.set('content', state.content);
+    bodyFormData.set('language', state.language);
     bodyFormData.set('password', state.pass);
     bodyFormData.set('expiry', parseExpiry(state.expiry));
 

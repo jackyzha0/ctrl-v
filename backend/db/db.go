@@ -28,7 +28,7 @@ const TitleLimit = 100
 const ContentLimit = 100000
 
 // creates a new paste with title, content and hash, returns the hash of the created paste
-func New(ip, content, expiry, title, password string) (string, error) {
+func New(ip, content, expiry, title, password, lang string) (string, error) {
 	// generate hash from ip
 	hash := security.GenerateURI(ip)
 
@@ -40,9 +40,10 @@ func New(ip, content, expiry, title, password string) (string, error) {
 
 	// create new struct
 	new := Paste{
-		Hash:    hash,
-		Content: content,
-		Title:   title,
+		Hash:     hash,
+		Content:  content,
+		Title:    title,
+		Language: lang,
 	}
 
 	// if there is a password, encrypt content and hash the password
