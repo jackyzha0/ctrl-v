@@ -11,26 +11,26 @@ export const THEMES = Object.freeze({
 })
 
 export const LANGS = Object.freeze({
-    'go': 'go',
-    'python': 'python',
-    'js': 'javascript',
-    'html': 'html',
-    'css': 'css',
+    'bash': 'bash',
     'c': 'c',
     'c++': 'cpp',
     'c#': 'cs',
-    'ruby': 'ruby',
+    'css': 'css',
     'docker': 'dockerfile',
-    'bash': 'bash',
-    'raw': 'text',
-    'java': 'java',
-    'lisp': 'lisp',
+    'go': 'go',
     'haskell': 'haskell',
-    'scala': 'scala',
-    'markdown': 'markdown',
-    'makefile': 'makefile',
-    'php': 'php',
+    'html': 'html',
+    'java': 'java',
+    'js': 'javascript',
     'latex': 'latex',
+    'lisp': 'lisp',
+    'makefile': 'makefile',
+    'markdown': 'markdown',
+    'php': 'php',
+    'python': 'python',
+    'raw': 'text',
+    'ruby': 'ruby',
+    'scala': 'scala',
     'yaml': 'yaml'
 })
 
@@ -43,15 +43,16 @@ const CodeRenderer = React.forwardRef((props, ref) => {
     }
 
     return (
-        <SyntaxHighlighter
-            className="codeBlock lt-shadow"
-            ref={ref}
-            language={props.lang}
-            style={THEMES[props.theme]}
-            showLineNumbers
-            PreTag={Pre}>
-            {props.content}
-        </SyntaxHighlighter>
+        <div className="lt-shadow codeBlock">
+            <SyntaxHighlighter
+                ref={ref}
+                language={props.lang}
+                style={THEMES[props.theme]}
+                showLineNumbers
+                PreTag={Pre}>
+                {props.content}
+            </SyntaxHighlighter>
+        </div>
     );
 });
 

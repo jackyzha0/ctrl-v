@@ -31,7 +31,6 @@ textarea, input[type=text], input[type=password], .Dropdown-root {
   padding: calc(0.8em - 1px) !important;
   border-radius: 3px;
   border: 1px solid #565656;
-  background: #faf9f5;
   outline: none;
   margin: 1.7em 0;
 }
