@@ -43,15 +43,16 @@ const CodeRenderer = React.forwardRef((props, ref) => {
     }
 
     return (
-        <SyntaxHighlighter
-            className="codeBlock lt-shadow"
-            ref={ref}
-            language={props.lang}
-            style={THEMES[props.theme]}
-            showLineNumbers
-            PreTag={Pre}>
-            {props.content}
-        </SyntaxHighlighter>
+        <div className="lt-shadow codeBlock">
+            <SyntaxHighlighter
+                ref={ref}
+                language={props.lang}
+                style={THEMES[props.theme]}
+                showLineNumbers
+                PreTag={Pre}>
+                {props.content}
+            </SyntaxHighlighter>
+        </div>
     );
 });
 
