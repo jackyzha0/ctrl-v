@@ -71,7 +71,7 @@ const PasteInfo = (props) => {
                     type="button"
                     onClick={() => exportComponentAsJPEG(props.compref, `paste-${props.hash}.png`)}
                 >
-                    save
+                    save png
                 </Button>
                 {renderable()}
                 <ThemeInput
