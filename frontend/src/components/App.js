@@ -11,7 +11,6 @@ import {
   useParams
 } from "react-router-dom";
 import Raw from './renderers/Raw'
-import Dispatch from './renderers/Raw'
 
 const SpacedTitle = styled.div`
     margin-top: 10vh
@@ -39,15 +38,6 @@ const GetRawWithParam = () => {
   );
 }
 
-const RenderWithParam = () => {
-  let { hash } = useParams();
-  console.log(hash)
-
-  return (
-    <Dispatch hash={hash} />
-  );
-}
-
 function App() {
   return (
     <Router>
@@ -68,9 +58,6 @@ function App() {
 
           <main id="appElement">
             <Switch>
-              <Route path="/render/:hash"
-                children={<RenderWithParam />}
-              />
               <Route path="/:hash"
                 children={<GetPasteWithParam />}
               />

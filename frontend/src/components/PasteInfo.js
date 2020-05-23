@@ -37,9 +37,7 @@ const PasteInfo = (props) => {
         history.push(redirUrl);
     }
 
-    const redirRender = () => {
-        const redirUrl = `/render/${props.hash}`
-        history.push(redirUrl);
+    const render = () => {
     }
 
     const renderable = () => {
@@ -48,7 +46,7 @@ const PasteInfo = (props) => {
                 <Button
                     className="lt-shadow lt-hover"
                     type="button"
-                    onClick={redirRender}
+                    onClick={render}
                 >
                     render
                 </Button>

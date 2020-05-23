@@ -7,6 +7,7 @@ import { LANGS, THEMES } from './renderers/Code';
 
 const RelPositioning = styled.div`
     position: relative; 
+    height: calc(100% - 4em);
 `
 
 const FlexChild = styled.div`

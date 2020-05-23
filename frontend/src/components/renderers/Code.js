@@ -36,14 +36,14 @@ export const LANGS = Object.freeze({
 })
 
 const StyledPre = styled.pre`
-  padding: 0 !important;
+  padding: calc(0.8em - 1px) !important;
   margin: 0;
 `
 
 const CodeBlock = styled.div`
   width: 100%;
   font-size: 0.8em;
-  padding: calc(0.8em - 1px) !important;
+  min-height: 1.2em;
   border-radius: 3px;
   border: 1px solid #565656;
   outline: none;
