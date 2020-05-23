@@ -48,6 +48,7 @@ const CodeBlock = styled.div`
   border: 1px solid #565656;
   outline: none;
   margin: 1.7em 0;
+  padding-right: calc(1.6em - 2px);
 `
 
 const CodeRenderer = React.forwardRef((props, ref) => {
