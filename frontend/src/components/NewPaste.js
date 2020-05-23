@@ -31,8 +31,7 @@ const FlexRight = styled.div`
 `
 
 const LatexWrapper = styled.div`
-    margin-top: 2em;
-    margin-bottom: 2em;
+    margin: 2em;
 `
 
 class NewPaste extends React.Component {
