@@ -6,6 +6,7 @@ import PasteInfo from  './PasteInfo';
 import PasswordModal from './modals/PasswordModal'
 import { FetchPaste, FetchPasswordPaste } from '../helpers/httpHelper'
 import { LANGS } from './renderers/Code'
+import RenderDispatch from './renderers/RenderDispatch'
 
 class ViewPaste extends React.Component {
 
@@ -80,10 +81,23 @@ class ViewPaste extends React.Component {
 
     render() {
 
-        // var display
-        // if (this.state.isRenderMode) {
-            
-        // }
+        var display
+        if (this.state.isRenderMode) {
+            display = 
+                <RenderDispatch
+                    language={this.state.language}
+                    content={this.state.content}
+                    ref={this.componentRef}
+                />
+        } else {
+            display = 
+            <CodeRenderer
+                content={this.state.content}
+                lang={this.state.language}
+                theme={this.state.theme}
+                ref={this.componentRef}
+                id="pasteInput" />
+        }
 
         return (
             <div>
@@ -98,12 +112,7 @@ class ViewPaste extends React.Component {
                     value={this.state.title}
                     id="titleInput"
                     readOnly />
-                <CodeRenderer
-                    content={this.state.content}
-                    lang={this.state.language}
-                    theme={this.state.theme}
-                    ref={this.componentRef}
-                    id="pasteInput" />
+                {display}
                 <PasteInfo
                     hash={this.props.hash}
                     lang={this.state.language}
