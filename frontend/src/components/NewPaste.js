@@ -7,6 +7,7 @@ import PasteModal from './modals/PasteModal'
 import { LANGS } from './renderers/Code'
 import styled from 'styled-components'
 import CodeRenderer from './renderers/Code'
+import Latex from './renderers/Latex'
 
 const Button = styled.button`
     margin-right: 0 !important;
@@ -27,6 +28,11 @@ const FlexRight = styled.div`
     flex: 0 0 50%;
     max-width: calc(50% - 1em + 2px);
     margin-left: 2em;
+`
+
+const LatexWrapper = styled.div`
+    margin-top: 2em;
+    margin-bottom: 2em;
 `
 
 class NewPaste extends React.Component {
@@ -103,10 +109,22 @@ class NewPaste extends React.Component {
             maxLength="100000"
             id="pasteInput" />
 
-        const preview = <CodeRenderer
-            lang={this.state.language}
-            theme='atom'
-            content={this.state.content} />
+        var preview
+        switch (this.state.language) {
+            case 'latex':
+                preview = 
+                    <LatexWrapper>
+                        <Latex
+                            content={this.state.content} />
+                    </LatexWrapper>
+                break
+            default:
+                preview = 
+                    <CodeRenderer
+                        lang={this.state.language}
+                        theme='atom'
+                        content={this.state.content} />
+        }
 
         if (this.state.preview) {
             return (
