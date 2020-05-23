@@ -6,6 +6,7 @@ import PasteInfo from  './PasteInfo';
 import PasswordModal from './modals/PasswordModal'
 import { FetchPaste, FetchPasswordPaste } from '../helpers/httpHelper'
 import { LANGS } from './renderers/Code'
+import RenderDispatch from './renderers/RenderDispatch'
 
 class ViewPaste extends React.Component {
 
@@ -21,11 +22,13 @@ class ViewPaste extends React.Component {
             error: '',
             passError: '',
             theme: 'atom',
+            inRenderMode: false,
             language: LANGS.raw,
         };
 
         this.handleChange = this.handleChange.bind(this);
         this.typedPass = this.typedPass.bind(this);
+        this.toggleRender = this.toggleRender.bind(this);
         this.validatePass = this.validatePass.bind(this);
         this.ErrorLabel = React.createRef();
         this.PasswordModal = React.createRef();
@@ -43,6 +46,10 @@ class ViewPaste extends React.Component {
 
     typedPass(event) {
         this.setState({ enteredPass: event.target.value });
+    }
+
+    toggleRender() {
+        this.setState({ isRenderMode: !this.state.isRenderMode });
     }
 
     validatePass(pass) {
@@ -73,6 +80,25 @@ class ViewPaste extends React.Component {
     }
 
     render() {
+
+        var display
+        if (this.state.isRenderMode) {
+            display = 
+                <RenderDispatch
+                    language={this.state.language}
+                    content={this.state.content}
+                    ref={this.componentRef}
+                />
+        } else {
+            display = 
+            <CodeRenderer
+                content={this.state.content}
+                lang={this.state.language}
+                theme={this.state.theme}
+                ref={this.componentRef}
+                id="pasteInput" />
+        }
+
         return (
             <div>
                 <PasswordModal
@@ -86,20 +112,18 @@ class ViewPaste extends React.Component {
                     value={this.state.title}
                     id="titleInput"
                     readOnly />
-                <CodeRenderer
-                    content={this.state.content}
-                    lang={this.state.language}
-                    theme={this.state.theme}
-                    ref={this.componentRef}
-                    id="pasteInput" />
+                {display}
                 <PasteInfo
                     hash={this.props.hash}
                     lang={this.state.language}
                     theme={this.state.theme}
+                    expiry={this.state.expiry}
+                    toggleRenderCallback={this.toggleRender}
+                    isRenderMode={this.state.isRenderMode}
                     onChange={this.handleChange}
                     compref={this.componentRef}
                     err={<Error ref={this.ErrorLabel} />}
-                    expiry={this.state.expiry} />
+                />
             </div>
         );
     }

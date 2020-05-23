@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components'
 import { useHistory } from 'react-router-dom';
 import { ThemeInput } from './Inputs'
-import { exportComponentAsJPEG } from "react-component-export-image";
+import { exportComponentAsPNG } from "react-component-export-image";
 
 const Bold = styled.span`
     font-weight: 700
@@ -37,18 +37,15 @@ const PasteInfo = (props) => {
         history.push(redirUrl);
     }
 
-    const render = () => {
-    }
-
     const renderable = () => {
+        const buttonTxt = props.isRenderMode ? 'text' : 'render'
         if (props.lang === 'latex') {
             return (
                 <Button
                     className="lt-shadow lt-hover"
                     type="button"
-                    onClick={render}
-                >
-                    render
+                    onClick={props.toggleRenderCallback}>
+                    {buttonTxt}
                 </Button>
             );
         }
@@ -60,15 +57,13 @@ const PasteInfo = (props) => {
                 <Button
                     className="lt-shadow lt-hover"
                     type="button"
-                    onClick={redirRaw}
-                >
+                    onClick={redirRaw}>
                     view raw
                 </Button>
                 <Button
                     className="lt-shadow lt-hover"
                     type="button"
-                    onClick={() => exportComponentAsJPEG(props.compref, `paste-${props.hash}.png`)}
-                >
+                    onClick={() => exportComponentAsPNG(props.compref, `paste-${props.hash}.png`)}>
                     save png
                 </Button>
                 {renderable()}

@@ -36,19 +36,20 @@ export const LANGS = Object.freeze({
 })
 
 const StyledPre = styled.pre`
-  padding: calc(0.8em - 1px) !important;
-  margin: 0;
-`
-
-const CodeBlock = styled.div`
   width: 100%;
   font-size: 0.8em;
   min-height: 1.2em;
-  border-radius: 3px;
-  border: 1px solid #565656;
+  border-radius: 3px !important;
+  border: 1px solid #565656 !important;
+  padding: calc(0.8em - 1px) !important;
   outline: none;
   margin: 1.7em 0;
-  padding-right: calc(1.6em - 2px);
+
+  & code:first-child {
+    margin-right: 10px !important;
+    border-radius: 0 !important;
+    border-right: 1px solid #11111155 !important;
+  }
 `
 
 const CodeRenderer = React.forwardRef((props, ref) => {
@@ -60,7 +61,7 @@ const CodeRenderer = React.forwardRef((props, ref) => {
     }
 
     return (
-        <CodeBlock className="lt-shadow">
+        <div className="lt-shadow">
             <SyntaxHighlighter
                 ref={ref}
                 language={props.lang}
@@ -69,7 +70,7 @@ const CodeRenderer = React.forwardRef((props, ref) => {
                 PreTag={Pre}>
                 {props.content}
             </SyntaxHighlighter>
-        </CodeBlock>
+        </div>
     );
 });
 

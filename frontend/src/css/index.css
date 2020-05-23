@@ -25,10 +25,8 @@ textarea, input[type=text], input[type=password], .Dropdown-root {
   margin: 1.7em 0;
 }
 
-.codeBlock code:first-child {
-  margin-right: 10px;
-  border-radius: 0;
-  border-right: 1px solid #11111155;
+.large-op {
+  transform: translateY(-0.6em);
 }
 
 code, pre {
