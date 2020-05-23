@@ -25,16 +25,6 @@ textarea, input[type=text], input[type=password], .Dropdown-root {
   margin: 1.7em 0;
 }
 
-.codeBlock {
-  width: 100%;
-  font-size: 0.8em;
-  padding: calc(0.8em - 1px) !important;
-  border-radius: 3px;
-  border: 1px solid #565656;
-  outline: none;
-  margin: 1.7em 0;
-}
-
 .codeBlock code:first-child {
   margin-right: 10px;
   border-radius: 0;
@@ -101,9 +91,9 @@ input[type=password] {
 }
 
 textarea {
-  height: 45vh;
+  height: max(45vh, 100%);
   resize: vertical;
-  min-height: 2em;
+  min-height: 45vh;
 }
 
 a {

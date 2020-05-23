@@ -1,6 +1,7 @@
 import React from 'react';
 import { Light as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { atomOneLight, ascetic, atomOneDark, dracula, ocean } from 'react-syntax-highlighter/dist/esm/styles/hljs';
+import styled from 'styled-components'
 
 export const THEMES = Object.freeze({
     'atom': atomOneLight,
@@ -34,16 +35,32 @@ export const LANGS = Object.freeze({
     'yaml': 'yaml'
 })
 
+const StyledPre = styled.pre`
+  padding: calc(0.8em - 1px) !important;
+  margin: 0;
+`
+
+const CodeBlock = styled.div`
+  width: 100%;
+  font-size: 0.8em;
+  min-height: 1.2em;
+  border-radius: 3px;
+  border: 1px solid #565656;
+  outline: none;
+  margin: 1.7em 0;
+  padding-right: calc(1.6em - 2px);
+`
+
 const CodeRenderer = React.forwardRef((props, ref) => {
 
     const Pre = (props) => {
         return (
-            <pre {...props} ref={ref} />
+            <StyledPre {...props} ref={ref} />
         );
     }
 
     return (
-        <div className="lt-shadow codeBlock">
+        <CodeBlock className="lt-shadow">
             <SyntaxHighlighter
                 ref={ref}
                 language={props.lang}
@@ -52,7 +69,7 @@ const CodeRenderer = React.forwardRef((props, ref) => {
                 PreTag={Pre}>
                 {props.content}
             </SyntaxHighlighter>
-        </div>
+        </CodeBlock>
     );
 });
 

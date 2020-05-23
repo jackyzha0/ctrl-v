@@ -22,7 +22,8 @@ const PasteModal = (props) => {
     const clipboard = useClipboard({ copiedTimeout: 3000 });
     Modal.setAppElement('body');
 
-    const redir = () => {
+    const redir = (e) => {
+        e.preventDefault();
         const redirUrl = `/${props.hash}`
         history.push(redirUrl);
     }

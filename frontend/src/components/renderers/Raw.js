@@ -1,5 +1,14 @@
 import React from 'react';
+import styled from 'styled-components'
 import { FetchPaste } from '../../helpers/httpHelper'
+
+const RawText = styled.pre`
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    line-height: initial;
+    font-size: 0.8em;
+    padding: 0 1em;
+`
 
 class Raw extends React.Component {
 
@@ -11,18 +20,10 @@ class Raw extends React.Component {
     }
 
     render() {
-        const styles = {
-            wordWrap: "break-word",
-            whiteSpace: "pre-wrap",
-            lineHeight: "initial", 
-            fontSize: "0.8em",
-            padding: "0 1em"
-        }
-
         return (
-            <pre style={styles}>
+            <RawText>
                 {this.state.content}
-            </pre>
+            </RawText>
         );
     }
 
