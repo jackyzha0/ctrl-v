@@ -43,22 +43,26 @@ class NewPaste extends React.Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        PostNewPaste(this.state)
-            .then((response) => {
-                // on success, redir
-                this.setState({ hash: response.data.hash })
-            }).catch((error) => {
-                const resp = error.response
 
-                // some weird err
-                if (resp !== undefined) {
-                    const errTxt = `${resp.statusText}: ${resp.data}`
-                    this.ErrorLabel.current.showMessage(errTxt)
-                } else {
-                    // some weird err (e.g. network)
-                    this.ErrorLabel.current.showMessage(error)
-                }
-            });
+        // prevent resubmission
+        if (!this.state.hash) {
+            PostNewPaste(this.state)
+                .then((response) => {
+                    // on success, redir
+                    this.setState({ hash: response.data.hash })
+                }).catch((error) => {
+                    const resp = error.response
+    
+                    // some weird err
+                    if (resp !== undefined) {
+                        const errTxt = `${resp.statusText}: ${resp.data}`
+                        this.ErrorLabel.current.showMessage(errTxt)
+                    } else {
+                        // some weird err (e.g. network)
+                        this.ErrorLabel.current.showMessage(error)
+                    }
+                });
+        }
     }
 
     render() {
