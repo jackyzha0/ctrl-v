@@ -5,7 +5,7 @@ import styled from 'styled-components'
 
 const StyledInlineLatex = styled.div`
     display: block;
-    margin-bottom: 0.5em;
+    margin-bottom: 1em;
 `
 
 class Latex extends React.Component {
