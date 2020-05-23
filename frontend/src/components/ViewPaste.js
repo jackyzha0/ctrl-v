@@ -21,11 +21,13 @@ class ViewPaste extends React.Component {
             error: '',
             passError: '',
             theme: 'atom',
+            inRenderMode: false,
             language: LANGS.raw,
         };
 
         this.handleChange = this.handleChange.bind(this);
         this.typedPass = this.typedPass.bind(this);
+        this.toggleRender = this.toggleRender.bind(this);
         this.validatePass = this.validatePass.bind(this);
         this.ErrorLabel = React.createRef();
         this.PasswordModal = React.createRef();
@@ -43,6 +45,10 @@ class ViewPaste extends React.Component {
 
     typedPass(event) {
         this.setState({ enteredPass: event.target.value });
+    }
+
+    toggleRender() {
+        this.setState({ isRenderMode: !this.state.isRenderMode });
     }
 
     validatePass(pass) {
@@ -73,6 +79,12 @@ class ViewPaste extends React.Component {
     }
 
     render() {
+
+        // var display
+        // if (this.state.isRenderMode) {
+            
+        // }
+
         return (
             <div>
                 <PasswordModal
@@ -96,10 +108,13 @@ class ViewPaste extends React.Component {
                     hash={this.props.hash}
                     lang={this.state.language}
                     theme={this.state.theme}
+                    expiry={this.state.expiry}
+                    toggleRenderCallback={this.toggleRender}
+                    isRenderMode={this.state.isRenderMode}
                     onChange={this.handleChange}
                     compref={this.componentRef}
                     err={<Error ref={this.ErrorLabel} />}
-                    expiry={this.state.expiry} />
+                />
             </div>
         );
     }

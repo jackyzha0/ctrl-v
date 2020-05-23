@@ -37,18 +37,15 @@ const PasteInfo = (props) => {
         history.push(redirUrl);
     }
 
-    const render = () => {
-    }
-
     const renderable = () => {
+        const buttonTxt = props.isRenderMode ? 'text' : 'render'
         if (props.lang === 'latex') {
             return (
                 <Button
                     className="lt-shadow lt-hover"
                     type="button"
-                    onClick={render}
-                >
-                    render
+                    onClick={props.toggleRenderCallback}>
+                    {buttonTxt}
                 </Button>
             );
         }
@@ -60,15 +57,13 @@ const PasteInfo = (props) => {
                 <Button
                     className="lt-shadow lt-hover"
                     type="button"
-                    onClick={redirRaw}
-                >
+                    onClick={redirRaw}>
                     view raw
                 </Button>
                 <Button
                     className="lt-shadow lt-hover"
                     type="button"
-                    onClick={() => exportComponentAsJPEG(props.compref, `paste-${props.hash}.png`)}
-                >
+                    onClick={() => exportComponentAsJPEG(props.compref, `paste-${props.hash}.png`)}>
                     save png
                 </Button>
                 {renderable()}
