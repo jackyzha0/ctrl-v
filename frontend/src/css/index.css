@@ -25,6 +25,10 @@ textarea, input[type=text], input[type=password], .Dropdown-root {
   margin: 1.7em 0;
 }
 
+.large-op {
+  transform: translateY(-0.6em);
+}
+
 code, pre {
   background: #00000000;
   font-family: 'Roboto Mono', monospace;
