@@ -25,8 +25,13 @@ textarea, input[type=text], input[type=password], .Dropdown-root {
   margin: 1.7em 0;
 }
 
+/* fix weird symbol height in render mode */
 .large-op {
-  transform: translateY(-0.6em);
+  transform: translateY(-0.55em);
+}
+
+.small-op {
+  transform: translateY(-0.1em);
 }
 
 code, pre {

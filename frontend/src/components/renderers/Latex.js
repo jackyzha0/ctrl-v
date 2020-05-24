@@ -10,8 +10,17 @@ const StyledInlineLatex = styled.div`
 
 class Latex extends React.Component {
     render() {
-        // split by line break chars (\\, \newline, \break)
-        const els = this.props.content.split(/\\\\|\\newline|\\break/)
+        // split by \begin{...} and \end{...} flags
+        const els = this.props.content.split(/(\\begin\{.*\}[\s\S]*?\\end\{.*\})/gm).map(line => {
+            // line doesnt start with \begin{...}, safe to split on \\
+            if (!line.match(/^(\\begin\{.*\})/)) {
+                return line.split("\\\\")
+            } else {
+                return line
+            }
+        }).flat()
+
+        console.log(els)
 
         // if <=1 lines, just render block
         if (els.length <= 1) {
@@ -22,7 +31,7 @@ class Latex extends React.Component {
             );
         } else {
             // new inline block for every line
-            const blocks = els.map(line => 
+            const blocks = els.map(line =>
                 <StyledInlineLatex>
                     <InlineMath>
                         {line}
