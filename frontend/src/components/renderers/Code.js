@@ -1,5 +1,5 @@
 import React from 'react';
-import { Light as SyntaxHighlighter } from 'react-syntax-highlighter';
+import SyntaxHighlighter from 'react-syntax-highlighter';
 import { atomOneLight, ascetic, atomOneDark, dracula, ocean } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import styled from 'styled-components'
 
@@ -23,6 +23,7 @@ export const LANGS = Object.freeze({
     'html': 'html',
     'java': 'java',
     'js': 'javascript',
+    'jsx': 'jsx',
     'latex': 'latex',
     'lisp': 'lisp',
     'makefile': 'makefile',
@@ -64,7 +65,7 @@ const CodeRenderer = React.forwardRef((props, ref) => {
         <div className="lt-shadow">
             <SyntaxHighlighter
                 ref={ref}
-                language={props.lang}
+                language={LANGS[props.lang]}
                 style={THEMES[props.theme]}
                 showLineNumbers
                 PreTag={Pre}>
