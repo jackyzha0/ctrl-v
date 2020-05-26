@@ -8,6 +8,8 @@ Frontend is in React and backend is in Go.
 ![View Paste (different theme)](https://user-images.githubusercontent.com/23178940/82101261-ea7a6b00-96c0-11ea-9cf1-9b81883ab9f5.png)
 
 ## developing
+when doing local backend development, make sure you change the backend address to be localhost. You can find this on Line 4 of `frontend/src/helpers/httpHelper.js`
+
 #### Common
 `make all` &mdash; starts React development server on `:3000` and backend on `:8080`
 
@@ -15,6 +17,8 @@ Frontend is in React and backend is in Go.
 `make fe-run` &mdash; starts React development server on `:3000`
 
 `make fe-build` &mdash; builds development release of frontend in `frontend/build`
+
+`make firebase` &mdash; deploys dev release of frontend to Firebase. Live at `ctrl-v.app`
 
 #### Backend
 `make run` &mdash; starts backend on `:8080`
@@ -28,3 +32,5 @@ Frontend is in React and backend is in Go.
 `make docker-all` &mdash; builds and runs built Docker image on `:8080`
 
 `make docker-push` &mdash; pushes build Docker image to Dockerhub
+
+`make gcr` &mdash; tags and pushes iamge to Google Container Registry for Cloud Run. Changes are live on `api.ctrl-v.app`

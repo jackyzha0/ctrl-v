@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-const base = `http://localhost:8080/api`
+// uncomment for local dev
+// const base = `http://localhost:8080/api`
+const base = `https://api.ctrl-v.app/api`
 
 export function FetchPaste(hash) {
     const serverURL = `${base}/${hash}`
