@@ -18,7 +18,7 @@ const modalStyles = {
 
 const PasteModal = (props) => {
     const history = useHistory();
-    const fullURL = `https://ctrl-v.app${props.hash}`;
+    const fullURL = `${window.location.origin}${props.hash}`;
     const clipboard = useClipboard({ copiedTimeout: 3000 });
     Modal.setAppElement('body');
 
