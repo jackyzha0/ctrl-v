@@ -11,7 +11,9 @@ Frontend is in React and backend is in Go.
 when doing local backend development, make sure you change the backend address to be localhost. You can find this on Line 4 of `frontend/src/helpers/httpHelper.js`
 
 #### Common
-`make all` &mdash; starts React development server on `:3000` and backend on `:8080`
+`make dev` &mdash; starts React development server on `:3000` and backend on `:8080`
+
+`make deploy` &mdash; deploys both frontend and backend
 
 #### Frontend
 `make fe-run` &mdash; starts React development server on `:3000`
