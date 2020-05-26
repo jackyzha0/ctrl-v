@@ -18,7 +18,7 @@ const modalStyles = {
 
 const PasteModal = (props) => {
     const history = useHistory();
-    const fullURL = `${window.location.href}${props.hash}`;
+    const fullURL = `${window.location.origin}/${props.hash}`;
     const clipboard = useClipboard({ copiedTimeout: 3000 });
     Modal.setAppElement('body');
 
