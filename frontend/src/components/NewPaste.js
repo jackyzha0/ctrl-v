@@ -91,7 +91,7 @@ class NewPaste extends React.Component {
     
                     // some weird err
                     if (resp !== undefined) {
-                        const errTxt = `${resp.statusText}: ${resp.data}`
+                        const errTxt = `${resp.status}: ${resp.data}`
                         this.ErrorLabel.current.showMessage(errTxt)
                     } else {
                         // some weird err (e.g. network)
@@ -165,6 +165,7 @@ class NewPaste extends React.Component {
                     onClick={this.togglePreview} >
                     preview
                 </Button>
+                <br />
                 <Error ref={this.ErrorLabel} />
             </form>
         );

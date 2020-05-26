@@ -4,7 +4,6 @@ import styled, { css } from 'styled-components'
 const ErrMsg = styled.p`
     display: inline;
     font-weight: 700;
-    margin-left: 2em;
     color: #ff3333;
     opacity: 0;
     transition: opacity 0.3s cubic-bezier(.25,.8,.25,1);
@@ -23,7 +22,7 @@ class Error extends React.Component {
 
         this.state = {
             active: false,
-            msg: '',
+            msg: '&nbsp;',
         };
 
         this.showMessage = this.showMessage.bind(this);
