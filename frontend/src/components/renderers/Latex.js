@@ -20,8 +20,6 @@ class Latex extends React.Component {
             }
         }).flat()
 
-        console.log(els)
-
         // if <=1 lines, just render block
         if (els.length <= 1) {
             return (
