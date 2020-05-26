@@ -6,7 +6,6 @@ const base = `https://api.ctrl-v.app/api`
 
 export function FetchPaste(hash) {
     const serverURL = `${base}/${hash}`
-    console.log(serverURL)
     return axios.get(serverURL)
 }
 

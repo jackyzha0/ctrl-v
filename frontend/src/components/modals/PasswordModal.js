@@ -1,7 +1,7 @@
 import React from 'react';
 import Modal from 'react-modal';
 import { PassInput } from '../Inputs'
-import { RightPad, LeftPad, ModalHeader } from './shared'
+import { RightPad, LeftPad, ModalHeader, Padding } from './shared'
 import Error from '../Err';
 
 const modalStyles = {
@@ -51,6 +51,7 @@ class PasswordModal extends React.Component {
                     </RightPad>
                     <LeftPad>
                         <input className="lt-button lt-shadow lt-hover" type="submit" value="continue" />
+                        <Padding />
                         <Error ref={this.ErrorLabel} />
                     </LeftPad>
                 </form>

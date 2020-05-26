@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components'
 
 const SpacedFooter = styled.div`
-    margin: 1em 0;
+    margin: 2em 0;
 `
 
 const Link = (props) => {

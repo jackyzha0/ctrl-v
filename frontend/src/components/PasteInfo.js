@@ -79,10 +79,9 @@ const PasteInfo = (props) => {
                 <SpacedText>
                     <Bold>expires:&nbsp;</Bold>{props.expiry}
                 </SpacedText>
-                <SpacedText>
-                    {props.err}
-                </SpacedText>
             </StyledDiv>
+            <br />
+            {props.err}
         </div>
     );
 }

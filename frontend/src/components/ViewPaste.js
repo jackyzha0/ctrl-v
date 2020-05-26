@@ -70,7 +70,7 @@ class ViewPaste extends React.Component {
 
                 // otherwise, just log it lmao
                 if (resp !== undefined) {
-                    const errTxt = `${resp.statusText}: ${resp.data}`
+                    const errTxt = `${resp.status}: ${resp.data}`
                     this.ErrorLabel.current.showMessage(errTxt)
                 } else {
                     // some weird err (e.g. network)
@@ -166,7 +166,7 @@ class ViewPaste extends React.Component {
 
                 // some weird err
                 if (resp !== undefined) {
-                    const errTxt = `${resp.statusText}: ${resp.data}`
+                    const errTxt = `${resp.status}: ${resp.data}`
                     this.ErrorLabel.current.showMessage(errTxt, -1)
                     return
                 }
