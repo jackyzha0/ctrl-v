@@ -43,6 +43,31 @@ class TitleInput extends React.Component {
 }
 
 class PasteInput extends React.Component {
+
+    constructor(props) {
+        super(props)
+
+        this.textArea = React.createRef()
+        this.handleKeyDown = this.handleKeyDown.bind(this)
+    }
+
+    handleKeyDown(e) {
+        if (e.keyCode === 9) { // tab was pressed
+
+            // prevent autofocus on next intput
+            e.preventDefault();
+
+            // get selection start and end
+            const start = e.target.selectionStart
+            const end = e.target.selectionEnd
+
+            this.props.insertTabCallback(start, end)
+
+            // set cursor position to be at start
+            e.target.selectionEnd = end + 4;
+        }
+    }
+
     render() {
         return (
             <RelPositioning>
@@ -58,6 +83,7 @@ class PasteInput extends React.Component {
                     id={this.props.id}
                     required
                     onChange={this.props.onChange}
+                    onKeyDown={this.handleKeyDown}
                     className="lt-shadow" />
                 <CharLimit
                     content={this.props.content}

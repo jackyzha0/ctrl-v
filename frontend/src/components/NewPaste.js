@@ -52,6 +52,7 @@ class NewPaste extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.togglePreview = this.togglePreview.bind(this);
         this.renderPreview = this.renderPreview.bind(this);
+        this.insertTab = this.insertTab.bind(this);
         this.ErrorLabel = React.createRef();
     }
 
@@ -101,9 +102,17 @@ class NewPaste extends React.Component {
         }
     }
 
+    insertTab(start, end) {
+        const oldContent = this.state.content
+        this.setState({
+            content: oldContent.substring(0, start) + '    ' + oldContent.substring(end)
+        })
+    }
+
     renderPreview() {
         const pasteInput = <PasteInput
             onChange={this.handleChange}
+            insertTabCallback={this.insertTab}
             content={this.state.content}
             maxLength="100000"
             id="pasteInput" />
