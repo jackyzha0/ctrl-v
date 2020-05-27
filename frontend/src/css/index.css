@@ -4,12 +4,6 @@
   }
 }
 
-@media all and (max-width: 850px) {
-  .lt-content-column {
-    padding: 0 calc(5vw + 1em) 0 5vw !important; 
-  }
-}
-
 body {
   margin: 0;
   padding: 0;
