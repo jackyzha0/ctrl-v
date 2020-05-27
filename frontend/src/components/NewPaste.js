@@ -21,7 +21,7 @@ const Flex = styled.div`
 `
 
 const FlexLeft = styled.div`
-    flex: 0 0 50%;
+    flex: 0 0 calc(50% - 1em - 2px);
 `
 
 const FlexRight = styled.div`
