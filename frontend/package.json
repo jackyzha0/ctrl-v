@@ -9,6 +9,7 @@
     "axios": "^0.19.2",
     "d3-scale": "^3.2.1",
     "file-saver": "^2.0.2",
+    "marked": "^1.1.0",
     "rc-slider": "^9.2.4",
     "react": "^16.13.1",
     "react-component-export-image": "^0.1.4",

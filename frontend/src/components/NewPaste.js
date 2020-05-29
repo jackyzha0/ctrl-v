@@ -8,6 +8,7 @@ import { LANGS } from './renderers/Code'
 import styled from 'styled-components'
 import CodeRenderer from './renderers/Code'
 import Latex from './renderers/Latex'
+import Markdown from './renderers/Markdown'
 
 const Button = styled.button`
     margin-right: 0 !important;
@@ -30,7 +31,7 @@ const FlexRight = styled.div`
     margin-left: 2em;
 `
 
-const LatexWrapper = styled.div`
+const PreviewWrapper = styled.div`
     margin: 2em;
 `
 
@@ -121,10 +122,17 @@ class NewPaste extends React.Component {
         switch (this.state.language) {
             case 'latex':
                 preview = 
-                    <LatexWrapper>
+                    <PreviewWrapper>
                         <Latex
                             content={this.state.content} />
-                    </LatexWrapper>
+                    </PreviewWrapper>
+                break
+            case 'markdown':
+                preview = 
+                    <PreviewWrapper>
+                        <Markdown
+                            content={this.state.content} />
+                    </PreviewWrapper>
                 break
             default:
                 preview = 
