@@ -9,7 +9,6 @@ const RenderWrapper = styled.div`
 `
 
 const RenderDispatch = React.forwardRef((props, ref) => {
-    console.log(props)
     switch (props.language) {
         case 'latex':
             return (
@@ -22,7 +21,6 @@ const RenderDispatch = React.forwardRef((props, ref) => {
                     <Markdown content={props.content} />
                 </RenderWrapper>)
         default:
-            console.log('nooo')
             return (
                 <CodeRenderer
                     content={props.content}
