@@ -11,11 +11,6 @@ body {
   font-family: 'Lora', serif;
 }
 
-h1 {
-  font-size: 50px;
-  margin: 0 0;
-}
-
 form {
   width: 100%;
 }
@@ -132,17 +127,9 @@ button[type=button] {
   margin: 2em 2em;
 }
 
-ul {
-  list-style-type: none;
-  display: inline-block;
-}
-
-li {
-  display: inline-block;
-  margin: 0 1em;
-}
-
 .mainLogo {
+  font-size: 50px;
+  margin: 0 0;
   display: inline-block;
 }
 
@@ -164,5 +151,34 @@ li {
 }
 
 .mainLogo:hover a::after {
+  width: 100%;
+}
+
+/* fixing markdown renderer */
+.md h3 {
+  font-weight: bold;
+}
+
+.md hr {
+  border-top: 1px solid #000;
+  border-style: solid;
+}
+
+.md code {
+  background: #00000008;
+  font-size: 0.8em;
+  padding: 0.2em 0.5em;
+}
+
+.md pre {
+  padding: 0.7em;
+  background: #00000008;
+}
+
+.md pre > code {
+  background: none;
+}
+
+.md table {
   width: 100%;
 }

@@ -5,7 +5,7 @@ import Markdown from './Markdown'
 import CodeRenderer from './Code'
 
 const RenderWrapper = styled.div`
-    padding: 2em;
+    padding: 1em;
 `
 
 const RenderDispatch = React.forwardRef((props, ref) => {
@@ -17,7 +17,7 @@ const RenderDispatch = React.forwardRef((props, ref) => {
                 </RenderWrapper>)
         case 'markdown':
             return (
-                <RenderWrapper>
+                <RenderWrapper ref={ref} className="md" >
                     <Markdown content={props.content} />
                 </RenderWrapper>)
         default:
