@@ -9,14 +9,10 @@ const Content = styled.div`
         max-width: 100%;
     }
 `
-
-const getHtml = (markdown) => {
-    const rawMarkup = marked(markdown)
-    return {__html: rawMarkup}
-}
-
 const Markdown = (props) => {
-    const dangerousHtml = getHtml(props.content)
+    const dangerousHtml = {
+        __html: marked(props.content)
+    }
     return <Content dangerouslySetInnerHTML={dangerousHtml} />;
 }
 
