@@ -39,7 +39,7 @@ const PasteInfo = (props) => {
 
     const renderable = () => {
         const buttonTxt = props.isRenderMode ? 'text' : 'render'
-        if (props.lang === 'latex') {
+        if (props.lang === 'latex' || props.lang === 'markdown') {
             return (
                 <Button
                     className="lt-shadow lt-hover"

@@ -31,7 +31,7 @@ const FlexRight = styled.div`
     margin-left: 2em;
 `
 
-const LatexWrapper = styled.div`
+const PreviewWrapper = styled.div`
     margin: 2em;
 `
 
@@ -122,17 +122,17 @@ class NewPaste extends React.Component {
         switch (this.state.language) {
             case 'latex':
                 preview = 
-                    <LatexWrapper>
+                    <PreviewWrapper>
                         <Latex
                             content={this.state.content} />
-                    </LatexWrapper>
+                    </PreviewWrapper>
                 break
             case 'markdown':
                 preview = 
-                    <LatexWrapper>
+                    <PreviewWrapper>
                         <Markdown
                             content={this.state.content} />
-                    </LatexWrapper>
+                    </PreviewWrapper>
                 break
             default:
                 preview = 
