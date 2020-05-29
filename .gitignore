@@ -6,7 +6,6 @@ go.sum
 frontend/node_modules
 frontend/build
 frontend/.pnp
-frontend/yarn.lock
 .pnp.js
 
 npm-debug.log*

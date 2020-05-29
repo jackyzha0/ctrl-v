@@ -3,9 +3,10 @@
 
 Frontend is in React and backend is in Go.
 
-![New Paste](https://user-images.githubusercontent.com/23178940/82101247-e4848a00-96c0-11ea-99c3-a2cd301c52bb.png)
-![View Paste](https://user-images.githubusercontent.com/23178940/82101258-e9493e00-96c0-11ea-98ec-595f5f6f8b1d.png)
-![View Paste (different theme)](https://user-images.githubusercontent.com/23178940/82101261-ea7a6b00-96c0-11ea-9cf1-9b81883ab9f5.png)
+![Go Paste Example](https://user-images.githubusercontent.com/23178940/83225601-06f0bb80-a135-11ea-9af2-9f2946459fe7.png)
+![Markdown Rendering](https://user-images.githubusercontent.com/23178940/83225605-0821e880-a135-11ea-9efd-e7242ebde265.png)
+![Showing off another theme!](https://user-images.githubusercontent.com/23178940/83225610-0a844280-a135-11ea-8c7c-4a0ecb13f379.png)
+![Latex Rendering](https://user-images.githubusercontent.com/23178940/83225613-0c4e0600-a135-11ea-9f27-e5653cf9f343.png)
 
 ## developing
 when doing local backend development, make sure you change the backend address to be localhost. You can find this on Line 4 of `frontend/src/helpers/httpHelper.js`
