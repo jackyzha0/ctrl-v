@@ -12,7 +12,6 @@ const Content = styled.div`
 
 const getHtml = (markdown) => {
     const rawMarkup = marked(markdown)
-    console.log(rawMarkup)
     return {__html: rawMarkup}
 }
 
