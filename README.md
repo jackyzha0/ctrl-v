@@ -21,7 +21,7 @@ when doing local backend development, make sure you change the backend address t
 
 `make fe-build` &mdash; builds development release of frontend in `frontend/build`
 
-`make firebase` &mdash; deploys dev release of frontend to Firebase. Live at `ctrl-v.app`
+`make fe-deploy` &mdash; deploys dev release of frontend to Firebase. Live at `ctrl-v.app`
 
 #### Backend
 `make run` &mdash; starts backend on `:8080`
@@ -31,8 +31,6 @@ when doing local backend development, make sure you change the backend address t
 `make docker-build` &mdash; builds Docker image of current backend
 
 `make docker-run` &mdash; runs built Docker image on `:8080`
-
-`make docker-all` &mdash; builds and runs built Docker image on `:8080`
 
 `make docker-push` &mdash; pushes build Docker image to Dockerhub
 
