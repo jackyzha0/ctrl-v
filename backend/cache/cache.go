@@ -2,8 +2,10 @@ package cache
 
 import (
 	"errors"
-	"github.com/jackyzha0/ctrl-v/security"
 	"sync"
+	"time"
+
+	"github.com/jackyzha0/ctrl-v/security"
 
 	"github.com/jackyzha0/ctrl-v/db"
 )
@@ -43,6 +45,12 @@ func (c *Cache) Get(hash, userPassword string) (db.Paste, error) {
 		c.add(p)
 	}
 
+	// check if expired
+	if time.Now().After(p.Expiry) {
+		c.evict(p)
+		return db.Paste{}, PasteNotFound
+	}
+
 	// if there is a password, check the provided one against it
 	if p.Password != "" {
 		// if passwords do not match, the user is unauthorized
@@ -72,4 +80,11 @@ func (c *Cache) add(p db.Paste) {
 	defer c.lock.Unlock()
 
 	c.m[p.Hash] = p
+}
+
+func (c *Cache) evict(p db.Paste) {
+	c.lock.Lock()
+	defer c.lock.Unlock()
+
+	delete(c.m, p.Hash)
 }
