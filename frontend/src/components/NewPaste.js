@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { TitleInput, PasteInput } from './Inputs'
 import OptionsContainer from './Options'
 import Error from './Err'
@@ -35,114 +35,85 @@ const PreviewWrapper = styled.div`
     margin: 2em;
 `
 
-class NewPaste extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = { 
-            title: '',
-            content: '',
-            pass: '',
-            language: LANGS.raw,
-            expiry: '',
-            hash: '',
-            error: '',
-            preview: false,
-        };
+const NewPaste = () =>  {
+    const [title, setTitle] = useState('');
+    const [content, setContent] = useState('');
+    const [pass, setPass] = useState('');
+    const [language, setLanguage] = useState(LANGS.raw);
+    const [expiry, setExpiry] = useState('');
+    const [hash, setHash] = useState('');
+    const [isPreview, setIsPreview] = useState(false);
+    const ErrorLabel = useRef(null);
 
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.togglePreview = this.togglePreview.bind(this);
-        this.renderPreview = this.renderPreview.bind(this);
-        this.insertTab = this.insertTab.bind(this);
-        this.ErrorLabel = React.createRef();
-    }
-
-    componentDidUpdate() {
-        if (this.state.title === "") {
+    useEffect(() => {
+        if (title === "") {
             document.title = `ctrl-v`;
         } else {
-            document.title = `ctrl-v | ${this.state.title}`;
+            document.title = `ctrl-v | ${title}`;
         }
-    }
+    }, [title])
 
-    handleChange(event) {
-        const target = event.target;
-        const name = target.name;
-
-        this.setState({
-            [name]: target.value
-        });
-    }
-
-    togglePreview() {
-        const state = this.state.preview
-        this.setState({ preview: !state })
-    }
-
-    handleSubmit(event) {
-        event.preventDefault();
+    function handleSubmit(e) {
+        e.preventDefault();
 
         // prevent resubmission
-        if (!this.state.hash) {
-            PostNewPaste(this.state)
+        if (!hash) {
+            PostNewPaste(title, content, language, pass, expiry)
                 .then((response) => {
                     // on success, redir
-                    this.setState({ hash: response.data.hash })
+                    setHash(response.data.hash)
                 }).catch((error) => {
                     const resp = error.response
     
                     // some weird err
                     if (resp !== undefined) {
                         const errTxt = `${resp.status}: ${resp.data}`
-                        this.ErrorLabel.current.showMessage(errTxt)
+                        ErrorLabel.current.showMessage(errTxt)
                     } else {
                         // some weird err (e.g. network)
-                        this.ErrorLabel.current.showMessage(error)
+                        ErrorLabel.current.showMessage(error)
                     }
                 });
         }
     }
 
-    insertTab(start, end) {
-        const oldContent = this.state.content
-        this.setState({
-            content: oldContent.substring(0, start) + '    ' + oldContent.substring(end)
-        })
+    function insertTab(start, end) {
+        setContent(content.substring(0, start) + '    ' + content.substring(end))
     }
 
-    renderPreview() {
+    function renderPreview() {
         const pasteInput = <PasteInput
-            onChange={this.handleChange}
-            insertTabCallback={this.insertTab}
-            content={this.state.content}
+            onChange={(e) => { setContent(e.target.value) }}
+            insertTabCallback={insertTab}
+            content={content}
             maxLength="100000"
             id="pasteInput" />
 
-        var preview
-        switch (this.state.language) {
-            case 'latex':
-                preview = 
-                    <PreviewWrapper>
-                        <Latex
-                            content={this.state.content} />
-                    </PreviewWrapper>
-                break
-            case 'markdown':
-                preview = 
-                    <PreviewWrapper>
-                        <Markdown
-                            content={this.state.content} />
-                    </PreviewWrapper>
-                break
-            default:
-                preview = 
-                    <CodeRenderer
-                        lang={this.state.language}
-                        theme='atom'
-                        content={this.state.content} />
-        }
+        if (isPreview) {
+            var preview
+            switch (language) {
+                case 'latex':
+                    preview =
+                        <PreviewWrapper>
+                            <Latex
+                                content={content} />
+                        </PreviewWrapper>
+                    break
+                case 'markdown':
+                    preview =
+                        <PreviewWrapper>
+                            <Markdown
+                                content={content} />
+                        </PreviewWrapper>
+                    break
+                default:
+                    preview =
+                        <CodeRenderer
+                            lang={language}
+                            theme='atom'
+                            content={content} />
+            }
 
-        if (this.state.preview) {
             return (
                 <Flex>
                     <FlexLeft>
@@ -160,33 +131,33 @@ class NewPaste extends React.Component {
         }
     }
 
-    render() {
-        return (
-            <form onSubmit={this.handleSubmit}>
-                <PasteModal hash={this.state.hash} />
-                <TitleInput
-                    onChange={this.handleChange}
-                    value={this.state.title}
-                    maxLength="100"
-                    id="titleInput" />
-                {this.renderPreview()}
-                <OptionsContainer
-                    pass={this.state.pass}
-                    expiry={this.state.expiry}
-                    lang={this.state.language}
-                    onChange={this.handleChange} />
-                <input className="lt-button lt-shadow lt-hover" type="submit" value="new paste" />
-                <Button
-                    className="lt-shadow lt-hover"
-                    type="button"
-                    onClick={this.togglePreview} >
-                    preview
-                </Button>
-                <br />
-                <Error ref={this.ErrorLabel} />
-            </form>
-        );
-    }
+    return (
+        <form onSubmit={handleSubmit}>
+            <PasteModal hash={hash} />
+            <TitleInput
+                onChange={(e) => {setTitle(e.target.value)}}
+                value={title}
+                maxLength="100"
+                id="titleInput" />
+            {renderPreview()}
+            <OptionsContainer
+                pass={pass}
+                expiry={expiry}
+                lang={language}
+                onPassChange={(e) => { setPass(e.target.value) }} 
+                onLangChange={(e) => { setLanguage(e.target.value) }} 
+                onExpiryChange={(e) => { setExpiry(e.target.value) }} />
+            <input className="lt-button lt-shadow lt-hover" type="submit" value="new paste" />
+            <Button
+                className="lt-shadow lt-hover"
+                type="button"
+                onClick={() => setIsPreview(!isPreview)}>
+                preview
+            </Button>
+            <br />
+            <Error ref={ErrorLabel} />
+        </form>
+    );
 }
 
 export default NewPaste
