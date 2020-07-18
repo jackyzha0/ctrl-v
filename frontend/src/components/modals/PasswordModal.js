@@ -16,7 +16,7 @@ const modalStyles = {
 };
 
 const PasswordModal = (props) => {
-    const ErrorLabel = useRef();
+    const ErrorLabel = useRef(null);
     Modal.setAppElement('body');
 
     function submitPassword(e) {

@@ -16,7 +16,8 @@ const StyledDiv = styled.div`
 const Button = styled.button`
     margin-right: 0 !important;
     margin-left: 2em !important;
-    height: calc(16px + 1.6em + 2px);
+    height: calc(16px + 1.6em);
+    margin-top: 1.6em !important;
 `
 
 const SpacedText = styled.span`
