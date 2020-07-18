@@ -26,12 +26,10 @@ const Chars = styled.p`
     `};
 `;
 
-class CharLimit extends React.Component {
-    render() {
-        return (
-            <Chars {...this.props} >{this.props.maxLength - this.props.content.length}/{this.props.maxLength}</Chars>
-        );
-    }
+const CharLimit = (props) => {
+    return (
+        <Chars {...props} >{props.maxLength - props.content.length}/{props.maxLength}</Chars>
+    );
 }
 
 export default CharLimit
