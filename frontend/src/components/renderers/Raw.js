@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components'
 import { FetchPaste } from '../../helpers/httpHelper'
 
@@ -10,48 +10,37 @@ const RawText = styled.pre`
     padding: 0 1em;
 `
 
-class Raw extends React.Component {
+const Raw = ({hash}) => {
+    const [content, setContent] = useState('');
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            content: '',
-        };
-    }
+    useEffect(() => {
+        FetchPaste(hash)
+        .then((response) => {
+            const data = response.data
+            setContent(data.content)
+        }).catch((error) => {
+            const resp = error.response
 
-    render() {
-        return (
-            <RawText>
-                {this.state.content}
-            </RawText>
-        );
-    }
+            // catch 401 unauth (password protected)
+            if (resp.status === 401) {
+                setContent('err: password protected')
+                return
+            }
 
-    componentDidMount() {
-        FetchPaste(this.props.hash)
-            .then((response) => {
-                const data = response.data
-                this.setState({ content: data.content })
-            }).catch((error) => {
-                const resp = error.response
+            // some weird err
+            if (resp !== undefined) {
+                const errTxt = `${resp.statusText}: ${resp.data}`
+                setContent(errTxt)
+                return
+            }
 
-                // catch 401 unauth (password protected)
-                if (resp.status === 401) {
-                    this.setState({ content: 'err: password protected' })
-                    return
-                }
+            // some weird err (e.g. network)
+            setContent(error)
+    })}, [hash])
 
-                // some weird err
-                if (resp !== undefined) {
-                    const errTxt = `${resp.statusText}: ${resp.data}`
-                    this.setState({ content: errTxt })
-                    return
-                }
-
-                // some weird err (e.g. network)
-                this.setState({ content: error })
-            })
-    }
+    return (
+        <RawText>{content}</RawText>
+    );
 }
 
 export default Raw

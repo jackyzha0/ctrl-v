@@ -52,7 +52,7 @@ class ViewPaste extends React.Component {
         this.setState({ isRenderMode: !this.state.isRenderMode });
     }
 
-    validatePass(pass) {
+    validatePass(pass, onErrorCallBack) {
         FetchPasswordPaste(this.props.hash, pass)
             .then((response) => {
                 this.setState({ validPass: true })
@@ -62,19 +62,17 @@ class ViewPaste extends React.Component {
 
                 // 401 unauth (bad pass)
                 if (resp.status === 401) {
-                    this.PasswordModal.current
-                        .ErrorLabel.current
-                        .showMessage("incorrect pass")
+                    onErrorCallBack("incorrect pass")
                     return
                 }
 
                 // otherwise, just log it lmao
                 if (resp !== undefined) {
                     const errTxt = `${resp.status}: ${resp.data}`
-                    this.ErrorLabel.current.showMessage(errTxt)
+                    onErrorCallBack(errTxt)
                 } else {
                     // some weird err (e.g. network)
-                    this.ErrorLabel.current.showMessage(error)
+                    onErrorCallBack(error)
                 }
             });
     }
