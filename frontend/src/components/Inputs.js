@@ -15,43 +15,33 @@ const FlexChild = styled.div`
     margin-left: 2em;
 `
 
-class TitleInput extends React.Component {
-    render() {
-        return (
-            <RelPositioning>
-                <FloatingLabel
-                    label="title"
-                    id={this.props.id}
-                    value={this.props.value} />
-                <input
-                    name="title"
-                    readOnly={this.props.readOnly}
-                    className="lt-shadow"
-                    placeholder="Title"
-                    id={this.props.id}
-                    type="text"
-                    autoFocus
-                    autoComplete="off"
-                    onChange={this.props.onChange}
-                    value={this.props.value} />
-                <CharLimit
-                    content={this.props.value}
-                    maxLength={this.props.maxLength} />
-            </RelPositioning>
-        );
-    }
+const TitleInput = (props) => {
+    return (
+        <RelPositioning>
+            <FloatingLabel
+                label="title"
+                id={props.id}
+                value={props.value} />
+            <input
+                name="title"
+                readOnly={props.readOnly}
+                className="lt-shadow"
+                placeholder="Title"
+                id={props.id}
+                type="text"
+                autoFocus
+                autoComplete="off"
+                onChange={props.onChange}
+                value={props.value} />
+            <CharLimit
+                content={props.value}
+                maxLength={props.maxLength} />
+        </RelPositioning>
+    );
 }
 
-class PasteInput extends React.Component {
-
-    constructor(props) {
-        super(props)
-
-        this.textArea = React.createRef()
-        this.handleKeyDown = this.handleKeyDown.bind(this)
-    }
-
-    handleKeyDown(e) {
+const PasteInput = (props) => {
+    function handleKeyDown(e) {
         if (e.keyCode === 9) { // tab was pressed
 
             // prevent autofocus on next intput
@@ -61,96 +51,83 @@ class PasteInput extends React.Component {
             const start = e.target.selectionStart
             const end = e.target.selectionEnd
 
-            this.props.insertTabCallback(start, end)
+            props.insertTabCallback(start, end)
 
             // set cursor position to be at start
             e.target.selectionEnd = end + 4;
         }
     }
 
-    render() {
-        return (
+    return (
+        <RelPositioning>
+            <FloatingLabel
+                label="content"
+                id={props.id}
+                value={props.content} />
+            <textarea
+                name="content"
+                readOnly={props.readOnly}
+                placeholder="Paste your text here"
+                value={props.content}
+                id={props.id}
+                required
+                onChange={props.onChange}
+                onKeyDown={handleKeyDown}
+                className="lt-shadow" />
+            <CharLimit
+                content={props.content}
+                maxLength={props.maxLength} />
+        </RelPositioning>
+    );
+}
+
+const PassInput = (props) => {
+    return (
+        <FlexChild>
             <RelPositioning>
                 <FloatingLabel
-                    label="content"
-                    id={this.props.id}
-                    value={this.props.content} />
-                <textarea
-                    name="content"
-                    readOnly={this.props.readOnly}
-                    placeholder="Paste your text here"
-                    value={this.props.content}
-                    id={this.props.id}
-                    required
-                    onChange={this.props.onChange}
-                    onKeyDown={this.handleKeyDown}
-                    className="lt-shadow" />
-                <CharLimit
-                    content={this.props.content}
-                    maxLength={this.props.maxLength} />
+                    label="password"
+                    id={props.id}
+                    value={props.value} />
+                <input
+                    name="pass"
+                    className="lt-shadow"
+                    placeholder="password"
+                    type="password"
+                    autoComplete="off"
+                    onChange={props.onChange}
+                    value={props.value}
+                    id={props.id} />
             </RelPositioning>
-        );
-    }
+        </FlexChild>
+    );
 }
 
-class PassInput extends React.Component {
-    render() {
-        return (
-            <FlexChild>
-                <RelPositioning>
-                    <FloatingLabel
-                        label="password"
-                        id={this.props.id}
-                        value={this.props.value} />
-                    <input
-                        name="pass"
-                        className="lt-shadow"
-                        placeholder="password"
-                        type="password"
-                        autoComplete="off"
-                        onChange={this.props.onChange}
-                        value={this.props.value}
-                        id={this.props.id} />
-                </RelPositioning>
-            </FlexChild>
-        );
-    }
-}
-
-class GenericDropdown extends React.Component {
-
-    constructor(props) {
-        super(props)
-
-        this._onSelect = this._onSelect.bind(this)
-    }
-
-    _onSelect(option) {
-        this.props.onChange({
+const GenericDropdown = (props) => {
+    function _onSelect(option) {
+        props.onChange({
             target: {
-                name: this.props.label,
+                name: props.label,
                 value: option.label
             }
         });
     }
 
-    render() {
-        return (
-            <FlexChild>
-                <Dropdown
-                    options={this.props.options}
-                    onChange={this._onSelect}
-                    callBackRef={this.props.onChange}
-                    value={this.props.value}
-                    placeholder={this.props.placeholder}
-                    id={this.props.id} />
-                <FloatingLabel
-                    label={this.props.label}
-                    id={this.props.id}
-                    value={this.props.value} />
-            </FlexChild>
-        );
-    }
+    return (
+        <FlexChild>
+            <Dropdown
+                options={props.options}
+                onChange={_onSelect}
+                callBackRef={props.onChange}
+                value={props.value}
+                placeholder={props.placeholder}
+                id={props.id} />
+            <FloatingLabel
+                label={props.label}
+                id={props.id}
+                value={props.value} />
+        </FlexChild>
+    );
 }
 
 const ExpiryInput = (props) => {
@@ -210,27 +187,25 @@ const ThemeInput = (props) => {
     );
 }
 
-class PasteURLInput extends React.Component {
-    render() {
-        return (
-            <FlexChild>
-                <RelPositioning>
-                    <FloatingLabel
-                        label="url"
-                        id={this.props.id}
-                        value={this.props.id} />
-                    <input
-                        name="paste_url"
-                        className="lt-shadow"
-                        type="text"
-                        readOnly
-                        autoFocus
-                        id={this.props.id}
-                        value={this.props.fullURL} />
-                </RelPositioning>
-            </FlexChild>
-        );
-    }
+const PasteURLInput = ({id, fullURL}) => {
+    return (
+        <FlexChild>
+            <RelPositioning>
+                <FloatingLabel
+                    label="url"
+                    id={id}
+                    value={id} />
+                <input
+                    name="paste_url"
+                    className="lt-shadow"
+                    type="text"
+                    readOnly
+                    autoFocus
+                    id={id}
+                    value={fullURL} />
+            </RelPositioning>
+        </FlexChild>
+    );
 }
 
 export { TitleInput, PasteInput, PassInput, ExpiryInput, PasteURLInput, LangInput, ThemeInput }

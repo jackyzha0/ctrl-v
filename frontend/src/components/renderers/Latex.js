@@ -8,37 +8,35 @@ const StyledInlineLatex = styled.div`
     margin-bottom: 1em;
 `
 
-class Latex extends React.Component {
-    render() {
-        // split by \begin{...} and \end{...} flags
-        const els = this.props.content.split(/(\\begin\{.*\}[\s\S]*?\\end\{.*\})/gm).map(line => {
-            // line doesnt start with \begin{...}, safe to split on \\
-            if (!line.match(/^(\\begin\{.*\})/)) {
-                return line.split("\\\\")
-            } else {
-                return line
-            }
-        }).flat()
-
-        // if <=1 lines, just render block
-        if (els.length <= 1) {
-            return (
-                <BlockMath>
-                    {this.props.content}
-                </BlockMath>
-            );
+const Latex = (props) => {
+    // split by \begin{...} and \end{...} flags
+    const els = props.content.split(/(\\begin\{.*\}[\s\S]*?\\end\{.*\})/gm).map(line => {
+        // line doesnt start with \begin{...}, safe to split on \\
+        if (!line.match(/^(\\begin\{.*\})/)) {
+            return line.split("\\\\")
         } else {
-            // new inline block for every line
-            const blocks = els.map(line =>
-                <StyledInlineLatex>
-                    <InlineMath>
-                        {line}
-                    </InlineMath>
-                </StyledInlineLatex>
-            )
-
-            return blocks;
+            return line
         }
+    }).flat()
+
+    // if <=1 lines, just render block
+    if (els.length <= 1) {
+        return (
+            <BlockMath>
+                {props.content}
+            </BlockMath>
+        );
+    } else {
+        // new inline block for every line
+        const blocks = els.map(line =>
+            <StyledInlineLatex>
+                <InlineMath>
+                    {line}
+                </InlineMath>
+            </StyledInlineLatex>
+        )
+
+        return blocks;
     }
 }
 

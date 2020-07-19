@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Error from './Err';
 import { TitleInput } from './Inputs';
 import CodeRenderer from './renderers/Code'
@@ -8,173 +8,139 @@ import { FetchPaste, FetchPasswordPaste } from '../helpers/httpHelper'
 import { LANGS } from './renderers/Code'
 import RenderDispatch from './renderers/RenderDispatch'
 
-class ViewPaste extends React.Component {
+function fmtDateStr(dateString) {
+    const d = new Date(dateString)
+    const options = { hour: '2-digit', minute: '2-digit', year: 'numeric', month: 'long', day: 'numeric' }
+    return d.toLocaleDateString("en-US", options).toLocaleLowerCase()
+}
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            title: 'untitled paste',
-            content: '',
-            hasPass: false,
-            enteredPass: '',
-            validPass: false,
-            expiry: 'no expiry',
-            error: '',
-            passError: '',
-            theme: 'atom',
-            inRenderMode: false,
-            language: LANGS.raw,
-        };
+const ViewPaste = (props) => {
+    const [title, setTitle] = useState('untitled paste');
+    const [content, setContent] = useState('');
+    const [hasPass, setHasPass] = useState(false);
+    const [enteredPass, setEnteredPass] = useState('');
+    const [validPass, setValidPass] = useState(false);
+    const [expiry, setExpiry] = useState('');
+    const [theme, setTheme] = useState('atom');
+    const [isRenderMode, setIsRenderMode] = useState(false);
+    const [language, setLanguage] = useState(LANGS.raw);
 
-        this.handleChange = this.handleChange.bind(this);
-        this.typedPass = this.typedPass.bind(this);
-        this.toggleRender = this.toggleRender.bind(this);
-        this.validatePass = this.validatePass.bind(this);
-        this.ErrorLabel = React.createRef();
-        this.PasswordModal = React.createRef();
-        this.componentRef = React.createRef();
-    }
+    const ErrorLabelRef = useRef(null);
+    const PasswordModalRef = useRef(null);
+    const ComponentRef = useRef(null);
 
-    handleChange(event) {
-        const target = event.target;
-        const name = target.name;
-
-        this.setState({
-            [name]: target.value
-        });
-    }
-
-    typedPass(event) {
-        this.setState({ enteredPass: event.target.value });
-    }
-
-    toggleRender() {
-        this.setState({ isRenderMode: !this.state.isRenderMode });
-    }
-
-    validatePass(pass) {
-        FetchPasswordPaste(this.props.hash, pass)
+    function validatePass(pass, onErrorCallBack) {
+        FetchPasswordPaste(props.hash, pass)
             .then((response) => {
-                this.setState({ validPass: true })
-                this.setStateFromData(response.data)
+                setValidPass(true)
+                setStateFromData(response.data)
             }).catch((error) => {
                 const resp = error.response
 
                 // 401 unauth (bad pass)
                 if (resp.status === 401) {
-                    this.PasswordModal.current
-                        .ErrorLabel.current
-                        .showMessage("incorrect pass")
+                    onErrorCallBack("incorrect pass")
                     return
                 }
 
                 // otherwise, just log it lmao
                 if (resp !== undefined) {
                     const errTxt = `${resp.status}: ${resp.data}`
-                    this.ErrorLabel.current.showMessage(errTxt)
+                    onErrorCallBack(errTxt)
                 } else {
                     // some weird err (e.g. network)
-                    this.ErrorLabel.current.showMessage(error)
+                    onErrorCallBack(error)
                 }
             });
     }
 
-    render() {
-
-        var display
-        if (this.state.isRenderMode) {
-            display = 
-                <RenderDispatch
-                    language={this.state.language}
-                    content={this.state.content}
-                    ref={this.componentRef}
-                />
-        } else {
-            display = 
-            <CodeRenderer
-                content={this.state.content}
-                lang={this.state.language}
-                theme={this.state.theme}
-                ref={this.componentRef}
-                id="pasteInput" />
-        }
-
-        return (
-            <div>
-                <PasswordModal
-                    ref={this.PasswordModal}
-                    hasPass={this.state.hasPass}
-                    validPass={this.state.validPass}
-                    value={this.state.enteredPass}
-                    onChange={this.typedPass}
-                    validateCallback={this.validatePass} />
-                <TitleInput
-                    value={this.state.title}
-                    id="titleInput"
-                    readOnly />
-                {display}
-                <PasteInfo
-                    hash={this.props.hash}
-                    lang={this.state.language}
-                    theme={this.state.theme}
-                    expiry={this.state.expiry}
-                    toggleRenderCallback={this.toggleRender}
-                    isRenderMode={this.state.isRenderMode}
-                    onChange={this.handleChange}
-                    compref={this.componentRef}
-                    err={<Error ref={this.ErrorLabel} />}
-                />
-            </div>
-        );
+    function setStateFromData(data) {
+        setTitle(data.title)
+        setContent(data.content)
+        setLanguage(data.language)
+        setExpiry(fmtDateStr(data.expiry))
     }
 
-    fmtDateStr(dateString) {
-        const d = new Date(dateString)
-        const options = { hour: '2-digit', minute: '2-digit', year: 'numeric', month: 'long', day: 'numeric' }
-        return d.toLocaleDateString("en-US", options).toLocaleLowerCase()
-    }
-
-    setStateFromData(data) {
-        console.log(data)
-        this.setState({
-            title: data.title,
-            content: data.content,
-            language: data.language,
-            expiry: this.fmtDateStr(data.expiry),
-        })
-    }
-
-    componentDidMount() {
-        FetchPaste(this.props.hash)
+    useEffect(() => {
+        FetchPaste(props.hash)
             .then((response) => {
                 const data = response.data
-                this.setStateFromData(data)
+                setStateFromData(data)
             }).catch((error) => {
                 const resp = error.response
 
                 // network err
                 if (!resp) {
-                    this.ErrorLabel.current.showMessage(error)
+                    ErrorLabelRef.current.showMessage(error)
                     return
                 }
 
                 // catch 401 unauth (password protected)
                 if (resp.status === 401) {
-                    this.setState({hasPass: true})
+                    setHasPass(true)
                     return
                 }
 
                 // some weird err
                 if (resp !== undefined) {
                     const errTxt = `${resp.status}: ${resp.data}`
-                    this.ErrorLabel.current.showMessage(errTxt, -1)
+                    ErrorLabelRef.current.showMessage(errTxt, -1)
                     return
                 }
 
                 // some weird err (e.g. network)
-                this.ErrorLabel.current.showMessage(error, -1)
+                ErrorLabelRef.current.showMessage(error, -1)
             })
+    }, [props.hash])
+
+    function getDisplay() {
+        if (isRenderMode) {
+            return (
+                <RenderDispatch
+                    language={language}
+                    content={content}
+                    ref={ComponentRef}
+                />
+            )
+        } else {
+            return (
+                <CodeRenderer
+                    content={content}
+                    lang={language}
+                    theme={theme}
+                    ref={ComponentRef}
+                    id="pasteInput" />
+            )
+        }
     }
+
+    return (
+        <div>
+            <PasswordModal
+                ref={PasswordModalRef}
+                hasPass={hasPass}
+                validPass={validPass}
+                value={enteredPass}
+                onChange={(e) => setEnteredPass(e.target.value)}
+                validateCallback={validatePass} />
+            <TitleInput
+                value={title}
+                id="titleInput"
+                readOnly />
+            {getDisplay()}
+            <PasteInfo
+                hash={props.hash}
+                lang={language}
+                theme={theme}
+                expiry={expiry}
+                toggleRenderCallback={() => setIsRenderMode(!isRenderMode)}
+                isRenderMode={isRenderMode}
+                onChange={(e) => setTheme(e.target.value)}
+                compref={ComponentRef}
+                err={<Error ref={ErrorLabelRef} />}
+            />
+        </div>
+    );
 }
 
 export default ViewPaste

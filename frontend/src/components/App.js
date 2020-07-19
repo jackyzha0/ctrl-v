@@ -38,7 +38,7 @@ const GetRawWithParam = () => {
   );
 }
 
-function App() {
+const App = () => {
   return (
     <Router>
       <Switch>

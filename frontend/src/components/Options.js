@@ -14,25 +14,23 @@ const Flex = styled.div`
     }
 `
 
-class OptionsContainer extends React.Component {
-    render() {
-        return (
-            <Flex>
-                <PassInput
-                    value={this.props.pass}
-                    onChange={this.props.onChange}
-                    id="passwordInput" />
-                <LangInput
-                    value={this.props.lang}
-                    onChange={this.props.onChange}
-                    id="langInput" />
-                <ExpiryInput
-                    value={this.props.expiry}
-                    onChange={this.props.onChange}
-                    id="expiryInput" />
-            </Flex>
-        );
-    }
+const OptionsContainer = ({pass, lang, expiry, onPassChange, onLangChange, onExpiryChange}) => {
+    return (
+        <Flex>
+            <PassInput
+                value={pass}
+                onChange={onPassChange}
+                id="passwordInput" />
+            <LangInput
+                value={lang}
+                onChange={onLangChange}
+                id="langInput" />
+            <ExpiryInput
+                value={expiry}
+                onChange={onExpiryChange}
+                id="expiryInput" />
+        </Flex>
+    );
 }
 
 export default OptionsContainer

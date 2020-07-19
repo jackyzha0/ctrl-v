@@ -21,13 +21,13 @@ export function FetchPasswordPaste(hash, pass) {
     })
 }
 
-export function PostNewPaste(state) {
+export function PostNewPaste(title, content, language, pass, expiry) {
     var bodyFormData = new FormData();
-    bodyFormData.set('title', state.title);
-    bodyFormData.set('content', state.content);
-    bodyFormData.set('language', state.language);
-    bodyFormData.set('password', state.pass);
-    bodyFormData.set('expiry', parseExpiry(state.expiry));
+    bodyFormData.set('title', title);
+    bodyFormData.set('content', content);
+    bodyFormData.set('language', language);
+    bodyFormData.set('password', pass);
+    bodyFormData.set('expiry', parseExpiry(expiry));
 
     return axios({
         method: 'post',

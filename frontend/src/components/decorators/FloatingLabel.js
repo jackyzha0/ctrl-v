@@ -17,18 +17,16 @@ const StyledLabel = styled.label`
     `};
 `
 
-class FloatingLabel extends React.Component {
-    render() {
-        return (
-            <StyledLabel 
-                label={this.props.label}
-                value={this.props.value}
-                className={this.props.id}
-                htmlFor={this.props.id}>
-                    {this.props.label}
-            </StyledLabel>
-        );
-    }
+const FloatingLabel = (props) => {
+    return (
+        <StyledLabel 
+            label={props.label}
+            value={props.value}
+            className={props.id}
+            htmlFor={props.id}>
+                {props.label}
+        </StyledLabel>
+    );
 }
 
 export default FloatingLabel

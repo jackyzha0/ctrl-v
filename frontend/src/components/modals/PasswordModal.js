@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import Modal from 'react-modal';
 import { PassInput } from '../Inputs'
 import { RightPad, LeftPad, ModalHeader, Padding } from './shared'
@@ -15,49 +15,39 @@ const modalStyles = {
     }
 };
 
-class PasswordModal extends React.Component {
+const PasswordModal = (props) => {
+    const ErrorLabel = useRef(null);
+    Modal.setAppElement('body');
 
-    componentWillMount() {
-        Modal.setAppElement('body');
+    function submitPassword(e) {
+        e.preventDefault();
+        const password = props.value
+        props.validateCallback(password, ErrorLabel.current.showMessage)
     }
 
-    constructor(props) {
-        super(props);
-        this.submitPassword = this.submitPassword.bind(this);
-        this.ErrorLabel = React.createRef();
-    }
-
-    submitPassword(event) {
-        const password = this.props.value
-        this.props.validateCallback(password)
-        event.preventDefault();
-    }
-
-    render() {
-        return(
-            <Modal
-                isOpen={this.props.hasPass && !this.props.validPass}
-                style={modalStyles}
-                contentLabel="enter paste password"
-            >
-                <form onSubmit={this.submitPassword}>
-                    <LeftPad>
-                        <ModalHeader><span role="img" aria-label="warning">🚧&nbsp;</span>err: password protected</ModalHeader>
-                    </LeftPad>
-                    <RightPad>
-                        <PassInput
-                            value={this.props.value}
-                            onChange={this.props.onChange} />
-                    </RightPad>
-                    <LeftPad>
-                        <input className="lt-button lt-shadow lt-hover" type="submit" value="continue" />
-                        <Padding />
-                        <Error ref={this.ErrorLabel} />
-                    </LeftPad>
-                </form>
-            </Modal>
-        );
-    }
+    return(
+        <Modal
+            isOpen={props.hasPass && !props.validPass}
+            style={modalStyles}
+            contentLabel="enter paste password"
+        >
+            <form onSubmit={submitPassword}>
+                <LeftPad>
+                    <ModalHeader><span role="img" aria-label="warning">🚧&nbsp;</span>err: password protected</ModalHeader>
+                </LeftPad>
+                <RightPad>
+                    <PassInput
+                        value={props.value}
+                        onChange={props.onChange} />
+                </RightPad>
+                <LeftPad>
+                    <input className="lt-button lt-shadow lt-hover" type="submit" value="continue" />
+                    <Padding />
+                    <Error ref={ErrorLabel} />
+                </LeftPad>
+            </form>
+        </Modal>
+    );
 }
 
 export default PasswordModal
