@@ -64,7 +64,6 @@ const CodeRenderer = React.forwardRef((props, ref) => {
     return (
         <div className="lt-shadow">
             <SyntaxHighlighter
-                ref={ref}
                 language={LANGS[props.lang]}
                 style={THEMES[props.theme]}
                 showLineNumbers

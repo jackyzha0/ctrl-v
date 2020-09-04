@@ -26,7 +26,6 @@ const ViewPaste = (props) => {
     const [language, setLanguage] = useState(LANGS.raw);
 
     const ErrorLabelRef = useRef(null);
-    const PasswordModalRef = useRef(null);
     const ComponentRef = useRef(null);
 
     function validatePass(pass, onErrorCallBack) {
@@ -116,7 +115,6 @@ const ViewPaste = (props) => {
     return (
         <div>
             <PasswordModal
-                ref={PasswordModalRef}
                 hasPass={hasPass}
                 validPass={validPass}
                 value={enteredPass}

@@ -45,30 +45,32 @@ const App = () => {
         <Route path="/raw/:hash"
           children={<GetRawWithParam />}
         />
-        <div className="lt-content-column">
-          <SpacedTitle>
-            <nav>
-              <h1 className="mainLogo">
-                <span role="img" aria-label="clipboard">📋&nbsp;</span>
-                <Link to="/">ctrl-v</Link>
-              </h1>
-              <Desc />
-            </nav>
-          </SpacedTitle>
+        <Route>
+          <div className="lt-content-column">
+            <SpacedTitle>
+              <nav>
+                <h1 className="mainLogo">
+                  <span role="img" aria-label="clipboard">📋&nbsp;</span>
+                  <Link to="/">ctrl-v</Link>
+                </h1>
+                <Desc />
+              </nav>
+            </SpacedTitle>
 
-          <main id="appElement">
-            <Switch>
-              <Route path="/:hash"
-                children={<GetPasteWithParam />}
-              />
-              <Route path="/">
-                <NewPaste />
-              </Route>
-            </Switch>
-          </main>
+            <main id="appElement">
+              <Switch>
+                <Route path="/:hash"
+                  children={<GetPasteWithParam />}
+                />
+                <Route path="/">
+                  <NewPaste />
+                </Route>
+              </Switch>
+            </main>
 
-          <Footer />
-        </div>
+            <Footer />
+          </div>
+        </Route>
       </Switch>
     </Router>
   );

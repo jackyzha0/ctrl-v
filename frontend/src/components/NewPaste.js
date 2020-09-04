@@ -101,7 +101,7 @@ const NewPaste = () =>  {
                     break
                 case 'markdown':
                     preview =
-                        <PreviewWrapper>
+                        <PreviewWrapper className='md' >
                             <Markdown
                                 content={content} />
                         </PreviewWrapper>
