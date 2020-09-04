@@ -1,5 +1,5 @@
 import React from 'react';
-import marked from 'marked';
+import ReactMarkdown from 'react-markdown';
 import styled from 'styled-components'
 
 const Content = styled.div`
@@ -9,11 +9,10 @@ const Content = styled.div`
         max-width: 100%;
     }
 `
-const Markdown = (props) => {
-    const dangerousHtml = {
-        __html: marked(props.content)
-    }
-    return <Content dangerouslySetInnerHTML={dangerousHtml} />;
+const Markdown = ({content}) => {
+    return <Content>
+        <ReactMarkdown source={content} />
+    </Content>;
 }
 
 export default Markdown

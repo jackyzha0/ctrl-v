@@ -15,7 +15,7 @@ function fmtDateStr(dateString) {
 }
 
 const ViewPaste = (props) => {
-    const [title, setTitle] = useState('untitled paste');
+    const [title, setTitle] = useState('fetching paste...');
     const [content, setContent] = useState('');
     const [hasPass, setHasPass] = useState(false);
     const [enteredPass, setEnteredPass] = useState('');
@@ -64,8 +64,7 @@ const ViewPaste = (props) => {
     useEffect(() => {
         FetchPaste(props.hash)
             .then((response) => {
-                const data = response.data
-                setStateFromData(data)
+                setStateFromData(response.data)
             }).catch((error) => {
                 const resp = error.response
 
