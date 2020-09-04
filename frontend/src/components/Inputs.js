@@ -118,7 +118,6 @@ const GenericDropdown = (props) => {
             <Dropdown
                 options={props.options}
                 onChange={_onSelect}
-                callBackRef={props.onChange}
                 value={props.value}
                 placeholder={props.placeholder}
                 id={props.id} />
