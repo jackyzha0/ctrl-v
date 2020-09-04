@@ -9,7 +9,7 @@ const MarkdownCodeRenderer = ({language, value}) => {
         <SyntaxHighlighter
             language={(language in LANGS) ? LANGS[language] : 'text'}
             style={atomOneDark}>
-            {value}
+            {value ?? ''}
         </SyntaxHighlighter>
     );
 };
