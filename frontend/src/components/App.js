@@ -42,10 +42,10 @@ const App = () => {
   return (
     <Router>
       <Switch>
-        <>
-          <Route path="/raw/:hash"
-            children={<GetRawWithParam />}
-          />
+        <Route path="/raw/:hash"
+          children={<GetRawWithParam />}
+        />
+        <Route>
           <div className="lt-content-column">
             <SpacedTitle>
               <nav>
@@ -58,17 +58,19 @@ const App = () => {
             </SpacedTitle>
 
             <main id="appElement">
-              <Route path="/:hash"
-                children={<GetPasteWithParam />}
-              />
-              <Route path="/">
-                <NewPaste />
-              </Route>
+              <Switch>
+                <Route path="/:hash"
+                  children={<GetPasteWithParam />}
+                />
+                <Route path="/">
+                  <NewPaste />
+                </Route>
+              </Switch>
             </main>
 
             <Footer />
           </div>
-        </>
+        </Route>
       </Switch>
     </Router>
   );
