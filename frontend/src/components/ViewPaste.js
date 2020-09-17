@@ -7,6 +7,7 @@ import PasswordModal from './modals/PasswordModal'
 import { FetchPaste, FetchPasswordPaste } from '../helpers/httpHelper'
 import { LANGS } from './renderers/Code'
 import RenderDispatch from './renderers/RenderDispatch'
+import MetaTags from 'react-meta-tags';
 
 function fmtDateStr(dateString) {
     const d = new Date(dateString)
@@ -22,7 +23,7 @@ const ViewPaste = (props) => {
     const [validPass, setValidPass] = useState(false);
     const [expiry, setExpiry] = useState('');
     const [theme, setTheme] = useState('atom');
-    const [isRenderMode, setIsRenderMode] = useState(false);
+    const [isRenderMode, setIsRenderMode] = useState(true);
     const [language, setLanguage] = useState(LANGS.raw);
 
     const ErrorLabelRef = useRef(null);
@@ -54,6 +55,7 @@ const ViewPaste = (props) => {
     }
 
     function setStateFromData(data) {
+        document.title = data.title
         setTitle(data.title)
         setContent(data.content)
         setLanguage(data.language)
@@ -114,6 +116,10 @@ const ViewPaste = (props) => {
 
     return (
         <div>
+            <MetaTags>
+                <meta name="description" content={`${language}, expires ${expiry}. hosted on ctrl-v`} />
+                <meta property="og:title" content={title} />
+            </MetaTags>
             <PasswordModal
                 hasPass={hasPass}
                 validPass={validPass}

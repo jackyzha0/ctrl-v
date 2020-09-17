@@ -17,6 +17,7 @@
     "react-dropdown": "^1.7.0",
     "react-katex": "^2.0.2",
     "react-markdown": "^4.3.1",
+    "react-meta-tags": "^0.7.4",
     "react-modal": "^3.11.2",
     "react-render-html": "^0.6.0",
     "react-router-dom": "^5.2.0",
