@@ -77,15 +77,9 @@ const NewPaste = () =>  {
         }
     }
 
-    function insertTab(start, end, callback) {
-        setContent(content.substring(0, start) + '    ' + content.substring(end))
-        callback()
-    }
-
     function renderPreview() {
         const pasteInput = <PasteInput
             onChange={(e) => { setContent(e.target.value) }}
-            insertTabCallback={insertTab}
             content={content}
             maxLength="100000"
             id="pasteInput" />

@@ -1,9 +1,10 @@
-import React, {useRef} from 'react';
+import React, {useEffect, useRef} from 'react';
 import CharLimit from './decorators/CharLimit'
 import styled from 'styled-components'
 import FloatingLabel from './decorators/FloatingLabel'
 import Dropdown from 'react-dropdown';
 import { LANGS, THEMES } from './renderers/Code';
+import * as indentation from 'indent-textarea';
 
 const RelPositioning = styled.div`
     position: relative; 
@@ -40,45 +41,31 @@ const TitleInput = (props) => {
     );
 }
 
-const PasteInput = (props) => {
+const PasteInput = ({content, ...props}) => {
     const textInput = useRef(null);
 
-    function handleKeyDown(e) {
-        if (e.keyCode === 9) { // tab was pressed
-
-            // prevent autofocus on next intput
-            e.preventDefault();
-
-            // get selection start and end
-            const start = e.target.selectionStart
-            const end = e.target.selectionEnd
-
-            props.insertTabCallback(start, end, () => {
-                textInput.current.focus()
-                textInput.current.selectionStart = textInput.current.selectionEnd + 4
-            })
-        }
-    }
+    useEffect(() => {
+        indentation.watch(textInput.current);
+    }, [textInput])
 
     return (
         <RelPositioning>
             <FloatingLabel
                 label="content"
                 id={props.id}
-                value={props.content} />
+                value={content} />
             <textarea
                 name="content"
                 readOnly={props.readOnly}
                 placeholder="Paste your text here"
-                value={props.content}
+                value={content}
                 id={props.id}
                 ref={textInput}
                 required
                 onChange={props.onChange}
-                onKeyDown={handleKeyDown}
                 className="lt-shadow" />
             <CharLimit
-                content={props.content}
+                content={content}
                 maxLength={props.maxLength} />
         </RelPositioning>
     );

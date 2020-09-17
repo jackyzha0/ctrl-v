@@ -10,6 +10,7 @@
     "d3-scale": "^3.2.1",
     "elliptic": "^6.5.3",
     "file-saver": "^2.0.2",
+    "indent-textarea": "^2.0.2",
     "rc-slider": "^9.2.4",
     "react": "^16.13.1",
     "react-component-export-image": "^0.1.4",
