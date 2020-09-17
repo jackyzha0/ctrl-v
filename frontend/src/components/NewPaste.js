@@ -77,8 +77,9 @@ const NewPaste = () =>  {
         }
     }
 
-    function insertTab(start, end) {
+    function insertTab(start, end, callback) {
         setContent(content.substring(0, start) + '    ' + content.substring(end))
+        callback()
     }
 
     function renderPreview() {

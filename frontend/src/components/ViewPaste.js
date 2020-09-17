@@ -23,8 +23,12 @@ const ViewPaste = (props) => {
     const [validPass, setValidPass] = useState(false);
     const [expiry, setExpiry] = useState('');
     const [theme, setTheme] = useState('atom');
-    const [isRenderMode, setIsRenderMode] = useState(true);
+    const [isRenderMode, setIsRenderMode] = useState(false);
     const [language, setLanguage] = useState(LANGS.raw);
+
+    useEffect(() => {
+        setIsRenderMode(language === 'latex' || language === 'markdown')
+    }, [language])
 
     const ErrorLabelRef = useRef(null);
     const ComponentRef = useRef(null);

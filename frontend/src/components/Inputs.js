@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import CharLimit from './decorators/CharLimit'
 import styled from 'styled-components'
 import FloatingLabel from './decorators/FloatingLabel'
@@ -41,6 +41,8 @@ const TitleInput = (props) => {
 }
 
 const PasteInput = (props) => {
+    const textInput = useRef(null);
+
     function handleKeyDown(e) {
         if (e.keyCode === 9) { // tab was pressed
 
@@ -51,10 +53,10 @@ const PasteInput = (props) => {
             const start = e.target.selectionStart
             const end = e.target.selectionEnd
 
-            props.insertTabCallback(start, end)
-
-            // set cursor position to be at start
-            e.target.selectionEnd = end + 4;
+            props.insertTabCallback(start, end, () => {
+                textInput.current.focus()
+                textInput.current.selectionStart = textInput.current.selectionEnd + 4
+            })
         }
     }
 
@@ -70,6 +72,7 @@ const PasteInput = (props) => {
                 placeholder="Paste your text here"
                 value={props.content}
                 id={props.id}
+                ref={textInput}
                 required
                 onChange={props.onChange}
                 onKeyDown={handleKeyDown}
