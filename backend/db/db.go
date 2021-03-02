@@ -14,7 +14,8 @@ func init() {
 	// load .env file
 	err := godotenv.Load()
 	if err != nil {
-		log.Fatal("Error loading .env file: %s", err.Error())
+		log.Warnf("Error loading .env file: %s", err.Error())
+		log.Warn("Falling back on env vars...")
 	}
 
 	mUser := os.Getenv("MONGO_USER")
