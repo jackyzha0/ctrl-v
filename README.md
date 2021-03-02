@@ -7,6 +7,83 @@ Frontend is in React and backend is in Go. Deployed via Firebase Hosting and Goo
 ![Showing off another theme!](https://user-images.githubusercontent.com/23178940/83225610-0a844280-a135-11ea-8c7c-4a0ecb13f379.png)
 ![Latex Rendering](https://user-images.githubusercontent.com/23178940/83225613-0c4e0600-a135-11ea-9f27-e5653cf9f343.png)
 
+## Public API
+The ctrl-v API is provided for free for other developers to easily develop on top of it. It can be reached at `https://api.ctrl-v.app/`.
+
+### `GET /health`
+```bash
+# get the health of the API
+curl https://api.ctrl-v.app/health
+
+# 200 OK
+# > "status ok"
+```
+
+### `POST /api`
+```bash
+# create a new paste
+curl -L -X POST 'https://api.ctrl-v.app/api' \
+    -F 'expiry=2021-03-09T01:02:43.082Z' \
+    -F 'content=print(\"test content\")' \
+    -F 'title=test paste' \
+    -F 'language=python'
+
+# or with a password
+curl -L -X POST 'https://api.ctrl-v.app/api' \
+    -F 'expiry=2021-03-09T01:02:43.082Z' \
+    -F 'content=print(\"test content\")' \
+    -F 'title=test paste' \
+    -F 'language=python' \
+    -F 'password=hunter2'
+
+# 200 OK
+# > { "hash": "6Z7NVVv" }
+
+# 400 BAD_REQUEST
+# happens when title/body is too long, password couldnt
+# be hashed, or expiry is not in RFC3339 format
+```
+### `GET /api/{hash}`
+```bash
+# get unprotected hash
+curl https://api.ctrl-v.app/health
+
+# 200 OK
+# > {
+# >   "content": "print(\"test content\")",
+# >   "expiry": "2021-03-09T01:02:43.082Z",
+# >   "language": "python",
+# >   "timestamp": "2021-03-02T01:06:16.209501971Z",
+# >   "title": "test paste"
+# > }
+
+# 401 BAD_REQUEST
+# happens when paste is password protected. when this happens, try the authenticated alternative using POST
+# 404 NOT_FOUND
+# no paste with that ID found
+```
+
+### `POST /api/{hash}`
+```bash
+# get unprotected hash
+curl -L -X POST 'https://api.ctrl-v.app/api/1t9UybX' \
+  -F 'password=hunter2'
+
+# 200 OK
+# > {
+# >   "content": "print(\"test content\")",
+# >   "expiry": "2021-03-09T01:02:43.082Z",
+# >   "language": "python",
+# >   "timestamp": "2021-03-02T01:06:16.209501971Z",
+# >   "title": "test paste"
+# > }
+
+# 401 BAD_REQUEST
+# wrong password
+# 404 NOT_FOUND
+# no paste with that ID found
+```
+
 ## Developing
 when doing local backend development, make sure you change the backend address to be localhost. You can find this on Line 4 of `frontend/src/helpers/httpHelper.js`
 
