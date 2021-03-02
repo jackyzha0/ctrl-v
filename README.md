@@ -46,7 +46,7 @@ curl -L -X POST 'https://api.ctrl-v.app/api' \
 ### `GET /api/{hash}`
 ```bash
 # get unprotected hash
-curl https://api.ctrl-v.app/health
+curl https://api.ctrl-v.app/api/1t9UybX
 
 # 200 OK
 # > {
