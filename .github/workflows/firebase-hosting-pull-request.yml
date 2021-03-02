@@ -17,5 +17,6 @@ jobs:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_CTRL_V_A8EFD }}'
           projectId: ctrl-v-a8efd
+          entryPoint: "./frontend"
         env:
           FIREBASE_CLI_PREVIEWS: hostingchannels
