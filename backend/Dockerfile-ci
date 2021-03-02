@@ -1,0 +1,11 @@
+FROM golang:alpine AS builder
+ENV GO111MODULE=on
+COPY . /app/src
+WORKDIR /app/src
+RUN apk add git ca-certificates
+RUN CGO_ENABLED=0 GOOS=linux go build -o /go/bin/app
+
+FROM scratch
+COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+COPY --from=builder /go/bin/app ./
+ENTRYPOINT ["./app"]
