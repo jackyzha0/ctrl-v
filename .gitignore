@@ -1,6 +1,5 @@
 backend/.env
 .idea
-go.sum
 .DS_Store
 
 frontend/node_modules
