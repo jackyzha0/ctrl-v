@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components'
 import { useHistory } from 'react-router-dom';
-import { ThemeInput } from './Inputs'
+import { Theme } from './Inputs'
 import { exportComponentAsPNG } from "react-component-export-image";
 
 const Bold = styled.span`
@@ -68,7 +68,7 @@ const PasteInfo = (props) => {
                     save png
                 </Button>
                 {renderable()}
-                <ThemeInput
+                <Theme
                     value={props.theme}
                     onChange={props.onChange}
                     id="themeInput" />

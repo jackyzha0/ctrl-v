@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { TitleInput, PasteInput } from './Inputs'
+import { Text, Code } from './Inputs'
 import OptionsContainer from './Options'
 import Error from './Err'
 import { PostNewPaste } from '../helpers/httpHelper'
@@ -78,7 +78,7 @@ const NewPaste = () =>  {
     }
 
     function renderPreview() {
-        const pasteInput = <PasteInput
+        const pasteInput = <Code
             onChange={(e) => { setContent(e.target.value) }}
             content={content}
             maxLength="100000"
@@ -129,7 +129,8 @@ const NewPaste = () =>  {
     return (
         <form onSubmit={handleSubmit}>
             <PasteModal hash={hash} />
-            <TitleInput
+            <Text
+                label="title"
                 onChange={(e) => {setTitle(e.target.value)}}
                 value={title}
                 maxLength="100"

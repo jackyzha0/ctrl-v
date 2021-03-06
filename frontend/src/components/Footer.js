@@ -3,6 +3,9 @@ import styled from 'styled-components'
 
 const SpacedFooter = styled.div`
     margin: 2em 0;
+    & a {
+        color: ${p => p.theme.colors.text};
+    }
 `
 
 const Link = (props) => {
@@ -14,7 +17,7 @@ const Link = (props) => {
 const Footer = () => {
     return (
         <SpacedFooter>
-            (c) 2020 &mdash; <Link link="https://jzhao.xyz/" name="jacky" />, <Link link="https://ryanmehri.tech/" name="ryan" />
+            <p>(c) 2020 &mdash; <Link link="https://jzhao.xyz/" name="jacky" />, <Link link="https://ryanmehri.tech/" name="ryan" /></p>
         </SpacedFooter>
     );
 }

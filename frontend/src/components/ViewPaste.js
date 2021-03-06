@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import Error from './Err';
-import { TitleInput } from './Inputs';
+import { Text } from './Inputs';
 import CodeRenderer from './renderers/Code'
 import PasteInfo from  './PasteInfo';
 import PasswordModal from './modals/PasswordModal'
@@ -130,7 +130,8 @@ const ViewPaste = (props) => {
                 value={enteredPass}
                 onChange={(e) => setEnteredPass(e.target.value)}
                 validateCallback={validatePass} />
-            <TitleInput
+            <Text
+                label="title"
                 value={title}
                 id="titleInput"
                 readOnly />

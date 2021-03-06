@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import Modal from 'react-modal';
-import { PassInput } from '../Inputs'
+import { Password } from '../Inputs'
 import { RightPad, LeftPad, ModalHeader, Padding } from './shared'
 import Error from '../Err';
 
@@ -36,7 +36,7 @@ const PasswordModal = (props) => {
                     <ModalHeader><span role="img" aria-label="warning">🚧&nbsp;</span>err: password protected</ModalHeader>
                 </LeftPad>
                 <RightPad>
-                    <PassInput
+                    <Password
                         value={props.value}
                         onChange={props.onChange} />
                 </RightPad>

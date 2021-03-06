@@ -4,13 +4,6 @@
   }
 }
 
-body {
-  margin: 0;
-  padding: 0;
-  background-color: #faf9f5;
-  font-family: 'JetBrains Mono', serif;
-}
-
 form {
   width: 100%;
 }
@@ -127,32 +120,6 @@ button[type=button] {
   margin: 2em 2em;
 }
 
-.mainLogo {
-  font-size: 50px;
-  margin: 0 0;
-  display: inline-block;
-}
-
-.mainLogo a {
-  text-decoration: none;
-  position: relative;
-  margin: 3px;
-}
-
-.mainLogo a::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    height: 4px;
-    background-color: #111111;
-    width: 0;
-    transition: width 0.25s ease;
-}
-
-.mainLogo:hover a::after {
-  width: 100%;
-}
 
 /* fixing markdown renderer */
 .md h3 {

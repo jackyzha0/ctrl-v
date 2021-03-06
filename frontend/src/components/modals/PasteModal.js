@@ -2,7 +2,7 @@ import React from 'react';
 import Modal from 'react-modal';
 import { LeftPad, ModalHeader, RightPad } from './shared'
 import { useHistory } from 'react-router-dom';
-import { PasteURLInput } from '../Inputs'
+import { Text } from '../Inputs'
 import { useClipboard } from 'use-clipboard-copy';
 
 const modalStyles = {
@@ -39,11 +39,7 @@ const PasteModal = (props) => {
                     <ModalHeader><span role="img" aria-label="success">📎&nbsp;</span>paste created</ModalHeader>
                 </LeftPad>
                     <RightPad>
-                        <PasteURLInput 
-                            id="paste_modal"
-                            fullURL={fullURL} />
-                        <input 
-                            hidden
+                        <Text
                             type="text"
                             value={fullURL} 
                             readOnly
