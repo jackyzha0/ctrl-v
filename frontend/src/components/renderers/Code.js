@@ -12,28 +12,9 @@ export const THEMES = Object.freeze({
 })
 
 export const LANGS = Object.freeze({
-    'bash': 'bash',
-    'c': 'c',
-    'c++': 'cpp',
-    'c#': 'cs',
-    'css': 'css',
-    'docker': 'dockerfile',
-    'go': 'go',
-    'haskell': 'haskell',
-    'html': 'html',
-    'java': 'java',
-    'js': 'javascript',
-    'jsx': 'jsx',
     'latex': 'latex',
-    'lisp': 'lisp',
-    'makefile': 'makefile',
     'markdown': 'markdown',
-    'php': 'php',
-    'python': 'python',
-    'raw': 'text',
-    'ruby': 'ruby',
-    'scala': 'scala',
-    'yaml': 'yaml'
+    'auto': 'text',
 })
 
 const StyledPre = styled.pre`

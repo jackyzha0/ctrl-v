@@ -39,7 +39,7 @@ const NewPaste = () =>  {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [pass, setPass] = useState('');
-    const [language, setLanguage] = useState(LANGS.raw);
+    const [language, setLanguage] = useState(LANGS.auto);
     const [expiry, setExpiry] = useState('');
     const [hash, setHash] = useState('');
     const [isPreview, setIsPreview] = useState(false);

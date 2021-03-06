@@ -152,7 +152,7 @@ const LangInput = (props) => {
         <GenericDropdown
             {...props}
             options={options}
-            placeholder={LANGS.raw}
+            placeholder={LANGS.auto}
             label='language'
         />
     );

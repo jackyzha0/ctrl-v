@@ -24,7 +24,7 @@ const ViewPaste = (props) => {
     const [expiry, setExpiry] = useState('');
     const [theme, setTheme] = useState('atom');
     const [isRenderMode, setIsRenderMode] = useState(false);
-    const [language, setLanguage] = useState(LANGS.raw);
+    const [language, setLanguage] = useState(LANGS.auto);
 
     useEffect(() => {
         setIsRenderMode(language === 'latex' || language === 'markdown')
