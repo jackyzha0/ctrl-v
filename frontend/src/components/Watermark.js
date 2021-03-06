@@ -2,9 +2,9 @@ import styled from "styled-components";
 import React from "react";
 
 const Logo = styled.h1`
-  position: absolute;
-  bottom: 0.75em;
-  left: 1em;
+  position: fixed;
+  bottom: 0.3em;
+  left: 0.5em;
   opacity: 0.3;
   font-size: 50px;
   margin: 0 0;

@@ -102,7 +102,7 @@ export const Language = (props) => {
     <GenericDropdown
       {...props}
       options={options}
-      placeholder={LANGS.auto}
+      placeholder={LANGS.detect}
       label='language'
     />
   );

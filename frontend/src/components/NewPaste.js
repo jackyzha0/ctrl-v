@@ -34,7 +34,7 @@ const NewPaste = () =>  {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [pass, setPass] = useState('');
-    const [language, setLanguage] = useState(LANGS.auto);
+    const [language, setLanguage] = useState(LANGS.detect);
     const [expiry, setExpiry] = useState('');
     const [hash, setHash] = useState('');
     const [isPreview, setIsPreview] = useState(false);
@@ -76,8 +76,7 @@ const NewPaste = () =>  {
         const pasteInput = <Code
             setContentCallback={setContent}
             content={content}
-            maxLength="100000"
-            id="pasteInput" />
+            maxLength="100000" />
 
         if (isPreview) {
             var preview
