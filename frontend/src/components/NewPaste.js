@@ -128,6 +128,7 @@ const NewPaste = () =>  {
                 label="title"
                 onChange={(e) => {setTitle(e.target.value)}}
                 value={title}
+                autoFocus
                 maxLength="100"
                 id="titleInput" />
             {renderPreview()}
@@ -140,7 +141,6 @@ const NewPaste = () =>  {
                 onExpiryChange={(e) => { setExpiry(e.target.value) }} />
             <SubmitButton type="submit" value="new paste" />
             <Button
-                className="lt-shadow lt-hover"
                 type="button"
                 onClick={() => setIsPreview(!isPreview)}>
                 preview

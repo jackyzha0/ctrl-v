@@ -4,6 +4,15 @@ export const DropShadow = css`
   box-shadow: 0 14px 28px rgba(27, 33, 48,0.06), 0 10px 10px rgba(27, 33, 48,0.02);
 `
 
+export const Hover = css`
+  opacity: 0.5;
+  transition: all 0.5s cubic-bezier(.25,.8,.25,1);
+  
+  &:focus, &:hover, &:focus span {
+    opacity: 1;
+  }
+`
+
 export const Rounded = css`
   border-radius: 3px;
 `
@@ -13,6 +22,7 @@ export const Border = css`
 `
 
 export const InputLike = css`
+  ${Hover}
   font-family: 'JetBrains Mono', monospace;
   width: 100%;
   font-size: 0.8em;

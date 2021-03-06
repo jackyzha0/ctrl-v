@@ -1,5 +1,5 @@
-import React from 'react';
-import styled from 'styled-components'
+import styled from "styled-components";
+import React from "react";
 
 const StyledLabel = styled.label`
   position: relative;
@@ -17,6 +17,14 @@ const StyledLabel = styled.label`
   }
 `
 
-export default (props) => <StyledLabel label={props.label}>
+const FloatingLabel = (props) => <StyledLabel label={props.label}>
   {props.children}
 </StyledLabel>
+
+
+export const Labelled = ({label, value, children}) => <div>
+  <FloatingLabel label={label} value={value} >
+    <span>{label}</span>
+    {children}
+  </FloatingLabel>
+</div>

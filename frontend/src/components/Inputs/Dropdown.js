@@ -2,7 +2,7 @@ import Dropdown from "react-dropdown";
 import React from "react";
 import styled from 'styled-components';
 import {LANGS, THEMES} from "../renderers/Code";
-import {Labelled} from "./shared";
+import {Labelled} from "../decorators/Labelled";
 import {Border, DropShadow, InputLike, Rounded} from "../Form/mixins";
 
 const StyledDropdown = styled(Dropdown)`

@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import {Border, DropShadow, InputLike, Rounded} from "./mixins";
+import {Border, DropShadow, InputLike, Rounded, Transition} from "./mixins";
 
 export const Input = styled.input`
   ${Border}

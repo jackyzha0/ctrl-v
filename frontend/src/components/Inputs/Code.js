@@ -1,7 +1,7 @@
 import React, {useEffect, useRef} from "react";
 import * as indentation from "indent-textarea";
 import CharLimit from "../decorators/CharLimit";
-import {Labelled} from "./shared";
+import {Labelled} from "../decorators/Labelled";
 
 export const Code = ({content, ...props}) => {
   const textInput = useRef(null);
