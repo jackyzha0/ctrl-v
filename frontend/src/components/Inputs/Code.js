@@ -18,10 +18,13 @@ const EditorWrapper = styled(Editor)`
     min-height: 40vh;
   }
   
+  & pre {
+    z-index: -1 !important;
+  }
+  
   & > textarea {
     ${Hover}
     padding: 0.6em !important;
-    z-index: 1;
     outline: none !important;
   }
 `

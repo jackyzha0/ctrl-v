@@ -38,8 +38,8 @@ export const InputLike = css`
 
 export const CodeLike = css`
   font-family: JetBrains Mono !important;
-  font-size: 14px !important;
-  line-height: 1.2em !important;
+  font-size: 13px !important;
+  line-height: 1.6em !important;
   white-space: pre-wrap;
 `
 

@@ -1,19 +1,8 @@
 import React, { useRef } from 'react';
 import Modal from 'react-modal';
 import { Password } from '../Inputs'
-import { RightPad, LeftPad, ModalHeader, Padding } from './shared'
+import {RightPad, LeftPad, ModalHeader, Padding, modalStyles} from './shared'
 import Error from '../Err';
-
-const modalStyles = {
-    content: {
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: '400px',
-        height: '250px',
-        border: '1px solid #11111188'
-    }
-};
 
 const PasswordModal = (props) => {
     const ErrorLabel = useRef(null);

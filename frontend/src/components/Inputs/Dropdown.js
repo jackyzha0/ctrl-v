@@ -102,7 +102,7 @@ export const Language = (props) => {
     <GenericDropdown
       {...props}
       options={options}
-      placeholder={LANGS.detect}
+      placeholder='detect'
       label='language'
     />
   );
@@ -118,7 +118,7 @@ export const Theme = (props) => {
     <GenericDropdown
       {...props}
       options={options}
-      placeholder={'atom'}
+      placeholder='atom'
       label='theme'
     />
   );

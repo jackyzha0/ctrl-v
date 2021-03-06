@@ -139,11 +139,11 @@ const NewPaste = () =>  {
                 onLangChange={(e) => { setLanguage(e.target.value) }} 
                 onExpiryChange={(e) => { setExpiry(e.target.value) }} />
             <SubmitButton type="submit" value="new paste" />
-            <Button
-                type="button"
-                onClick={() => setIsPreview(!isPreview)}>
-                preview
-            </Button>
+            {language !== LANGS.detect && <Button
+              type="button"
+              onClick={() => setIsPreview(!isPreview)}>
+              preview
+            </Button>}
             <br />
             <Error ref={ErrorLabel} />
         </form>
