@@ -24,7 +24,7 @@ export const InputLike = css`
 export const ButtonLike = css`
   font-family: 'JetBrains Mono', serif;
   font-weight: 700;
-  padding: 0.8em 2em;
+  padding: 0.6em 1.5em;
   margin: 2em 0;
   outline: 0;
 `

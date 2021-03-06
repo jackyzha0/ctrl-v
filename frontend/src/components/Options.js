@@ -7,6 +7,10 @@ const Flex = styled.div`
     display: flex;
     flex-direction: row;
     transform: translateY(0.2em);
+    
+    & > *:not(:first-child) {
+      margin-left: 2em;
+    }
 
     @media (max-width: 850px) {
         float: none !important;

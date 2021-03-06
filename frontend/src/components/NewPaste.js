@@ -9,12 +9,7 @@ import styled from 'styled-components'
 import CodeRenderer from './renderers/Code'
 import Latex from './renderers/Latex'
 import Markdown from './renderers/Markdown'
-
-const Button = styled.button`
-    margin-right: 0 !important;
-    margin-left: 2em !important;
-    height: calc(16px + 1.6em + 2px);
-`
+import {Button, SubmitButton} from "./Form/Button";
 
 const Flex = styled.div`
     display: flex;
@@ -143,7 +138,7 @@ const NewPaste = () =>  {
                 onPassChange={(e) => { setPass(e.target.value) }} 
                 onLangChange={(e) => { setLanguage(e.target.value) }} 
                 onExpiryChange={(e) => { setExpiry(e.target.value) }} />
-            <input className="lt-button lt-shadow lt-hover" type="submit" value="new paste" />
+            <SubmitButton type="submit" value="new paste" />
             <Button
                 className="lt-shadow lt-hover"
                 type="button"

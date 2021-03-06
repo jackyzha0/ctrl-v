@@ -1,14 +1,14 @@
 import Dropdown from "react-dropdown";
-import FloatingLabel from "../decorators/FloatingLabel";
 import React from "react";
 import styled from 'styled-components';
 import {LANGS, THEMES} from "../renderers/Code";
 import {Labelled} from "./shared";
-import {Border, InputLike, Rounded} from "../Form/mixins";
+import {Border, DropShadow, InputLike, Rounded} from "../Form/mixins";
 
 const StyledDropdown = styled(Dropdown)`
   ${Border}
   ${Rounded}
+  ${DropShadow}
   ${InputLike}
   cursor: pointer;
   

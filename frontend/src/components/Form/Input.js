@@ -1,4 +1,3 @@
-import React from "react";
 import styled from 'styled-components'
 import {Border, DropShadow, InputLike, Rounded} from "./mixins";
 

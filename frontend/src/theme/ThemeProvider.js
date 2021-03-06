@@ -6,6 +6,7 @@ const theme = {
     background: '#faf9f5',
     border: '#565656',
     text: '#111111',
+    error: '#ee1111',
   },
 }
 

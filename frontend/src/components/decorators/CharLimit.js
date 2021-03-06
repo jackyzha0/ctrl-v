@@ -8,21 +8,12 @@ const Chars = styled.p`
     font-size: 0.8em;
     writing-mode: vertical-rl;
     top: 50%;
-    transform: translate(5em, -50%);
+    transform: translate(4em, -50%);
     right: 0;
     transition: all 0.5s cubic-bezier(.25,.8,.25,1);
 
-    ${props =>
-        ((props.content.length / props.maxLength) > 0.5) &&
-        css`
-        color: #111111;
-    `};
-
-    ${props =>
-        ((props.content.length / props.maxLength) > 1) &&
-        css`
-        color: #ee1111;
-    `};
+    ${p => ((p.content.length / p.maxLength) > 0.5) && ` color: ${p.theme.colors.text}; `};
+    ${p => ((p.content.length / p.maxLength) > 1) && ` color: ${p.theme.colors.error}; `};
 `;
 
 const CharLimit = (props) => {
