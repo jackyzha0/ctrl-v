@@ -1,5 +1,5 @@
 import React from 'react';
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 
 // show char limit if length > half of max
 const Chars = styled.p`

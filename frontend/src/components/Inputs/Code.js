@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import CharLimit from "../decorators/CharLimit";
 import Editor from 'react-simple-code-editor';
 import {Highlighter} from "../renderers/Code";
+import {CodeLike, Hover} from "../Form/mixins";
 
 const EditorWrapper = styled(Editor)`
   overflow: visible !important;
@@ -13,22 +14,17 @@ const EditorWrapper = styled(Editor)`
   }
   
   & pre, & code, & > textarea {
-    font-family: JetBrains Mono !important;
-    font-size: 14px !important;
-    line-height: 1.2em !important;
+    ${CodeLike}
     min-height: 40vh;
   }
   
   & > textarea {
-    padding: 0.8em !important;
+    ${Hover}
+    padding: 0.6em !important;
     z-index: 1;
-    border: none !important;
-    background-color: transparent !important;
     outline: none !important;
   }
 `
-
-const DefaultText = `Paste your text here`
 
 export const Code = ({content, id, readOnly, setContentCallback, ...props}) => {
   return (
@@ -36,7 +32,7 @@ export const Code = ({content, id, readOnly, setContentCallback, ...props}) => {
       <EditorWrapper
         name="content"
         readOnly={readOnly}
-        placeholder={DefaultText}
+        placeholder="Paste your text here"
         value={content}
         id={id}
         required

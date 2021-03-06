@@ -8,7 +8,12 @@ export const Hover = css`
   opacity: 0.5;
   transition: all 0.5s cubic-bezier(.25,.8,.25,1);
   
-  &:focus, &:hover, &:focus span {
+  & ~ pre {
+    transition: all 0.5s cubic-bezier(.25,.8,.25,1);
+    opacity: 0.5;
+  }
+  
+  &:focus, &:hover, &:focus span, &:focus ~ pre {
     opacity: 1;
   }
 `
@@ -29,6 +34,13 @@ export const InputLike = css`
   padding: 0.6em;
   outline: none;
   margin: 1.7em 0;
+`
+
+export const CodeLike = css`
+  font-family: JetBrains Mono !important;
+  font-size: 14px !important;
+  line-height: 1.2em !important;
+  white-space: pre-wrap;
 `
 
 export const ButtonLike = css`

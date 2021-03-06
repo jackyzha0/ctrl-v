@@ -24,6 +24,7 @@
     "react-scripts": "3.4.1",
     "react-simple-code-editor": "^0.11.0",
     "react-syntax-highlighter": "^12.2.1",
+    "react-syntax-highlighter-virtualized-renderer": "^1.1.0",
     "serialize-javascript": "^4.0.0",
     "styled-components": "^5.1.0",
     "use-clipboard-copy": "^0.1.2"

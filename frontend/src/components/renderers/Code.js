@@ -1,8 +1,9 @@
 import React from 'react';
 import SyntaxHighlighter from 'react-syntax-highlighter';
+import virtualizedRenderer from 'react-syntax-highlighter-virtualized-renderer';
 import { atomOneLight, ascetic, atomOneDark, dracula, ocean } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import styled from 'styled-components'
-import {Rounded} from "../Form/mixins";
+import {Border, CodeLike, DropShadow, Hover, Rounded} from "../Form/mixins";
 
 export const THEMES = Object.freeze({
     'atom': atomOneLight,
@@ -19,19 +20,17 @@ export const LANGS = Object.freeze({
 })
 
 export const StyledPre = styled.pre`
-  width: 100%;
-  font-size: 14px;
-  line-height: 1.2em;
-  padding: calc(0.8em - 1px) !important;
+  ${Rounded};
+  ${Border};
+  ${DropShadow};
+  width: calc(100%);
+  padding: calc(0.6em - 1px) !important;
   margin: 1.7em 0;
-  background: none !important;
   position: relative;
-  ${Rounded}
   outline: none;
-  border: 1px solid #565656 !important;
   
   & code {
-    font-family: JetBrains Mono !important;
+    ${CodeLike}
   }
 
   & code:first-child:not(:only-of-type) {
@@ -51,18 +50,15 @@ export const Highlighter = ({language, lineNumbers, theme, pre = StyledPre, chil
 
 const CodeRenderer = React.forwardRef((props, ref) => {
     const Pre = (props) => <StyledPre {...props} ref={ref} />
-    return (
-        <div className="lt-shadow">
-            <Highlighter
-                lineNumbers={true}
-                language={props.lang}
-                theme={props.theme}
-                pre={Pre}
-            >
-                {props.content}
-            </Highlighter>
-        </div>
-    );
+    return (<Highlighter
+      lineNumbers={true}
+      language={props.lang}
+      theme={props.theme}
+      renderer={virtualizedRenderer()}
+      pre={Pre}
+    >
+      {props.content}
+    </Highlighter>)
 });
 
 export default CodeRenderer
