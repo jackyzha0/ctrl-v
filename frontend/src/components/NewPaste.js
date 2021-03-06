@@ -74,7 +74,7 @@ const NewPaste = () =>  {
 
     function renderPreview() {
         const pasteInput = <Code
-            onChange={(e) => { setContent(e.target.value) }}
+            setContentCallback={setContent}
             content={content}
             maxLength="100000"
             id="pasteInput" />

@@ -34,23 +34,26 @@ const StyledPre = styled.pre`
   }
 `
 
-const CodeRenderer = React.forwardRef((props, ref) => {
+export const Highlighter = ({language, theme, preTag, children}) => <SyntaxHighlighter
+  language={LANGS[language]}
+  style={THEMES[theme]}
+  showLineNumbers
+  PreTag={preTag}>
+    {children}
+</SyntaxHighlighter>
 
-    const Pre = (props) => {
-        return (
-            <StyledPre {...props} ref={ref} />
-        );
-    }
+const CodeRenderer = React.forwardRef((props, ref) => {
+    const Pre = (props) => <StyledPre {...props} ref={ref} />
 
     return (
         <div className="lt-shadow">
-            <SyntaxHighlighter
-                language={LANGS[props.lang]}
-                style={THEMES[props.theme]}
-                showLineNumbers
-                PreTag={Pre}>
+            <Highlighter
+                language={props.lang}
+                theme={props.theme}
+                preTag={Pre}
+            >
                 {props.content}
-            </SyntaxHighlighter>
+            </Highlighter>
         </div>
     );
 });

@@ -1,30 +1,30 @@
-import React, {useEffect, useRef} from "react";
-import * as indentation from "indent-textarea";
+import React from "react";
 import CharLimit from "../decorators/CharLimit";
 import {Labelled} from "../decorators/Labelled";
+import Editor from 'react-simple-code-editor';
+import {Highlighter} from "../renderers/Code";
 
-export const Code = ({content, ...props}) => {
-  const textInput = useRef(null);
-
-  useEffect(() => {
-    indentation.watch(textInput.current);
-  }, [textInput])
-
+export const Code = ({content, id, readOnly, setContentCallback, ...props}) => {
   return (
     <Labelled
       label="content"
-      id={props.id}
+      id={id}
       value={content}>
-        <textarea
+        <Editor
           name="content"
-          readOnly={props.readOnly}
+          readOnly={readOnly}
           placeholder="Paste your text here"
           value={content}
-          id={props.id}
-          ref={textInput}
+          id={id}
           required
-          onChange={props.onChange}
-          className="lt-shadow" />
+          highlight={code => <Highlighter theme="atom">{code}</Highlighter> }
+          onValueChange={code => setContentCallback(code)}
+          padding={10}
+          style={{
+            fontFamily: '"JetBrains Mono", monospace',
+            fontSize: 12,
+          }}
+        />
         <CharLimit
           content={content}
           maxLength={props.maxLength} />
