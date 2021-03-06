@@ -14,7 +14,6 @@ const Logo = styled.h1`
     text-decoration: none;
     position: relative;
     color: ${p => p.theme.colors.text};
-    
   }
   
   &:hover {

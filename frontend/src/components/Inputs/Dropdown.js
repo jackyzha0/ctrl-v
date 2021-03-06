@@ -1,8 +1,50 @@
 import Dropdown from "react-dropdown";
 import FloatingLabel from "../decorators/FloatingLabel";
 import React from "react";
+import styled from 'styled-components';
 import {LANGS, THEMES} from "../renderers/Code";
-import {FlexChild} from "./shared";
+import {Labelled} from "./shared";
+import {Border, InputLike, Rounded} from "../Form/mixins";
+
+const StyledDropdown = styled(Dropdown)`
+  ${Border}
+  ${Rounded}
+  ${InputLike}
+  cursor: pointer;
+  
+  & .Dropdown-root {
+    cursor: pointer;
+    
+    &:hover, &.is-open {
+      opacity: 1;
+    }
+    
+    & + label {
+      opacity: 1;
+      top: -0.1em;
+    }
+  }
+  
+  & .Dropdown-placeholder {
+    width: 5.5em;
+  }
+  
+  & .Dropdown-menu {
+    border-top: 1px solid ${p => p.theme.colors.text};
+    margin-top: 0.5em;
+    bottom: auto;
+  }
+  
+  & .Dropdown-option {
+    margin-top: 0.5em;
+    transition: all 0.5s cubic-bezier(.25,.8,.25,1);
+    
+    &:hover {
+      font-weight: 700;
+      opacity: 0.4;
+    }
+  }
+`
 
 const GenericDropdown = (props) => {
   function _onSelect(option) {
@@ -15,18 +57,17 @@ const GenericDropdown = (props) => {
   }
 
   return (
-    <FlexChild>
-      <Dropdown
+    <Labelled
+      label={props.label}
+      id={props.id}
+      value={props.value}>
+      <StyledDropdown
         options={props.options}
         onChange={_onSelect}
         value={props.value}
         placeholder={props.placeholder}
         id={props.id} />
-      <FloatingLabel
-        label={props.label}
-        id={props.id}
-        value={props.value} />
-    </FlexChild>
+    </Labelled>
   );
 }
 

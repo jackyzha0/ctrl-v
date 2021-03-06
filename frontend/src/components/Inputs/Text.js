@@ -1,15 +1,15 @@
 import CharLimit from "../decorators/CharLimit";
 import React from "react";
 import {Labelled} from "./shared";
+import {Input} from "../Form/Input";
 
 export const Text = React.forwardRef(({label, id, readOnly, onChange, value, maxLength, autoFocus}, ref) => {
   return (
     <Labelled label={label} value={value}>
-      <input
+      <Input
         ref={ref}
         name={label}
         readOnly={readOnly}
-        className="lt-shadow"
         placeholder="Title"
         id={id}
         type="text"

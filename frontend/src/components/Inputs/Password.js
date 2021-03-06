@@ -1,10 +1,10 @@
 import React from "react";
 import {Labelled} from "./shared";
+import {Input} from "../Form/Input";
 
 export const Password = (props) => <Labelled label="password">
-  <input
+  <Input
     name="pass"
-    className="lt-shadow"
     placeholder="password"
     type="password"
     autoComplete="off"
