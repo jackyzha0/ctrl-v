@@ -7,35 +7,33 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link,
   useParams
 } from "react-router-dom";
 import Raw from './renderers/Raw'
 
-const SpacedTitle = styled.div`
-    margin-top: 10vh
+const Logo = styled.div`
+    position: absolute;
+    bottom: 1.5em;
+    left: 2em;
+    opacity: 0.3;
+    
+    & h1 {
+      font-size: 3rem;
+    }
 `
 
-const Desc = () => {
-  return (
-    <h3>a modern, <a href="https://github.com/jackyzha0/ctrl-v" target="_blank" rel="noopener noreferrer">open-source</a> pastebin with latex and markdown rendering support</h3>
-  );
-}
+const Main = styled.main`
+  margin-top: 10vh;
+`
 
 const GetPasteWithParam = () => {
   let { hash } = useParams();
-
-  return (
-    <ViewPaste hash = {hash} />
-  );
+  return <ViewPaste hash = {hash} />;
 }
 
 const GetRawWithParam = () => {
   let { hash } = useParams();
-
-  return (
-    <Raw hash={hash} />
-  );
+  return <Raw hash={hash} />;
 }
 
 const App = () => {
@@ -47,17 +45,15 @@ const App = () => {
         />
         <Route>
           <div className="lt-content-column">
-            <SpacedTitle>
+            <Logo>
               <nav>
                 <h1 className="mainLogo">
-                  <span role="img" aria-label="clipboard">📋&nbsp;</span>
-                  <Link to="/">ctrl-v</Link>
+                  <a href="https://github.com/jackyzha0/ctrl-v">ctrl-v</a>
                 </h1>
-                <Desc />
               </nav>
-            </SpacedTitle>
+            </Logo>
 
-            <main id="appElement">
+            <Main id="appElement">
               <Switch>
                 <Route path="/:hash"
                   children={<GetPasteWithParam />}
@@ -66,7 +62,7 @@ const App = () => {
                   <NewPaste />
                 </Route>
               </Switch>
-            </main>
+            </Main>
 
             <Footer />
           </div>

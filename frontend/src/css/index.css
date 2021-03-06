@@ -8,7 +8,7 @@ body {
   margin: 0;
   padding: 0;
   background-color: #faf9f5;
-  font-family: 'Lora', serif;
+  font-family: 'JetBrains Mono', serif;
 }
 
 form {
@@ -17,7 +17,7 @@ form {
 
 textarea, input[type=text], input[type=password], .Dropdown-root {
   width: 100%;
-  font-family: 'Roboto Mono', monospace;
+  font-family: 'JetBrains Mono', monospace;
   font-size: 0.8em;
   padding: calc(0.8em - 1px);
   border-radius: 3px;
@@ -37,7 +37,7 @@ textarea, input[type=text], input[type=password], .Dropdown-root {
 
 code, pre {
   background: #00000000;
-  font-family: 'Roboto Mono', monospace;
+  font-family: 'JetBrains Mono', monospace;
   padding: initial;
   border-radius: 3px;
   outline: none;
@@ -105,7 +105,7 @@ a {
 }
 
 input[type=submit], button[type=submit] {
-  font-family: 'Lora', serif;
+  font-family: 'JetBrains Mono', serif;
   font-weight: 700;
   color: #faf9f5;
   background-color: #111111;
@@ -115,7 +115,7 @@ input[type=submit], button[type=submit] {
 }
 
 button[type=button] {
-  font-family: 'Lora', serif;
+  font-family: 'JetBrains Mono', serif;
   font-weight: 700;
   width: 8em;
   padding: calc(0.8em - 1px) 1.5em;

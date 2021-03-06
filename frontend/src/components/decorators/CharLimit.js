@@ -4,7 +4,6 @@ import styled, { css } from 'styled-components'
 // show char limit if length > half of max
 const Chars = styled.p`
     color: #11111100;
-    font-family: 'Roboto Mono', monospace;
     position: absolute; 
     font-size: 0.8em;
     writing-mode: vertical-rl;

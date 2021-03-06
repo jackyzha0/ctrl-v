@@ -14,7 +14,7 @@ const Link = (props) => {
 const Footer = () => {
     return (
         <SpacedFooter>
-            © 2020 &mdash; <Link link="https://jzhao.xyz/" name="jacky" />, <Link link="https://ryanmehri.tech/" name="ryan" />
+            (c) 2020 &mdash; <Link link="https://jzhao.xyz/" name="jacky" />, <Link link="https://ryanmehri.tech/" name="ryan" />
         </SpacedFooter>
     );
 }
