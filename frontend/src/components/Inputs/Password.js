@@ -5,7 +5,7 @@ import {Input} from "../Common/Input";
 export const Password = (props) => <Labelled label="password">
   <Input
     name="pass"
-    placeholder="add password"
+    placeholder={props.placeholder ?? "add password"}
     type="password"
     autoComplete="off"
     onChange={props.onChange}

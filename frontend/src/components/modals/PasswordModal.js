@@ -3,6 +3,7 @@ import Modal from 'react-modal';
 import { Password } from '../Inputs'
 import {ModalHeader, Padding, modalStyles, Form} from './shared'
 import Error from '../Err';
+import {SubmitButton} from "../Common/Button";
 
 const PasswordModal = (props) => {
     const ErrorLabel = useRef(null);
@@ -23,9 +24,10 @@ const PasswordModal = (props) => {
             <Form onSubmit={submitPassword}>
                 <ModalHeader><span role="img" aria-label="warning">🚧&nbsp;</span>err: password protected</ModalHeader>
                 <Password
+                    placeholder="hunter2"
                     value={props.value}
                     onChange={props.onChange} />
-                <input className="lt-button lt-shadow lt-hover" type="submit" value="continue" />
+                <SubmitButton type="submit" value="continue" />
                 <Padding />
                 <Error ref={ErrorLabel} />
             </Form>
