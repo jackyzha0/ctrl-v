@@ -51,7 +51,6 @@ export const Highlighter = ({language, lineNumbers, theme, pre = StyledPre, chil
 const CodeRenderer = (props) => {
     return (<Highlighter
       lineNumbers={true}
-      language={props.lang}
       theme={props.theme}
       renderer={virtualizedRenderer()}
       pre={StyledPre}
