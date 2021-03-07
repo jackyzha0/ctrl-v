@@ -1,6 +1,6 @@
 import React from 'react';
-import NewPaste from './components/NewPaste'
-import ViewPaste from './components/ViewPaste'
+import NewPaste from './components/pages/NewPaste'
+import ViewPaste from './components/pages/ViewPaste'
 import styled from 'styled-components'
 import {
   BrowserRouter as Router,
@@ -8,7 +8,7 @@ import {
   Route,
   useParams
 } from "react-router-dom";
-import Raw from './components/renderers/Raw'
+import Raw from './components/pages/Raw'
 import ThemeProvider from './theme/ThemeProvider'
 import GlobalStyle from './theme/GlobalStyle'
 import {Watermark} from "./components/Watermark";

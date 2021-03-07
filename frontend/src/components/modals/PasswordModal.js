@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import Modal from 'react-modal';
 import { Password } from '../Inputs'
-import {ModalHeader, Padding, modalStyles, Form} from './shared'
+import {ModalHeader, modalStyles, Form} from './shared'
 import Error from '../Err';
 import {SubmitButton} from "../Common/Button";
 
@@ -28,7 +28,6 @@ const PasswordModal = (props) => {
                     value={props.value}
                     onChange={props.onChange} />
                 <SubmitButton type="submit" value="continue" />
-                <Padding />
                 <Error ref={ErrorLabel} />
             </Form>
         </Modal>
