@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import Modal from 'react-modal';
 import { Password } from '../Inputs'
-import {RightPad, LeftPad, ModalHeader, Padding, modalStyles} from './shared'
+import {RightPad, LeftPad, ModalHeader, Padding, modalStyles, Form} from './shared'
 import Error from '../Err';
 
 const PasswordModal = (props) => {
@@ -20,21 +20,15 @@ const PasswordModal = (props) => {
             style={modalStyles}
             contentLabel="enter paste password"
         >
-            <form onSubmit={submitPassword}>
-                <LeftPad>
-                    <ModalHeader><span role="img" aria-label="warning">🚧&nbsp;</span>err: password protected</ModalHeader>
-                </LeftPad>
-                <RightPad>
-                    <Password
-                        value={props.value}
-                        onChange={props.onChange} />
-                </RightPad>
-                <LeftPad>
-                    <input className="lt-button lt-shadow lt-hover" type="submit" value="continue" />
-                    <Padding />
-                    <Error ref={ErrorLabel} />
-                </LeftPad>
-            </form>
+            <Form onSubmit={submitPassword}>
+                <ModalHeader><span role="img" aria-label="warning">🚧&nbsp;</span>err: password protected</ModalHeader>
+                <Password
+                    value={props.value}
+                    onChange={props.onChange} />
+                <input className="lt-button lt-shadow lt-hover" type="submit" value="continue" />
+                <Padding />
+                <Error ref={ErrorLabel} />
+            </Form>
         </Modal>
     );
 }

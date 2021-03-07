@@ -12,15 +12,8 @@ export const modalStyles = {
 };
 
 export const Form = styled.form`
-  z-index: 999;
-`
-
-export const RightPad = styled.div`
-    margin-right: 3em;
-`
-
-export const LeftPad = styled.div`
-    margin-left: 2em;
+  margin: 2em;
+  margin-right: 3em;
 `
 
 export const ModalHeader = styled.h3`

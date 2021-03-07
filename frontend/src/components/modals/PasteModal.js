@@ -1,6 +1,6 @@
 import React from 'react';
 import Modal from 'react-modal';
-import {LeftPad, ModalHeader, modalStyles, RightPad} from './shared'
+import {Form, LeftPad, ModalHeader, modalStyles, RightPad} from './shared'
 import { useHistory } from 'react-router-dom';
 import { Text } from '../Inputs'
 import { useClipboard } from 'use-clipboard-copy';
@@ -24,30 +24,27 @@ const PasteModal = (props) => {
             style={modalStyles}
             contentLabel="paste created"
         >
-            <form onSubmit={redir}>
-                <LeftPad>
-                    <ModalHeader><span role="img" aria-label="success">📎&nbsp;</span>paste created</ModalHeader>
-                </LeftPad>
-                    <RightPad>
-                        <Text
-                            type="text"
-                            value={fullURL} 
-                            readOnly
-                            ref={clipboard.target} />
-                    </RightPad>
-                <LeftPad>
-                    <Button
-                        type="submit">
-                            view
-                    </Button>
-                    <Button
-                        secondary
-                        type="button" 
-                        onClick={clipboard.copy}>
-                            {clipboard.copied ? 'copied' : 'copy url'}
-                    </Button>
-                </LeftPad>
-            </form>
+            <Form onSubmit={redir}>
+                <ModalHeader>
+                    <span role="img" aria-label="success">📎&nbsp;</span>paste created
+                </ModalHeader>
+                <Text
+                    label="url"
+                    type="text"
+                    value={fullURL}
+                    readOnly
+                    ref={clipboard.target} />
+                <Button
+                    type="submit">
+                        go to paste
+                </Button>
+                <Button
+                    secondary
+                    type="button"
+                    onClick={clipboard.copy}>
+                        {clipboard.copied ? 'copied' : 'copy url'}
+                </Button>
+            </Form>
         </Modal>
     );
 }
