@@ -17,7 +17,7 @@ const ShiftedButton = styled(Button)`
     margin-top: 1.6em !important;
 `
 
-const SpacedText = styled.p`
+const SpacedText = styled.span`
     margin-right: 1em;
 `
 
