@@ -18,11 +18,6 @@ const StyledDropdown = styled(Dropdown)`
     &:hover, &.is-open {
       opacity: 1;
     }
-    
-    & + label {
-      opacity: 1;
-      top: -0.1em;
-    }
   }
   
   & .Dropdown-placeholder {

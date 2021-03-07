@@ -48,17 +48,16 @@ export const Highlighter = ({language, lineNumbers, theme, pre = StyledPre, chil
     {children}
 </SyntaxHighlighter>
 
-const CodeRenderer = React.forwardRef((props, ref) => {
-    const Pre = (props) => <StyledPre {...props} ref={ref} />
+const CodeRenderer = (props) => {
     return (<Highlighter
       lineNumbers={true}
       language={props.lang}
       theme={props.theme}
       renderer={virtualizedRenderer()}
-      pre={Pre}
+      pre={StyledPre}
     >
       {props.content}
     </Highlighter>)
-});
+};
 
 export default CodeRenderer

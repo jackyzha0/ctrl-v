@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components'
 import { useHistory } from 'react-router-dom';
 import { Theme } from './Inputs'
-import { exportComponentAsPNG } from "react-component-export-image";
 import {Button} from "./Common/Button";
 
 const Bold = styled.span`
@@ -57,12 +56,6 @@ const PasteInfo = (props) => {
                     type="button"
                     onClick={redirRaw}>
                     view raw
-                </ShiftedButton>
-                <ShiftedButton
-                    secondary
-                    type="button"
-                    onClick={() => exportComponentAsPNG(props.compref, `paste-${props.hash}.png`)}>
-                    save png
                 </ShiftedButton>
                 {renderable()}
                 <Theme

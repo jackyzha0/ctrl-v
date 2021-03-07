@@ -30,7 +30,6 @@ const ViewPaste = (props) => {
     }, [language])
 
     const ErrorLabelRef = useRef(null);
-    const ComponentRef = useRef(null);
 
     function validatePass(pass, onErrorCallBack) {
         FetchPasswordPaste(props.hash, pass)
@@ -97,24 +96,14 @@ const ViewPaste = (props) => {
     }, [props.hash])
 
     function getDisplay() {
-        if (isRenderMode) {
-            return (
-                <RenderDispatch
-                    language={language}
-                    content={content}
-                    ref={ComponentRef}
-                />
-            )
-        } else {
-            return (
-                <CodeRenderer
-                    content={content}
-                    lang={language}
-                    theme={theme}
-                    ref={ComponentRef}
-                    id="pasteInput" />
-            )
-        }
+        return isRenderMode ? <RenderDispatch
+          language={language}
+          content={content}
+        /> : <CodeRenderer
+          content={content}
+          lang={language}
+          theme={theme}
+          id="pasteInput" />
     }
 
     return (
@@ -139,7 +128,6 @@ const ViewPaste = (props) => {
                 toggleRenderCallback={() => setIsRenderMode(!isRenderMode)}
                 isRenderMode={isRenderMode}
                 onChange={(e) => setTheme(e.target.value)}
-                compref={ComponentRef}
                 err={<Error ref={ErrorLabelRef} />}
             />
         </div>

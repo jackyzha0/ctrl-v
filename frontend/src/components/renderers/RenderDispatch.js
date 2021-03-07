@@ -8,16 +8,16 @@ const RenderWrapper = styled.div`
     padding: 1em;
 `
 
-const RenderDispatch = React.forwardRef((props, ref) => {
+const RenderDispatch = (props) => {
     switch (props.language) {
         case 'latex':
             return (
-                <RenderWrapper ref={ref}>
+                <RenderWrapper>
                     <Latex content={props.content} />
                 </RenderWrapper>)
         case 'markdown':
             return (
-                <RenderWrapper ref={ref} className="md" >
+                <RenderWrapper className="md" >
                     <Markdown content={props.content} />
                 </RenderWrapper>)
         default:
@@ -26,9 +26,8 @@ const RenderDispatch = React.forwardRef((props, ref) => {
                     content={props.content}
                     lang={props.language}
                     theme={props.theme}
-                    ref={ref}
                     id="pasteInput" />)
     }
-});
+};
 
 export default RenderDispatch
