@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components'
 import { FetchPaste } from '../../helpers/httpHelper'
+import {CodeLike} from "../Common/mixins";
 
 const RawText = styled.pre`
-    word-wrap: break-word;
-    white-space: pre-wrap;
-    line-height: initial;
-    font-size: 0.8em;
+    ${CodeLike}
     padding: 0 1em;
 `
 

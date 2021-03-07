@@ -4,12 +4,11 @@ import OptionsContainer from './Options'
 import Error from './Err'
 import { PostNewPaste } from '../helpers/httpHelper'
 import PasteModal from './modals/PasteModal'
-import { LANGS } from './renderers/Code'
 import styled from 'styled-components'
 import CodeRenderer from './renderers/Code'
 import Latex from './renderers/Latex'
 import Markdown from './renderers/Markdown'
-import {Button, SubmitButton} from "./Form/Button";
+import {Button, SubmitButton} from "./Common/Button";
 
 const Flex = styled.div`
     display: flex;

@@ -7,7 +7,6 @@ import PasswordModal from './modals/PasswordModal'
 import { FetchPaste, FetchPasswordPaste } from '../helpers/httpHelper'
 import { LANGS } from './renderers/Code'
 import RenderDispatch from './renderers/RenderDispatch'
-import MetaTags from 'react-meta-tags';
 
 function fmtDateStr(dateString) {
     const d = new Date(dateString)
@@ -120,10 +119,6 @@ const ViewPaste = (props) => {
 
     return (
         <div>
-            <MetaTags>
-                <meta name="description" content={`${language}, expires ${expiry}. hosted on ctrl-v`} />
-                <meta property="og:title" content={title} />
-            </MetaTags>
             <PasswordModal
                 hasPass={hasPass}
                 validPass={validPass}

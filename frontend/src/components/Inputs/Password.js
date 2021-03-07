@@ -1,6 +1,6 @@
 import React from "react";
 import {Labelled} from "../decorators/Labelled";
-import {Input} from "../Form/Input";
+import {Input} from "../Common/Input";
 
 export const Password = (props) => <Labelled label="password">
   <Input

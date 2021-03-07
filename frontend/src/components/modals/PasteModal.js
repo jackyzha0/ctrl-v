@@ -1,10 +1,10 @@
 import React from 'react';
 import Modal from 'react-modal';
-import {Form, LeftPad, ModalHeader, modalStyles, RightPad} from './shared'
+import {Form, ModalHeader, modalStyles} from './shared'
 import { useHistory } from 'react-router-dom';
 import { Text } from '../Inputs'
 import { useClipboard } from 'use-clipboard-copy';
-import {Button} from "../Form/Button";
+import {Button} from "../Common/Button";
 
 const PasteModal = (props) => {
     const history = useHistory();

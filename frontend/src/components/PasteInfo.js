@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { useHistory } from 'react-router-dom';
 import { Theme } from './Inputs'
 import { exportComponentAsPNG } from "react-component-export-image";
+import {Button} from "./Common/Button";
 
 const Bold = styled.span`
     font-weight: 700
@@ -13,14 +14,11 @@ const StyledDiv = styled.div`
     margin: 2em 0;
 `
 
-const Button = styled.button`
-    margin-right: 0 !important;
-    margin-left: 2em !important;
-    height: calc(16px + 1.6em);
+const ShiftedButton = styled(Button)`
     margin-top: 1.6em !important;
 `
 
-const SpacedText = styled.span`
+const SpacedText = styled.p`
     margin-right: 1em;
 `
 
@@ -28,7 +26,6 @@ const Flex = styled.div`
     float: right;
     display: flex;
     flex-direction: row;
-    transform: translateY(0.2em);
 `
 
 const PasteInfo = (props) => {
@@ -42,12 +39,12 @@ const PasteInfo = (props) => {
         const buttonTxt = props.isRenderMode ? 'text' : 'render'
         if (props.lang === 'latex' || props.lang === 'markdown') {
             return (
-                <Button
-                    className="lt-shadow lt-hover"
+                <ShiftedButton
+                    secondary
                     type="button"
                     onClick={props.toggleRenderCallback}>
                     {buttonTxt}
-                </Button>
+                </ShiftedButton>
             );
         }
     }
@@ -55,18 +52,18 @@ const PasteInfo = (props) => {
     return (
         <div>
             <Flex>
-                <Button
-                    className="lt-shadow lt-hover"
+                <ShiftedButton
+                    secondary
                     type="button"
                     onClick={redirRaw}>
                     view raw
-                </Button>
-                <Button
-                    className="lt-shadow lt-hover"
+                </ShiftedButton>
+                <ShiftedButton
+                    secondary
                     type="button"
                     onClick={() => exportComponentAsPNG(props.compref, `paste-${props.hash}.png`)}>
                     save png
-                </Button>
+                </ShiftedButton>
                 {renderable()}
                 <Theme
                     value={props.theme}

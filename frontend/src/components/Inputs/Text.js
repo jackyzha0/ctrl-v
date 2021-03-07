@@ -1,7 +1,7 @@
 import CharLimit from "../decorators/CharLimit";
 import React from "react";
 import {Labelled} from "../decorators/Labelled";
-import {Input} from "../Form/Input";
+import {Input} from "../Common/Input";
 
 export const Text = React.forwardRef(({label, id, readOnly, onChange, value, maxLength, autoFocus}, ref) => {
   return (

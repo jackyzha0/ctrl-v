@@ -3,7 +3,7 @@ import SyntaxHighlighter from 'react-syntax-highlighter';
 import virtualizedRenderer from 'react-syntax-highlighter-virtualized-renderer';
 import { atomOneLight, ascetic, atomOneDark, dracula, ocean } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import styled from 'styled-components'
-import {Border, CodeLike, DropShadow, Hover, Rounded} from "../Form/mixins";
+import {Border, CodeLike, DropShadow, Rounded} from "../Common/mixins";
 
 export const THEMES = Object.freeze({
     'atom': atomOneLight,

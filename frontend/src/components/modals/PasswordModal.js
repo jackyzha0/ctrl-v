@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import Modal from 'react-modal';
 import { Password } from '../Inputs'
-import {RightPad, LeftPad, ModalHeader, Padding, modalStyles, Form} from './shared'
+import {ModalHeader, Padding, modalStyles, Form} from './shared'
 import Error from '../Err';
 
 const PasswordModal = (props) => {

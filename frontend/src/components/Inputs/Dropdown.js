@@ -3,7 +3,7 @@ import React from "react";
 import styled from 'styled-components';
 import {LANGS, THEMES} from "../renderers/Code";
 import {Labelled} from "../decorators/Labelled";
-import {Border, DropShadow, InputLike, Rounded} from "../Form/mixins";
+import {Border, DropShadow, InputLike, Rounded} from "../Common/mixins";
 
 const StyledDropdown = styled(Dropdown)`
   ${Border}

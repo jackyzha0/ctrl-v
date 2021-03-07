@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import CharLimit from "../decorators/CharLimit";
 import Editor from 'react-simple-code-editor';
 import {Highlighter} from "../renderers/Code";
-import {CodeLike, Hover} from "../Form/mixins";
+import {CodeLike, Hover} from "../Common/mixins";
 
 const Wrapper = styled.div`
   position: relative;
