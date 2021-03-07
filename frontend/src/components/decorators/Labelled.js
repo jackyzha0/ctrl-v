@@ -3,8 +3,11 @@ import React from "react";
 
 const StyledLabel = styled.label`
   position: relative;
-  & > span {
-    position: absolute;
+  & > div:first-child {
+      position: absolute;
+  }
+  & > div > span {
+    display: block;
     transform: translateY(-0.2em);
     font-weight: 700;
     font-size: 1em;
@@ -22,9 +25,9 @@ const FloatingLabel = (props) => <StyledLabel label={props.label}>
 </StyledLabel>
 
 
-export const Labelled = ({label, value, children}) => <div>
-  <FloatingLabel label={label} value={value} >
+export const Labelled = ({label, value, children}) => <FloatingLabel label={label} value={value} >
+  <div>
     <span>{label}</span>
-    {children}
-  </FloatingLabel>
-</div>
+  </div>
+  {children}
+</FloatingLabel>
