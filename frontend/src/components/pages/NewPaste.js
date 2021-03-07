@@ -1,14 +1,14 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Text, Code } from './Inputs'
-import OptionsContainer from './Options'
-import Error from './Err'
-import { PostNewPaste } from '../helpers/httpHelper'
-import PasteModal from './modals/PasteModal'
+import { Text, Code } from '../Inputs'
+import OptionsContainer from '../Options'
+import Error from '../Err'
+import PasteModal from '../modals/PasteModal'
 import styled from 'styled-components'
-import CodeRenderer from './renderers/Code'
-import Latex from './renderers/Latex'
-import Markdown from './renderers/Markdown'
-import {Button, SubmitButton} from "./Common/Button";
+import CodeRenderer from '../renderers/Code'
+import Latex from '../renderers/Latex'
+import Markdown from '../renderers/Markdown'
+import {Button, SubmitButton} from "../Common/Button";
+import {newPaste} from "../hooks/shared";
 
 const Flex = styled.div`
     display: flex;
@@ -40,11 +40,7 @@ const NewPaste = () =>  {
     const ErrorLabel = useRef(null);
 
     useEffect(() => {
-        if (title === "") {
-            document.title = `ctrl-v`;
-        } else {
-            document.title = `ctrl-v | ${title}`;
-        }
+      document.title = title === "" ? `ctrl-v` : `ctrl-v | ${title}`;
     }, [title])
 
     function handleSubmit(e) {
@@ -52,21 +48,20 @@ const NewPaste = () =>  {
 
         // prevent resubmission
         if (!hash) {
-            PostNewPaste(title, content, language, pass, expiry)
-                .then((response) => {
-                    // on success, redir
-                    setHash(response.data.hash)
-                }).catch((error) => {
+            newPaste({title, content, language, pass, expiry})
+                .then(resp => {setHash(resp.data.hash)})
+                .catch((error) => {
                     const resp = error.response
-    
-                    // some weird err
-                    if (resp !== undefined) {
-                        const errTxt = `${resp.status}: ${resp.data}`
-                        ErrorLabel.current.showMessage(errTxt)
-                    } else {
-                        // some weird err (e.g. network)
+
+                    // some weird err (e.g. network)
+                    if (!resp) {
                         ErrorLabel.current.showMessage(error)
+                        return
                     }
+
+                    // some weird err
+                    const errTxt = `${resp.status}: ${resp.data}`
+                    ErrorLabel.current.showMessage(errTxt)
                 });
         }
     }
