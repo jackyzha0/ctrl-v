@@ -1,20 +1,14 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { TitleInput, PasteInput } from './Inputs'
+import { Text, Code } from './Inputs'
 import OptionsContainer from './Options'
 import Error from './Err'
 import { PostNewPaste } from '../helpers/httpHelper'
 import PasteModal from './modals/PasteModal'
-import { LANGS } from './renderers/Code'
 import styled from 'styled-components'
 import CodeRenderer from './renderers/Code'
 import Latex from './renderers/Latex'
 import Markdown from './renderers/Markdown'
-
-const Button = styled.button`
-    margin-right: 0 !important;
-    margin-left: 2em !important;
-    height: calc(16px + 1.6em + 2px);
-`
+import {Button, SubmitButton} from "./Common/Button";
 
 const Flex = styled.div`
     display: flex;
@@ -39,7 +33,7 @@ const NewPaste = () =>  {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [pass, setPass] = useState('');
-    const [language, setLanguage] = useState(LANGS.raw);
+    const [language, setLanguage] = useState('detect');
     const [expiry, setExpiry] = useState('');
     const [hash, setHash] = useState('');
     const [isPreview, setIsPreview] = useState(false);
@@ -78,11 +72,10 @@ const NewPaste = () =>  {
     }
 
     function renderPreview() {
-        const pasteInput = <PasteInput
-            onChange={(e) => { setContent(e.target.value) }}
+        const pasteInput = <Code
+            setContentCallback={setContent}
             content={content}
-            maxLength="100000"
-            id="pasteInput" />
+            maxLength="100000" />
 
         if (isPreview) {
             var preview
@@ -129,9 +122,11 @@ const NewPaste = () =>  {
     return (
         <form onSubmit={handleSubmit}>
             <PasteModal hash={hash} />
-            <TitleInput
+            <Text
+                label="title"
                 onChange={(e) => {setTitle(e.target.value)}}
                 value={title}
+                autoFocus
                 maxLength="100"
                 id="titleInput" />
             {renderPreview()}
@@ -142,13 +137,15 @@ const NewPaste = () =>  {
                 onPassChange={(e) => { setPass(e.target.value) }} 
                 onLangChange={(e) => { setLanguage(e.target.value) }} 
                 onExpiryChange={(e) => { setExpiry(e.target.value) }} />
-            <input className="lt-button lt-shadow lt-hover" type="submit" value="new paste" />
-            <Button
-                className="lt-shadow lt-hover"
+            <div>
+              <SubmitButton type="submit" value="new paste" />
+              {language !== 'detect' && <Button
+                secondary
                 type="button"
                 onClick={() => setIsPreview(!isPreview)}>
                 preview
-            </Button>
+              </Button>}
+            </div>
             <br />
             <Error ref={ErrorLabel} />
         </form>

@@ -1,20 +1,10 @@
 import React from 'react';
 import Modal from 'react-modal';
-import { LeftPad, ModalHeader, RightPad } from './shared'
+import {Form, ModalHeader, modalStyles} from './shared'
 import { useHistory } from 'react-router-dom';
-import { PasteURLInput } from '../Inputs'
+import { Text } from '../Inputs'
 import { useClipboard } from 'use-clipboard-copy';
-
-const modalStyles = {
-    content: {
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: '500px',
-        height: '250px',
-        border: '1px solid #11111188'
-    }
-};
+import {Button} from "../Common/Button";
 
 const PasteModal = (props) => {
     const history = useHistory();
@@ -34,35 +24,27 @@ const PasteModal = (props) => {
             style={modalStyles}
             contentLabel="paste created"
         >
-            <form onSubmit={redir}>
-                <LeftPad>
-                    <ModalHeader><span role="img" aria-label="success">📎&nbsp;</span>paste created</ModalHeader>
-                </LeftPad>
-                    <RightPad>
-                        <PasteURLInput 
-                            id="paste_modal"
-                            fullURL={fullURL} />
-                        <input 
-                            hidden
-                            type="text"
-                            value={fullURL} 
-                            readOnly
-                            ref={clipboard.target} />
-                    </RightPad>
-                <LeftPad>
-                    <button 
-                        className="lt-button lt-shadow lt-hover"
-                        type="submit">
-                            view
-                    </button>
-                    <button 
-                        className="lt-button lt-shadow lt-hover"
-                        type="button" 
-                        onClick={clipboard.copy}>
-                            {clipboard.copied ? 'copied' : 'copy url'}
-                    </button>
-                </LeftPad>
-            </form>
+            <Form onSubmit={redir}>
+                <ModalHeader>
+                    <span role="img" aria-label="success">📎&nbsp;</span>paste created
+                </ModalHeader>
+                <Text
+                    label="url"
+                    type="text"
+                    value={fullURL}
+                    readOnly
+                    ref={clipboard.target} />
+                <Button
+                    type="submit">
+                        go to paste
+                </Button>
+                <Button
+                    secondary
+                    type="button"
+                    onClick={clipboard.copy}>
+                        {clipboard.copied ? 'copied' : 'copy url'}
+                </Button>
+            </Form>
         </Modal>
     );
 }

@@ -1,13 +1,12 @@
 import React, { useEffect, useState, useRef } from 'react';
 import Error from './Err';
-import { TitleInput } from './Inputs';
+import { Text } from './Inputs';
 import CodeRenderer from './renderers/Code'
 import PasteInfo from  './PasteInfo';
 import PasswordModal from './modals/PasswordModal'
 import { FetchPaste, FetchPasswordPaste } from '../helpers/httpHelper'
 import { LANGS } from './renderers/Code'
 import RenderDispatch from './renderers/RenderDispatch'
-import MetaTags from 'react-meta-tags';
 
 function fmtDateStr(dateString) {
     const d = new Date(dateString)
@@ -24,14 +23,13 @@ const ViewPaste = (props) => {
     const [expiry, setExpiry] = useState('');
     const [theme, setTheme] = useState('atom');
     const [isRenderMode, setIsRenderMode] = useState(false);
-    const [language, setLanguage] = useState(LANGS.raw);
+    const [language, setLanguage] = useState(LANGS.detect);
 
     useEffect(() => {
         setIsRenderMode(language === 'latex' || language === 'markdown')
     }, [language])
 
     const ErrorLabelRef = useRef(null);
-    const ComponentRef = useRef(null);
 
     function validatePass(pass, onErrorCallBack) {
         FetchPasswordPaste(props.hash, pass)
@@ -98,39 +96,26 @@ const ViewPaste = (props) => {
     }, [props.hash])
 
     function getDisplay() {
-        if (isRenderMode) {
-            return (
-                <RenderDispatch
-                    language={language}
-                    content={content}
-                    ref={ComponentRef}
-                />
-            )
-        } else {
-            return (
-                <CodeRenderer
-                    content={content}
-                    lang={language}
-                    theme={theme}
-                    ref={ComponentRef}
-                    id="pasteInput" />
-            )
-        }
+        return isRenderMode ? <RenderDispatch
+          language={language}
+          content={content}
+        /> : <CodeRenderer
+          content={content}
+          lang={language}
+          theme={theme}
+          id="pasteInput" />
     }
 
     return (
         <div>
-            <MetaTags>
-                <meta name="description" content={`${language}, expires ${expiry}. hosted on ctrl-v`} />
-                <meta property="og:title" content={title} />
-            </MetaTags>
             <PasswordModal
                 hasPass={hasPass}
                 validPass={validPass}
                 value={enteredPass}
                 onChange={(e) => setEnteredPass(e.target.value)}
                 validateCallback={validatePass} />
-            <TitleInput
+            <Text
+                label="title"
                 value={title}
                 id="titleInput"
                 readOnly />
@@ -143,7 +128,6 @@ const ViewPaste = (props) => {
                 toggleRenderCallback={() => setIsRenderMode(!isRenderMode)}
                 isRenderMode={isRenderMode}
                 onChange={(e) => setTheme(e.target.value)}
-                compref={ComponentRef}
                 err={<Error ref={ErrorLabelRef} />}
             />
         </div>

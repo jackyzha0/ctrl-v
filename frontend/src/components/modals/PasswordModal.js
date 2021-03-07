@@ -1,19 +1,9 @@
 import React, { useRef } from 'react';
 import Modal from 'react-modal';
-import { PassInput } from '../Inputs'
-import { RightPad, LeftPad, ModalHeader, Padding } from './shared'
+import { Password } from '../Inputs'
+import {ModalHeader, Padding, modalStyles, Form} from './shared'
 import Error from '../Err';
-
-const modalStyles = {
-    content: {
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: '400px',
-        height: '250px',
-        border: '1px solid #11111188'
-    }
-};
+import {SubmitButton} from "../Common/Button";
 
 const PasswordModal = (props) => {
     const ErrorLabel = useRef(null);
@@ -31,21 +21,16 @@ const PasswordModal = (props) => {
             style={modalStyles}
             contentLabel="enter paste password"
         >
-            <form onSubmit={submitPassword}>
-                <LeftPad>
-                    <ModalHeader><span role="img" aria-label="warning">🚧&nbsp;</span>err: password protected</ModalHeader>
-                </LeftPad>
-                <RightPad>
-                    <PassInput
-                        value={props.value}
-                        onChange={props.onChange} />
-                </RightPad>
-                <LeftPad>
-                    <input className="lt-button lt-shadow lt-hover" type="submit" value="continue" />
-                    <Padding />
-                    <Error ref={ErrorLabel} />
-                </LeftPad>
-            </form>
+            <Form onSubmit={submitPassword}>
+                <ModalHeader><span role="img" aria-label="warning">🚧&nbsp;</span>err: password protected</ModalHeader>
+                <Password
+                    placeholder="hunter2"
+                    value={props.value}
+                    onChange={props.onChange} />
+                <SubmitButton type="submit" value="continue" />
+                <Padding />
+                <Error ref={ErrorLabel} />
+            </Form>
         </Modal>
     );
 }

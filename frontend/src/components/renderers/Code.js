@@ -1,7 +1,9 @@
 import React from 'react';
 import SyntaxHighlighter from 'react-syntax-highlighter';
+import virtualizedRenderer from 'react-syntax-highlighter-virtualized-renderer';
 import { atomOneLight, ascetic, atomOneDark, dracula, ocean } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import styled from 'styled-components'
+import {Border, CodeLike, DropShadow, Rounded} from "../Common/mixins";
 
 export const THEMES = Object.freeze({
     'atom': atomOneLight,
@@ -12,66 +14,50 @@ export const THEMES = Object.freeze({
 })
 
 export const LANGS = Object.freeze({
-    'bash': 'bash',
-    'c': 'c',
-    'c++': 'cpp',
-    'c#': 'cs',
-    'css': 'css',
-    'docker': 'dockerfile',
-    'go': 'go',
-    'haskell': 'haskell',
-    'html': 'html',
-    'java': 'java',
-    'js': 'javascript',
-    'jsx': 'jsx',
     'latex': 'latex',
-    'lisp': 'lisp',
-    'makefile': 'makefile',
     'markdown': 'markdown',
-    'php': 'php',
-    'python': 'python',
-    'raw': 'text',
-    'ruby': 'ruby',
-    'scala': 'scala',
-    'yaml': 'yaml'
+    'detect': 'text',
 })
 
-const StyledPre = styled.pre`
-  width: 100%;
-  font-size: 0.8em;
-  min-height: 1.2em;
-  border-radius: 3px !important;
-  border: 1px solid #565656 !important;
-  padding: calc(0.8em - 1px) !important;
-  outline: none;
+export const StyledPre = styled.pre`
+  ${Rounded};
+  ${Border};
+  ${DropShadow};
+  width: calc(100%);
+  padding: calc(0.6em - 1px) !important;
   margin: 1.7em 0;
+  position: relative;
+  outline: none;
+  
+  & code {
+    ${CodeLike}
+  }
 
-  & code:first-child {
+  & code:first-child:not(:only-of-type) {
     margin-right: 10px !important;
     border-radius: 0 !important;
     border-right: 1px solid #11111155 !important;
   }
 `
 
-const CodeRenderer = React.forwardRef((props, ref) => {
+export const Highlighter = ({language, lineNumbers, theme, pre = StyledPre, children}) => <SyntaxHighlighter
+  language={LANGS[language]}
+  style={THEMES[theme]}
+  showLineNumbers={lineNumbers}
+  PreTag={pre}>
+    {children}
+</SyntaxHighlighter>
 
-    const Pre = (props) => {
-        return (
-            <StyledPre {...props} ref={ref} />
-        );
-    }
-
-    return (
-        <div className="lt-shadow">
-            <SyntaxHighlighter
-                language={LANGS[props.lang]}
-                style={THEMES[props.theme]}
-                showLineNumbers
-                PreTag={Pre}>
-                {props.content}
-            </SyntaxHighlighter>
-        </div>
-    );
-});
+const CodeRenderer = (props) => {
+    return (<Highlighter
+      lineNumbers={true}
+      language={props.lang}
+      theme={props.theme}
+      renderer={virtualizedRenderer()}
+      pre={StyledPre}
+    >
+      {props.content}
+    </Highlighter>)
+};
 
 export default CodeRenderer
