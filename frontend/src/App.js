@@ -1,7 +1,6 @@
 import React from 'react';
 import NewPaste from './components/NewPaste'
 import ViewPaste from './components/ViewPaste'
-import Footer from './components/Footer'
 import styled from 'styled-components'
 import {
   BrowserRouter as Router,
@@ -47,7 +46,6 @@ const App = () => {
                   <NewPaste />
                 </Route>
               </Switch>
-              <Footer />
             </Main>
           </Route>
         </Switch>

@@ -34,7 +34,7 @@ const NewPaste = () =>  {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [pass, setPass] = useState('');
-    const [language, setLanguage] = useState(LANGS.detect);
+    const [language, setLanguage] = useState('detect');
     const [expiry, setExpiry] = useState('');
     const [hash, setHash] = useState('');
     const [isPreview, setIsPreview] = useState(false);
@@ -138,12 +138,15 @@ const NewPaste = () =>  {
                 onPassChange={(e) => { setPass(e.target.value) }} 
                 onLangChange={(e) => { setLanguage(e.target.value) }} 
                 onExpiryChange={(e) => { setExpiry(e.target.value) }} />
-            <SubmitButton type="submit" value="new paste" />
-            {language !== LANGS.detect && <Button
-              type="button"
-              onClick={() => setIsPreview(!isPreview)}>
-              preview
-            </Button>}
+            <div>
+              <SubmitButton type="submit" value="new paste" />
+              {language !== 'detect' && <Button
+                secondary
+                type="button"
+                onClick={() => setIsPreview(!isPreview)}>
+                preview
+              </Button>}
+            </div>
             <br />
             <Error ref={ErrorLabel} />
         </form>

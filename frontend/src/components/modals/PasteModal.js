@@ -4,6 +4,7 @@ import {LeftPad, ModalHeader, modalStyles, RightPad} from './shared'
 import { useHistory } from 'react-router-dom';
 import { Text } from '../Inputs'
 import { useClipboard } from 'use-clipboard-copy';
+import {Button} from "../Form/Button";
 
 const PasteModal = (props) => {
     const history = useHistory();
@@ -35,17 +36,16 @@ const PasteModal = (props) => {
                             ref={clipboard.target} />
                     </RightPad>
                 <LeftPad>
-                    <button 
-                        className="lt-button lt-shadow lt-hover"
+                    <Button
                         type="submit">
                             view
-                    </button>
-                    <button 
-                        className="lt-button lt-shadow lt-hover"
+                    </Button>
+                    <Button
+                        secondary
                         type="button" 
                         onClick={clipboard.copy}>
                             {clipboard.copied ? 'copied' : 'copy url'}
-                    </button>
+                    </Button>
                 </LeftPad>
             </form>
         </Modal>

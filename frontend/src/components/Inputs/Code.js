@@ -5,6 +5,9 @@ import Editor from 'react-simple-code-editor';
 import {Highlighter} from "../renderers/Code";
 import {CodeLike, Hover} from "../Form/mixins";
 
+const Wrapper = styled.div`
+  position: relative;
+`
 const EditorWrapper = styled(Editor)`
   overflow: visible !important;
   
@@ -31,7 +34,7 @@ const EditorWrapper = styled(Editor)`
 
 export const Code = ({content, id, readOnly, setContentCallback, ...props}) => {
   return (
-    <div>
+    <Wrapper>
       <EditorWrapper
         name="content"
         readOnly={readOnly}
@@ -46,6 +49,6 @@ export const Code = ({content, id, readOnly, setContentCallback, ...props}) => {
       <CharLimit
         content={content}
         maxLength={props.maxLength} />
-    </div>
+    </Wrapper>
   );
 }

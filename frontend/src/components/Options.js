@@ -14,7 +14,6 @@ const Flex = styled.div`
 
     @media (max-width: 850px) {
         float: none !important;
-        transform: translateX(-2em);
     }
 `
 

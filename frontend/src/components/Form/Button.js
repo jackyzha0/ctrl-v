@@ -22,7 +22,7 @@ const Secondary = css`
 `
 
 export const Button = styled.button`
-  ${p => p.secondary ? css`${Primary}` : css`${Secondary}` }
+  ${p => p.secondary ? css`${Secondary}` : css`${Primary}`  }
 `
 
 export const SubmitButton = styled.input`

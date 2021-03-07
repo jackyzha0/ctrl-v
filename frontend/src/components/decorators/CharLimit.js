@@ -18,7 +18,7 @@ const Chars = styled.p`
 
 const CharLimit = (props) => {
     return (
-        <Chars {...props} >{props.maxLength - props.content.length}/{props.maxLength}</Chars>
+        <Chars {...props}>{props.maxLength - props.content.length}/{props.maxLength}</Chars>
     );
 }
 
