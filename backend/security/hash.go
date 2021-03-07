@@ -11,9 +11,9 @@ import (
 const UrlLength = 7
 
 // GenerateURI creates a unique identifier for a paste based on ip and timestamp
-func GenerateURI(ip string) string {
+func GenerateURI(content string) string {
 	timeStamp := time.Now().String()
-	return hashString(ip + timeStamp)[:UrlLength]
+	return hashString(content + timeStamp)[:UrlLength]
 }
 
 // hashes using MD5 and then converts to base 62
