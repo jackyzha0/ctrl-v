@@ -29,9 +29,9 @@ const TitleLimit = 100
 const ContentLimit = 100000
 
 // creates a new paste with title, content and hash, returns the hash of the created paste
-func New(ip, content, expiry, title, password, lang string) (string, error) {
+func New(content, expiry, title, password, lang string) (string, error) {
 	// generate hash from ip
-	hash := security.GenerateURI(ip)
+	hash := security.GenerateURI(content)
 
 	// check for size of title and content
 	errs := checkLengths(title, content)

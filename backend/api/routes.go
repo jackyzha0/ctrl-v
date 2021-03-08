@@ -30,11 +30,8 @@ func insertFunc(w http.ResponseWriter, r *http.Request) {
 	password := r.FormValue("password")
 	lang := r.FormValue("language")
 
-	// get ip
-	ip := getIP(r)
-
 	// insert content
-	hash, err := db.New(ip, content, expiry, title, password, lang)
+	hash, err := db.New(content, expiry, title, password, lang)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		fmt.Fprintf(w, "%s", err.Error())
