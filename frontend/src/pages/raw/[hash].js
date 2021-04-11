@@ -1,5 +1,5 @@
 import React from 'react';
-import resolvePaste from "../../http/useFetchPaste";
+import resolvePaste from "../../http/resolvePaste";
 import {CodeLike} from "../../components/Common/mixins";
 import styled from 'styled-components'
 

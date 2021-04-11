@@ -5,20 +5,40 @@ import CodeRenderer from '../components/renderers/Code'
 import PasteInfo from '../components/PasteInfo';
 import PasswordModal from '../components/modals/PasswordModal'
 import RenderDispatch from '../components/renderers/RenderDispatch'
-import useFetchPaste from "../http/useFetchPaste";
 import {Watermark} from "../components/Watermark";
-import ThemeProvider from "../theme/ThemeProvider";
+import { useRouter } from 'next/router'
+import resolvePaste from "../http/resolvePaste";
 
-const ViewPaste = (props) => {
-  const { err, requiresAuth, validPass, getWithPassword, result } = useFetchPaste(props.hash)
-  const {content, language, expiry, title} = result ?? {}
+export async function getServerSideProps(ctx) {
+  const data = await resolvePaste(ctx.params.hash)
+
+  // Pass data to the page via props
+  return { props: { ...data } }
+}
+
+const ViewPaste = ({data, unauthorized, error}) => {
+  const router = useRouter()
+  const { hash } = router.query
+  const [clientData, setClientData] = useState(data);
   const [theme, setTheme] = useState('atom');
   const [isRenderMode, setIsRenderMode] = useState(false);
   const [enteredPass, setEnteredPass] = useState('');
+  const [correctPass, setCorrectPass] = useState(!unauthorized);
   const ErrorLabelRef = useRef(null);
 
-  if (err) {
-    ErrorLabelRef.current.showMessage(err, -1)
+  const {content, language, expiry, title} = clientData;
+
+  if (error) {
+    ErrorLabelRef.current.showMessage(error, -1)
+  }
+
+  const getWithPassword = (password, errorCallback) => {
+    resolvePaste(hash, password)
+      .then(resp => {
+        setCorrectPass(true)
+        setClientData(resp.data)
+      })
+      .catch(e => errorCallback(e.response.data))
   }
 
   useEffect(() => {
@@ -39,8 +59,8 @@ const ViewPaste = (props) => {
   return (
     <div>
       <PasswordModal
-        hasPass={requiresAuth}
-        validPass={validPass}
+        hasPass={unauthorized}
+        validPass={correctPass}
         value={enteredPass}
         onChange={(e) => setEnteredPass(e.target.value)}
         validateCallback={getWithPassword} />
@@ -51,7 +71,7 @@ const ViewPaste = (props) => {
         readOnly />
       {getDisplay()}
       <PasteInfo
-        hash={props.hash}
+        hash={hash}
         lang={language}
         theme={theme}
         expiry={expiry}
