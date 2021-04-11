@@ -22,7 +22,7 @@ const EditorWrapper = styled(Editor)`
   
   & pre, & code, & > textarea {
     ${CodeLike}
-    // min-height: 40vh;
+    min-height: 40vh;
   }
   
   & pre {
