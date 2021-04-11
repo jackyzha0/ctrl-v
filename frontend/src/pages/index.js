@@ -10,6 +10,10 @@ import Markdown from '../components/renderers/Markdown'
 import {Button, SubmitButton} from "../components/Common/Button";
 import {newPaste} from "../http/shared";
 
+const Container = styled.form`
+  width: 100%;
+`
+
 const Flex = styled.div`
     display: flex;
     flex-direction: row;
@@ -115,7 +119,7 @@ const NewPaste = () =>  {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <Container onSubmit={handleSubmit}>
       <PasteModal hash={hash} />
       <Text
         label="title"
@@ -143,7 +147,7 @@ const NewPaste = () =>  {
       </div>
       <br />
       <Error ref={ErrorLabel} />
-    </form>
+    </Container>
   );
 }
 

@@ -8,4 +8,10 @@ export default createGlobalStyle`
       font-family: 'JetBrains Mono', monospace;
       color: ${(p) => p.theme.colors.text};
   }
+  
+  @media all and (max-width: 1000px) {
+    .lt-content-column {
+        padding: 0 calc(5vw + 1em) 0 5vw !important;
+    }
+  }
 `

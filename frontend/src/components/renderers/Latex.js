@@ -40,4 +40,15 @@ const Latex = (props) => {
     }
 }
 
-export default Latex
+const StyledLatex = styled(Latex)`
+    /* fix weird symbol height in render mode */
+    .large-op {
+        transform: translateY(-0.55em);
+    }
+    
+    .small-op {
+        transform: translateY(-0.1em);
+    }
+`
+
+export default StyledLatex

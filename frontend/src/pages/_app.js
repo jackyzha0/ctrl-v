@@ -1,7 +1,6 @@
 import React from 'react'
 import ThemeProvider from "../theme/ThemeProvider";
 import GlobalStyle from "../theme/GlobalStyle";
-import '../theme/style.css';
 import {Watermark} from "../components/Watermark";
 import styled from "styled-components";
 
