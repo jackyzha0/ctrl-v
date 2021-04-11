@@ -1,7 +1,7 @@
 import React from 'react';
 import styled, { css } from 'styled-components'
 
-const ErrMsg = styled.p`
+export const ErrMsg = styled.p`
     display: inline;
     font-weight: 700;
     color: #ff3333;

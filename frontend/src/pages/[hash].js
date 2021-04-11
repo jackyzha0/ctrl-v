@@ -1,5 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
-import Error from '../components/Err';
+import React, { useEffect, useState } from 'react';
 import { Text } from '../components/Inputs';
 import CodeRenderer from '../components/renderers/Code'
 import PasteInfo from '../components/PasteInfo';
@@ -24,13 +23,10 @@ const ViewPaste = ({data, unauthorized, error}) => {
   const [isRenderMode, setIsRenderMode] = useState(false);
   const [enteredPass, setEnteredPass] = useState('');
   const [correctPass, setCorrectPass] = useState(!unauthorized);
-  const ErrorLabelRef = useRef(null);
 
   const {content, language, expiry, title} = clientData;
 
-  if (error) {
-    ErrorLabelRef.current.showMessage(error, -1)
-  }
+
 
   const getWithPassword = (password, errorCallback) => {
     resolvePaste(hash, password)
@@ -78,7 +74,7 @@ const ViewPaste = ({data, unauthorized, error}) => {
         toggleRenderCallback={() => setIsRenderMode(!isRenderMode)}
         isRenderMode={isRenderMode}
         onChange={(e) => setTheme(e.target.value)}
-        err={<Error ref={ErrorLabelRef} />}
+        err={error}
       />
       <Watermark/>
     </div>

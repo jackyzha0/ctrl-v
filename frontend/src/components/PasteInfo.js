@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { Theme } from './Inputs'
 import {Button} from "./Common/Button";
 import {useRouter} from "next/router";
+import {ErrMsg} from "./Err";
 
 const Bold = styled.span`
     font-weight: 700
@@ -27,21 +28,21 @@ const Flex = styled.div`
     flex-direction: row;
 `
 
-const PasteInfo = (props) => {
+const PasteInfo = ({hash, lang, theme, expiry, toggleRenderCallback, isRenderMode, onChange, err}) => {
     const router = useRouter()
     const redirRaw = () => {
-        const redirUrl = `/raw/${props.hash}`
+        const redirUrl = `/raw/${hash}`
         router.push(redirUrl);
     }
 
     const renderable = () => {
-        const buttonTxt = props.isRenderMode ? 'text' : 'render'
-        if (props.lang === 'latex' || props.lang === 'markdown') {
+        const buttonTxt = isRenderMode ? 'text' : 'render'
+        if (lang === 'latex' || lang === 'markdown') {
             return (
                 <ShiftedButton
                     secondary
                     type="button"
-                    onClick={props.toggleRenderCallback}>
+                    onClick={toggleRenderCallback}>
                     {buttonTxt}
                 </ShiftedButton>
             );
@@ -59,20 +60,23 @@ const PasteInfo = (props) => {
                 </ShiftedButton>
                 {renderable()}
                 <Theme
-                    value={props.theme}
-                    onChange={props.onChange}
+                    value={theme}
+                    onChange={onChange}
                     id="themeInput" />
             </Flex>
             <StyledDiv>
-                <SpacedText>
-                    <Bold>language:&nbsp;</Bold>{props.lang}
-                </SpacedText>
-                <SpacedText>
-                    <Bold>expires:&nbsp;</Bold>{props.expiry}
-                </SpacedText>
+                {err ?
+                  <ErrMsg active> {err} </ErrMsg> :
+                  <>
+                    <SpacedText>
+                      <Bold>language:&nbsp;</Bold>{lang}
+                    </SpacedText>
+                    <SpacedText>
+                      <Bold>expires:&nbsp;</Bold>{expiry}
+                    </SpacedText>
+                  </>
+                }
             </StyledDiv>
-            <br />
-            {props.err}
         </div>
     );
 }
