@@ -6,7 +6,7 @@ const Base = css`
   ${Rounded}
   ${ButtonLike}
   margin-right: 2em;
-  height: calc(16px + 1.6em);
+  height: calc(16px + 1.4em);
   cursor: pointer;
 `
 
