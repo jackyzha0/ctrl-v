@@ -10,6 +10,7 @@ import Markdown from '../components/renderers/Markdown'
 import {Button, SubmitButton} from "../components/Common/Button";
 import {newPaste} from "../http/shared";
 import {Watermark} from "../components/Watermark";
+import {Labelled} from "../components/decorators/Labelled";
 
 const Container = styled.form`
   width: 100%;
@@ -105,16 +106,22 @@ const NewPaste = () =>  {
       return (
         <Flex>
           <FlexLeft>
-            {pasteInput}
+            <Labelled label="content">
+              {pasteInput}
+            </Labelled>
           </FlexLeft>
           <FlexRight className='preview' >
-            {preview}
+            <Labelled label="preview">
+              {preview}
+            </Labelled>
           </FlexRight>
         </Flex>
       );
     } else {
       return (
-        pasteInput
+        <Labelled label="content">
+          {pasteInput}
+        </Labelled>
       );
     }
   }

@@ -40,11 +40,18 @@ export const StyledPre = styled.pre`
   }
 `
 
+const PreWithBr = (props) => (
+  <StyledPre {...props}>
+    {props.children}
+    <br />
+  </StyledPre>
+)
+
 export const Highlighter = ({language, lineNumbers, theme, pre = StyledPre, children}) => <SyntaxHighlighter
   language={LANGS[language]}
   style={THEMES[theme]}
   showLineNumbers={lineNumbers}
-  PreTag={pre}>
+  PreTag={PreWithBr}>
     {children}
 </SyntaxHighlighter>
 

@@ -11,7 +11,6 @@ const RawText = styled.pre`
 
 export async function getServerSideProps(ctx) {
   const data = await resolvePaste(ctx.params.hash)
-  console.log(data)
   return { props: { ...data } }
 }
 

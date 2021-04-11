@@ -6,11 +6,15 @@ import {Highlighter} from "../renderers/Code";
 import {CodeLike, Hover} from "../Common/mixins";
 
 const Wrapper = styled.div`
+  display: block;
   position: relative;
+  width: calc(100%);
 `
+
 const EditorWrapper = styled(Editor)`
   overflow: visible !important;
-  
+  position: relative;
+
   & > * {
     padding: 0 !important;
     width: 100%;
@@ -18,7 +22,7 @@ const EditorWrapper = styled(Editor)`
   
   & pre, & code, & > textarea {
     ${CodeLike}
-    min-height: 40vh;
+    // min-height: 40vh;
   }
   
   & pre {
