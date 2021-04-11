@@ -2,68 +2,42 @@ import {useEffect, useState} from 'react'
 import {fetchPaste, fmtDateStr} from './shared'
 import {LANGS} from "../components/renderers/Code";
 
-const useFetchPaste = (id) => {
-  const [loading, setLoading] = useState(true)
-  const [err, setErr] = useState()
-  const [requiresAuth, setRequiresAuth] = useState(false)
-  const [validPass, setValidPass] = useState(false)
-  const [result, setResult] = useState({
-    title: 'fetching paste...',
-    content: '',
-    language: LANGS.detect,
-    expiry: '',
-  })
-
-  const handleErr = error => {
-    const resp = error.response
-
-    // network err
-    if (!resp) {
-      setErr(error.toString())
-      return
-    }
-
-    // password protected
-    if (resp.status === 401) {
-      setRequiresAuth(true)
-      return
-    }
-
-    // catch all
-    const errTxt = `${resp.status}: ${resp.data}`
-    setErr(errTxt)
+const resolvePaste = (id, password = "") => {
+  const response = {
+    data: {
+      title: '',
+      content: '',
+      language: LANGS.detect,
+      expiry: '',
+    },
+    unauthorized: false,
+    error: '',
   }
-
-  // callback to try verifying with password
-  const getWithPassword = (password, errorCallback) => {
-    fetchPaste(id, password)
-      .then(resp => {
-        setValidPass(true)
-        setStateFromData(resp.data)
-      })
-      .catch(e => errorCallback(e.response.data))
-  }
-
-
-  const setStateFromData = (data) => {
-    document.title = data.title
-    setResult({
-      title: data.title,
-      content: data.content,
-      language: data.language,
-      expiry: fmtDateStr(data.expiry)
+  return fetchPaste(id, password)
+    .then(resp => {
+      const data = resp.data
+      response.data = {
+        ...data,
+        expiry: fmtDateStr(data.expiry)
+      }
+      return response
     })
-  }
+    .catch(error => {
+      const resp = error.response
+      if (!resp) {
+        response.error = 'network error'
+        return
+      }
 
-  // initial fetch
-  useEffect(() => {
-    fetchPaste(id)
-      .then(resp => setStateFromData(resp.data))
-      .catch(handleErr)
-      .finally(() => setLoading(false))
-  }, [id])
+      if (resp.status === 401) {
+        response.error = 'unauthorized'
+        response.unauthorized = true
+        return
+      }
 
-  return { loading, err, requiresAuth, validPass, getWithPassword, result }
+      response.error = `${resp.status}: ${resp.data}`
+      return response
+    })
 }
 
-export default useFetchPaste
+export default resolvePaste

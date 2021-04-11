@@ -9,6 +9,7 @@ import Latex from '../components/renderers/Latex'
 import Markdown from '../components/renderers/Markdown'
 import {Button, SubmitButton} from "../components/Common/Button";
 import {newPaste} from "../http/shared";
+import {Watermark} from "../components/Watermark";
 
 const Container = styled.form`
   width: 100%;
@@ -147,6 +148,7 @@ const NewPaste = () =>  {
       </div>
       <br />
       <Error ref={ErrorLabel} />
+      <Watermark/>
     </Container>
   );
 }

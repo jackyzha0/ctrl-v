@@ -1,7 +1,6 @@
 import React from 'react'
 import ThemeProvider from "../theme/ThemeProvider";
 import GlobalStyle from "../theme/GlobalStyle";
-import {Watermark} from "../components/Watermark";
 import styled from "styled-components";
 
 const Main = styled.div`
@@ -12,7 +11,6 @@ const Main = styled.div`
 const App = ({ Component, pageProps }) => (
   <ThemeProvider>
     <GlobalStyle />
-    <Watermark/>
     <Main id="appElement">
       <Component {...pageProps} />
     </Main>

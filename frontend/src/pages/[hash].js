@@ -6,6 +6,8 @@ import PasteInfo from '../components/PasteInfo';
 import PasswordModal from '../components/modals/PasswordModal'
 import RenderDispatch from '../components/renderers/RenderDispatch'
 import useFetchPaste from "../http/useFetchPaste";
+import {Watermark} from "../components/Watermark";
+import ThemeProvider from "../theme/ThemeProvider";
 
 const ViewPaste = (props) => {
   const { err, requiresAuth, validPass, getWithPassword, result } = useFetchPaste(props.hash)
@@ -58,6 +60,7 @@ const ViewPaste = (props) => {
         onChange={(e) => setTheme(e.target.value)}
         err={<Error ref={ErrorLabelRef} />}
       />
+      <Watermark/>
     </div>
   );
 }
