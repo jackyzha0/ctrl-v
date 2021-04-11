@@ -1,6 +1,6 @@
 # ctrl-v
 ### A modern, open-source pastebin with latex and markdown rendering support
-Frontend is in React and backend is in Go. Deployed via Firebase Hosting and Google Cloud Run.
+Frontend is in React + Next.js and backend is in Go. Deployed via Vercel and Google Cloud Run.
 
 ![Go Paste Example](https://user-images.githubusercontent.com/23178940/83225601-06f0bb80-a135-11ea-9af2-9f2946459fe7.png)
 ![Markdown Rendering](https://user-images.githubusercontent.com/23178940/83225605-0821e880-a135-11ea-9efd-e7242ebde265.png)
