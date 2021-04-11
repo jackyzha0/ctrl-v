@@ -2,6 +2,7 @@ import React from 'react';
 import resolvePaste from "../../http/resolvePaste";
 import {CodeLike} from "../../components/Common/mixins";
 import styled from 'styled-components'
+import NextHead from "../../components/NextHead";
 
 const RawText = styled.pre`
     ${CodeLike}
@@ -10,15 +11,17 @@ const RawText = styled.pre`
 
 export async function getServerSideProps(ctx) {
   const data = await resolvePaste(ctx.params.hash)
-
-  // Pass data to the page via props
+  console.log(data)
   return { props: { ...data } }
 }
 
 const Raw = ({error, data}) => {
-  return <RawText>
-    {data?.content || error}
-  </RawText>
+  return <>
+    {!error && <NextHead data={data} />}
+    <RawText>
+      {data?.content || error}
+    </RawText>
+  </>
 }
 
 export default Raw

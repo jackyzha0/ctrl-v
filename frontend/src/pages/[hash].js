@@ -7,26 +7,22 @@ import RenderDispatch from '../components/renderers/RenderDispatch'
 import {Watermark} from "../components/Watermark";
 import { useRouter } from 'next/router'
 import resolvePaste from "../http/resolvePaste";
+import NextHead from "../components/NextHead";
 
 export async function getServerSideProps(ctx) {
   const data = await resolvePaste(ctx.params.hash)
-
-  // Pass data to the page via props
   return { props: { ...data } }
 }
 
 const ViewPaste = ({data, unauthorized, error}) => {
   const router = useRouter()
   const { hash } = router.query
-  const [clientData, setClientData] = useState(data);
   const [theme, setTheme] = useState('atom');
   const [isRenderMode, setIsRenderMode] = useState(false);
   const [enteredPass, setEnteredPass] = useState('');
   const [correctPass, setCorrectPass] = useState(!unauthorized);
-
+  const [clientData, setClientData] = useState(data)
   const {content, language, expiry, title} = clientData;
-
-
 
   const getWithPassword = (password, errorCallback) => {
     resolvePaste(hash, password)
@@ -54,6 +50,7 @@ const ViewPaste = ({data, unauthorized, error}) => {
 
   return (
     <div>
+      {!error && <NextHead data={data} />}
       <PasswordModal
         hasPass={unauthorized}
         validPass={correctPass}
@@ -74,7 +71,7 @@ const ViewPaste = ({data, unauthorized, error}) => {
         toggleRenderCallback={() => setIsRenderMode(!isRenderMode)}
         isRenderMode={isRenderMode}
         onChange={(e) => setTheme(e.target.value)}
-        err={error}
+        err={unauthorized ? '' : error}
       />
       <Watermark/>
     </div>
