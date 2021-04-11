@@ -10,4 +10,6 @@ const theme = {
   },
 }
 
-export default ({ children }) => <ThemeProvider theme={theme}>{children}</ThemeProvider>
+const Provider = ({ children }) => <ThemeProvider theme={theme}>{children}</ThemeProvider>
+
+export default Provider

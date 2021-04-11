@@ -5,6 +5,7 @@ backend/.env
 frontend/node_modules
 frontend/build
 frontend/.pnp
+frontend/.next
 .pnp.js
 
 npm-debug.log*

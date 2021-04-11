@@ -13,10 +13,7 @@ import ThemeProvider from './theme/ThemeProvider'
 import GlobalStyle from './theme/GlobalStyle'
 import {Watermark} from "./components/Watermark";
 
-const Main = styled.div`
-  margin-top: 10vh;
-  padding: 0 20vw 30px 20vw;
-`
+
 
 const GetPasteWithParam = () => {
   let { hash } = useParams();

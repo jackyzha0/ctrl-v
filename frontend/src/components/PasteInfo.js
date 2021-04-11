@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components'
-import { useHistory } from 'react-router-dom';
 import { Theme } from './Inputs'
 import {Button} from "./Common/Button";
+import {useRouter} from "next/router";
 
 const Bold = styled.span`
     font-weight: 700
@@ -28,10 +28,10 @@ const Flex = styled.div`
 `
 
 const PasteInfo = (props) => {
-    const history = useHistory();
+    const router = useRouter()
     const redirRaw = () => {
         const redirUrl = `/raw/${props.hash}`
-        history.push(redirUrl);
+        router.push(redirUrl);
     }
 
     const renderable = () => {

@@ -1,21 +1,21 @@
 import React from 'react';
 import Modal from 'react-modal';
 import {Form, ModalHeader, modalStyles} from './shared'
-import { useHistory } from 'react-router-dom';
+import { useRouter } from 'next/router'
 import { Text } from '../Inputs'
 import { useClipboard } from 'use-clipboard-copy';
 import {Button} from "../Common/Button";
 
 const PasteModal = (props) => {
-    const history = useHistory();
-    const fullURL = `${window.location.origin}/${props.hash}`;
+    const fullURL = `https://ctrl-v.app/${props.hash}`;
     const clipboard = useClipboard({ copiedTimeout: 3000 });
     Modal.setAppElement('body');
+    const router = useRouter()
 
     const redir = (e) => {
         e.preventDefault();
         const redirUrl = `/${props.hash}`
-        history.push(redirUrl);
+        router.push(redirUrl);
     }
 
     return (

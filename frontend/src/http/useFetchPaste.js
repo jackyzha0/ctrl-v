@@ -1,8 +1,8 @@
 import {useEffect, useState} from 'react'
 import {fetchPaste, fmtDateStr} from './shared'
-import {LANGS} from "../renderers/Code";
+import {LANGS} from "../components/renderers/Code";
 
-export default (id) => {
+const useFetchPaste = (id) => {
   const [loading, setLoading] = useState(true)
   const [err, setErr] = useState()
   const [requiresAuth, setRequiresAuth] = useState(false)
@@ -65,3 +65,5 @@ export default (id) => {
 
   return { loading, err, requiresAuth, validPass, getWithPassword, result }
 }
+
+export default useFetchPaste
