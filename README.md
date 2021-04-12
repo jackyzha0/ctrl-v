@@ -85,7 +85,7 @@ curl -L -X POST 'https://api.ctrl-v.app/api/1t9UybX' \
 ```
 
 ## Developing
-when doing local backend development, make sure you change the backend address to be localhost. You can find this on Line 4 of `frontend/src/helpers/httpHelper.js`
+when doing local backend development, make sure you change the backend address to be localhost. You can find this on Line 4 of `frontend/src/http/shared.js`
 
 ### Common
 `make dev` &mdash; starts React development server on `:3000` and backend on `:8080`
