@@ -8,20 +8,16 @@ const Flex = styled.div`
   flex-direction: row;
   transform: translateY(0.2em);
 
-  & > *:not(:first-child) {
-    margin-left: 2em;
+  @media (min-width: 650px) {
+    & > *:not(:first-child) {
+      margin-left: 2em;
+    }
   }
 
-  @media (max-width: 850px) {
-    position: auto;
-    display: inline-flex;
-  }
   @media (max-width: 650px) {
     position: relative;
     float: none !important;
-    width: 100%;
-    display: inline-table;
-    text-align: center;
+    flex-direction: column;
   }
 `;
 
