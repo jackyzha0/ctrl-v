@@ -26,7 +26,6 @@ const Logo = styled.div`
 
   @media (max-width: 960px) {
     position: relative;
-    bottom: 6.5em;
     display: grid;
     left: -6em;
     font-size: 10px;
