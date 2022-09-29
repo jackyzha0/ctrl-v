@@ -22,7 +22,7 @@ const Footer = () => {
   return (
     <SpacedFooter>
       <p>
-        (c) 2021 // <Link link="https://jzhao.xyz/" name="jacky" />,{" "}
+        (c) 2022 // <Link link="https://jzhao.xyz/" name="jacky" />,{" "}
         <Link link="https://ryanmehri.tech/" name="ryan" />
       </p>
     </SpacedFooter>

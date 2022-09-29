@@ -43,7 +43,6 @@ export const StyledPre = styled.pre`
 const PreWithBr = (props) => (
   <StyledPre {...props}>
     {props.children}
-    <br />
   </StyledPre>
 )
 

@@ -40,7 +40,6 @@ export const CodeLike = css`
   font-family: JetBrains Mono !important;
   font-size: 13px !important;
   line-height: 1.6em !important;
-  white-space: pre-wrap;
 `
 
 export const ButtonLike = css`
