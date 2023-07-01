@@ -39,30 +39,31 @@ export function newPaste(paste) {
 
 export function parseExpiry(e) {
   var cur = new Date();
-  var inSeconds = 0
-  switch (e) {
-    case '5 years':
-      inSeconds = 600 * 6 * 24 * 7 * 4 * 12 * 5
+  var inSeconds = 60;
+  //!TODO: Laying out the basis for a more robust expiry parser
+  let [num, unit] = e.split(" ")
+  num = parseInt(num)
+  switch (unit) {
+    case "years" || "year":
+      inSeconds *= 600 * 6 * 24 * 7 * 4 * 12 * num;
       break;
-    case '1 year':
-      inSeconds = 600 * 6 * 24 * 7 * 4 * 12
+    case "months" || "month":
+      inSeconds *= 600 * 6 * 24 * 7 * 4 * num;
       break;
-    case '1 month':
-      inSeconds = 600 * 6 * 24 * 7 * 4
+    case "days" || "day":
+      inSeconds *= 600 * 6 * 24 * num;
       break;
-    case '1 day':
-      inSeconds = 600 * 6 * 24
+    case "hours" || "hour":
+      inSeconds *= 600 * 6 * num;
       break;
-    case '1 hour':
-      inSeconds = 600 * 6
+    case "minutes" || "minute":
+      inSeconds *= 60 * num;
       break;
-    case '10 min':
-      inSeconds = 600
+    case "seconds" || "second":
+      inSeconds *= num;
       break;
-    case '1 week':
     default:
-      inSeconds = 600 * 6 * 24 * 7
-      break;
+      inSeconds *= 600 * 6 * 24 * 7;
   }
   return new Date(cur.getTime() + inSeconds * 1000).toISOString();
 }

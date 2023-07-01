@@ -20,22 +20,8 @@ const App = ({ Component, pageProps }) => (
         name="description"
         content="a modern, open-source pastebin with latex and markdown rendering support"
       />
-      <link rel="icon" href="/favicon.png" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" />
-      <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;700&display=swap"
-            rel="stylesheet" />
       <title>ctrl-v | a modern, open-source pastebin</title>
-      <script async src="https://www.googletagmanager.com/gtag/js?id=G-DE1TYY2F24" />
-      <script
-        dangerouslySetInnerHTML={{
-          __html: `
-                window.dataLayer = window.dataLayer || [];
-                function gtag() {dataLayer.push(arguments);}
-                gtag('js', new Date());
-                gtag('config', 'G-DE1TYY2F24');
-              `
-        }}
-      />
+      <link rel="icon" href="/favicon.png" />
     </Head>
     <Main id="appElement">
       <Component {...pageProps} />

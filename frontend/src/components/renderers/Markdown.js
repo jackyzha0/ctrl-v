@@ -48,12 +48,13 @@ const Content = styled.div`
 const Markdown = ({content}) => {
     return <Content>
         <ReactMarkdown
-            source={content}
             linkTarget='_blank'
             renderers={{
                 code: MarkdownCodeRenderer,
             }}
-        />
+        >
+            {content}
+        </ReactMarkdown>
     </Content>;
 }
 
