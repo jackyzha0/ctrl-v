@@ -3,12 +3,12 @@ package db
 import (
 	"time"
 
-	"github.com/globalsign/mgo/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 // Paste represents a single paste
 type Paste struct {
-	ID       bson.ObjectId `bson:"_id,omitempty"`
+	ID       primitive.ObjectID `bson:"_id,omitempty"`
 	Hash     string
 	Title    string
 	Content  string
