@@ -2,14 +2,15 @@ package db
 
 import (
 	"context"
+	"crypto/tls"
 	"fmt"
 	"time"
 
 	log "github.com/sirupsen/logrus"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/readpref"
 	"go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/mongo/readpref"
 )
 
 var Session *mongo.Session
@@ -22,9 +23,9 @@ func initSessions(user, pass, ip string) {
 	URIfmt := "mongodb://%s:%s@%s:27017"
 	mongoURI := fmt.Sprintf(URIfmt, user, pass, ip)
 
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
-	client, err := mongo.Connect(ctx, options.Client().ApplyURI(mongoURI))
+	client, err := mongo.Connect(ctx, options.Client().ApplyURI(mongoURI).SetTLSConfig(&tls.Config{}))
 	if err != nil {
 		log.Fatalf("error establishing connection to mongo: %s", err.Error())
 	}
