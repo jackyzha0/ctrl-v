@@ -1,6 +1,7 @@
 package api
 
 import (
+  "context"
 	"net/http"
 	"os"
 	"os/signal"
@@ -10,9 +11,15 @@ import (
 
 	mux "github.com/gorilla/mux"
 	log "github.com/sirupsen/logrus"
+	"github.com/jackyzha0/ctrl-v/db"
 )
 
 func cleanup() {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+  if err := db.Client.Disconnect(ctx); err != nil {
+		panic(err)
+	}
 	log.Print("Shutting down server...")
 }
 
