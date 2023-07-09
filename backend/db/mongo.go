@@ -8,6 +8,7 @@ import (
 	log "github.com/sirupsen/logrus"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/readpref"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
@@ -27,33 +28,42 @@ func initSessions(user, pass, ip string) {
 	if err != nil {
 		log.Fatalf("error establishing connection to mongo: %s", err.Error())
 	}
+	err = client.Ping(ctx, readpref.Primary())
+	if err != nil {
+		log.Fatalf("error pinging mongo: %s", err.Error())
+	}
+
+	defer func() {
+		if err = client.Disconnect(ctx); err != nil {
+			panic(err)
+		}
+	}()
 
 	// ensure expiry check
-  expiryIndex := options.Index().SetExpireAfterSeconds(0)
+	expiryIndex := options.Index().SetExpireAfterSeconds(0)
 	sessionTTL := mongo.IndexModel{
-		Keys: []string{"expiry"},
-    Options: expiryIndex,
+		Keys:    []string{"expiry"},
+		Options: expiryIndex,
 	}
 
 	// ensure hashes are unique
-  uniqueIndex := options.Index().SetUnique(true)
+	uniqueIndex := options.Index().SetUnique(true)
 	uniqueHashes := mongo.IndexModel{
 		Keys:    []string{"hash"},
-    Options: uniqueIndex,
+		Options: uniqueIndex,
 	}
-
-	_, _ = client.Database("main").Collection("pastes").Indexes().CreateOne(ctx, sessionTTL)
-	_, _ = client.Database("main").Collection("pastes").Indexes().CreateOne(ctx, uniqueHashes)
 
 	// Define connection to Databases
 	pastes = client.Database("main").Collection("pastes")
+	_, _ = pastes.Indexes().CreateOne(ctx, sessionTTL)
+	_, _ = pastes.Indexes().CreateOne(ctx, uniqueHashes)
 }
 
 func insert(new Paste) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
-  _, err := pastes.InsertOne(ctx, new)
-  return err
+	_, err := pastes.InsertOne(ctx, new)
+	return err
 }
 
 func fetch(hash string) (Paste, error) {
@@ -61,11 +71,6 @@ func fetch(hash string) (Paste, error) {
 	q := bson.M{"hash": hash}
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
-	result := pastes.FindOne(ctx, q)
-	if (result.Err() != nil) {
-	  return p, result.Err()
-	} else {
-	  result.Decode(&p)
-	  return p, nil
-	}
+	err := pastes.FindOne(ctx, q).Decode(&p)
+	return p, err
 }
