@@ -13,8 +13,10 @@ docker-run: docker-build ## Start dockerized backend
 	docker run -p 8080:8080 ctrl-v:latest
 
 fe-run: ## Start Frontend
-	cd frontend && yarn start
+	cd frontend && \
+	(yarn start || npm start)
 fe-build: ## Productionize Frontend
-	cd frontend && yarn build
+	cd frontend && \
+	(yarn build || npm run build)
 dev: ## Start backend and frontend
 	make -j 2 run fe-run
